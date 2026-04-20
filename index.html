@@ -143,7 +143,7 @@
             transform: scale(0.95);
         }
 
-        /* Modal moderno - CORREGIDO para que la imagen se vea completa */
+        /* Modal moderno */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -183,14 +183,43 @@
             transform: scale(1);
         }
 
-        /* IMAGEN COMPLETA - sin recortes */
+        /* Contenedor de la imagen del modal - clickeable */
+        .modal-img-container {
+            position: relative;
+            cursor: pointer;
+            background-color: #f5f7fa;
+            overflow: hidden;
+        }
+
         .modal-img {
             width: 100%;
             height: auto;
             max-height: 60vh;
             object-fit: contain;
-            background-color: #f5f7fa;
             display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .modal-img-container:hover .modal-img {
+            transform: scale(1.02);
+        }
+
+        /* Indicador de que la imagen es clickeable */
+        .zoom-hint {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+            font-weight: 500;
         }
 
         .modal-content {
@@ -219,6 +248,8 @@
             padding-top: 1rem;
             font-size: 0.9rem;
             color: #5a7b97;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .close-modal {
@@ -234,6 +265,26 @@
 
         .close-modal:hover {
             background: #d9e2ef;
+        }
+
+        .open-image-btn {
+            background: #1e2f3e;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .open-image-btn:hover {
+            background: #2c4a62;
+            transform: translateY(-2px);
         }
 
         /* Indicador de scroll interactivo */
@@ -292,6 +343,10 @@
             .modal-img {
                 max-height: 50vh;
             }
+            .zoom-hint {
+                font-size: 10px;
+                padding: 3px 8px;
+            }
         }
     </style>
 </head>
@@ -316,16 +371,26 @@
     </div>
 </div>
 
-<!-- Modal estructura - CORREGIDO -->
+<!-- Modal estructura - CON IMAGEN CLICKEABLE -->
 <div id="modal" class="modal-overlay">
     <div class="modal-card">
-        <img id="modalImg" class="modal-img" src="" alt="detalle">
+        <div class="modal-img-container" id="modalImgContainer">
+            <img id="modalImg" class="modal-img" src="" alt="detalle">
+            <div class="zoom-hint">
+                🔍 Click para ampliar
+            </div>
+        </div>
         <div class="modal-content">
             <h2 id="modalTitle" class="modal-title"></h2>
             <p id="modalDesc" class="modal-description"></p>
             <div class="modal-meta">
                 <span>🌿 Información académica</span>
-                <button class="close-modal" id="closeModalBtn">Cerrar</button>
+                <div style="display: flex; gap: 0.8rem;">
+                    <button class="open-image-btn" id="openImageBtn">
+                        🖼️ Abrir imagen en nueva pestaña
+                    </button>
+                    <button class="close-modal" id="closeModalBtn">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
@@ -375,6 +440,7 @@
     let startX = 0;
     let startTranslate = 0;
     let setWidthTimeout = null;
+    let currentImageSrc = ''; // Para almacenar la imagen actual del modal
     
     // Construir track con múltiples copias
     function buildInfiniteTrack() {
@@ -490,7 +556,6 @@
     // --- Botones de navegación ---
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    const originalSetWidthCache = () => getOriginalSetWidth();
     
     function moveStep(direction) {
         const step = getOriginalSetWidth() / cardsData.length;
@@ -525,20 +590,31 @@
         if (pauseStatusSpan) pauseStatusSpan.innerHTML = '🖱️ Pasa el mouse para pausar';
     });
     
-    // --- Modal CORREGIDO ---
+    // --- Modal CON FUNCIONALIDAD DE ABRIR IMAGEN EN NUEVA PESTAÑA ---
     const modal = document.getElementById('modal');
     const modalImg = document.getElementById('modalImg');
+    const modalImgContainer = document.getElementById('modalImgContainer');
     const modalTitle = document.getElementById('modalTitle');
     const modalDesc = document.getElementById('modalDesc');
     const closeBtn = document.getElementById('closeModalBtn');
+    const openImageBtn = document.getElementById('openImageBtn');
     
+    // Función para abrir la imagen en nueva pestaña
+    function openImageInNewTab() {
+        if (currentImageSrc) {
+            window.open(currentImageSrc, '_blank');
+        }
+    }
+    
+    // Abrir modal
     function openModal(imgSrc, title, detailedText) {
+        currentImageSrc = imgSrc;
         modalImg.src = imgSrc;
         modalImg.alt = title;
         modalTitle.innerText = title;
         modalDesc.innerText = detailedText || "Contenido en preparación...";
         modal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Evitar scroll del fondo
+        document.body.style.overflow = 'hidden';
         const wasPaused = isPaused;
         if (!wasPaused) {
             isPaused = true;
@@ -548,9 +624,10 @@
         }
     }
     
+    // Cerrar modal
     function closeModalHandler() {
         modal.classList.remove('active');
-        document.body.style.overflow = ''; // Restaurar scroll
+        document.body.style.overflow = '';
         const wasPausedAttr = modal.getAttribute('data-wasPaused');
         if (wasPausedAttr === 'false') {
             if (!carouselWrapperDiv.matches(':hover') && !isDragging) {
@@ -559,7 +636,12 @@
         }
     }
     
+    // Eventos para abrir imagen en nueva pestaña
+    modalImgContainer.addEventListener('click', openImageInNewTab);
+    openImageBtn.addEventListener('click', openImageInNewTab);
     closeBtn.addEventListener('click', closeModalHandler);
+    
+    // Cerrar modal al hacer clic en el overlay
     modal.addEventListener('click', (e) => {
         if (e.target === modal) closeModalHandler();
     });

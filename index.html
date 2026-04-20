@@ -1,1 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Carrusel Infinito Moderno | Tarjetas Interactivas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(145deg, #f4f7fc 0%, #eef2f5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        /* Contenedor principal del carrusel */
+        .carousel-container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(2px);
+            border-radius: 2.5rem;
+            padding: 2rem 1rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 2rem;
+            padding: 0.5rem 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 1.5rem;
+            will-change: transform;
+            transition: transform 0.08s linear;
+            /* La transición la controlamos con JS para velocidad constante */
+        }
+
+        /* Tarjeta moderna */
+        .card {
+            flex: 0 0 auto;
+            width: 280px;
+            background: white;
+            border-radius: 1.8rem;
+            overflow: hidden;
+            box-shadow: 0 12px 28px -8px rgba(0,0,0,0.12);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+            backdrop-filter: blur(0px);
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 24px 36px -12px rgba(0,0,0,0.2);
+            background: #fff;
+            border-color: #cbdff2;
+        }
+
+        /* Pausar al hacer hover sobre cualquier tarjeta (opcional) */
+        .carousel-wrapper.paused .carousel-track {
+            transition: none !important;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.03);
+        }
+
+        .card-content {
+            padding: 1.2rem 1rem 1.5rem;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1e2f3e;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.3rem;
+        }
+
+        .card-sub {
+            font-size: 0.85rem;
+            color: #5f7f9e;
+            font-weight: 400;
+        }
+
+        /* Modal moderno */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.25s ease;
+        }
+
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-card {
+            background: white;
+            max-width: 550px;
+            width: 90%;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .modal-content {
+            padding: 1.8rem;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e2f3e;
+            margin-bottom: 1rem;
+        }
+
+        .modal-description {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #2c3e4e;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e2edf2;
+            padding-top: 1rem;
+            font-size: 0.9rem;
+            color: #5a7b97;
+        }
+
+        .close-modal {
+            background: #eef2f9;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: inherit;
+        }
+
+        .close-modal:hover {
+            background: #d9e2ef;
+        }
+
+        /* Indicador de scroll interactivo */
+        .scroll-indicator {
+            text-align: center;
+            margin-top: 1.2rem;
+            font-size: 0.8rem;
+            color: #5e7c9c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .indicator-dot {
+            width: 6px;
+            height: 6px;
+            background: #b9d0e4;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .pause-tip {
+            background: rgba(255,255,240,0.7);
+            padding: 0.3rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 680px) {
+            .card {
+                width: 240px;
+            }
+            .card-img {
+                height: 160px;
+            }
+            .carousel-container {
+                padding: 1rem;
+            }
+            .modal-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="carousel-container">
+    <div class="carousel-wrapper" id="carouselWrapper">
+        <div class="carousel-track" id="carouselTrack">
+            <!-- Las tarjetas se generarán dinámicamente con JS para hacer loop infinito real -->
+        </div>
+    </div>
+    <div class="scroll-indicator">
+        <span>✨ desplazamiento infinito suave</span>
+        <div class="pause-tip" id="pauseStatus">🖱️ Pasa el mouse para pausar</div>
+    </div>
+</div>
+
+<!-- Modal estructura -->
+<div id="modal" class="modal-overlay">
+    <div class="modal-card">
+        <img id="modalImg" class="modal-img" src="" alt="detalle">
+        <div class="modal-content">
+            <h2 id="modalTitle" class="modal-title"></h2>
+            <p id="modalDesc" class="modal-description"></p>
+            <div class="modal-meta">
+                <span>🌿 Información académica</span>
+                <button class="close-modal" id="closeModalBtn">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ---------- DATA: conjunto de tarjetas (imagen + título + detalle extendido) ----------
+    const cardsData = [
+        {
+            img: "https://picsum.photos/id/104/400/300",   // naturaleza
+            title: "Bosque Ancestral",
+            shortDesc: "Ecosistema milenario",
+            detailed: "Este bosque alberga especies endémicas de flora y fauna. Un santuario de biodiversidad que ha permanecido intacto durante siglos. Investigaciones recientes documentan más de 200 especies de líquenes."
+        },
+        {
+            img: "https://picsum.photos/id/20/400/300",
+            title: "Escritura Creativa",
+            shortDesc: "Taller literario",
+            detailed: "El taller de escritura creativa explora técnicas narrativas modernas. Participa en sesiones de análisis textual y desarrolla tu voz única. Incluye antología digital y mentorías personalizadas."
+        },
+        {
+            img: "https://picsum.photos/id/26/400/300",
+            title: "Arquitectura Bioclimática",
+            shortDesc: "Diseño sostenible",
+            detailed: "Principios de arquitectura que aprovechan recursos naturales. Casos de estudio en climas mediterráneos. Eficiencia energética y confort térmico pasivo."
+        },
+        {
+            img: "https://picsum.photos/id/42/400/300",
+            title: "Música & Neurociencia",
+            shortDesc: "Percepción auditiva",
+            detailed: "La música modula la plasticidad cerebral. Evidencia empírica sobre la terapia musical en trastornos del neurodesarrollo. Conferencias con investigadores internacionales."
+        },
+        {
+            img: "https://picsum.photos/id/15/400/300",
+            title: "Filosofía Digital",
+            shortDesc: "Ética algorítmica",
+            detailed: "Debates actuales sobre inteligencia artificial, privacidad y sesgos algorítmicos. Lecturas desde la filosofía de la tecnología y casos de gobernanza digital."
+        },
+        {
+            img: "https://picsum.photos/id/29/400/300",
+            title: "Astrofotografía",
+            shortDesc: "Capturando el cosmos",
+            detailed: "Técnicas avanzadas de fotografía nocturna, procesado de imágenes astronómicas y revelado de nebulosas. Taller práctico con equipo profesional."
+        },
+        {
+            img: "https://picsum.photos/id/96/400/300",
+            title: "Diseño Tipográfico",
+            shortDesc: "Historia y forma",
+            detailed: "Recorrido por la evolución de las tipografías, desde la imprenta hasta las variables digitales. Creación de familias tipográficas experimentales."
+        },
+        {
+            img: "https://picsum.photos/id/169/400/300",
+            title: "Biología Marina",
+            shortDesc: "Arrecifes profundos",
+            detailed: "Exploración de ecosistemas coralinos de aguas profundas. Proyectos de conservación y restauración activa con técnicas de cultivo de corales."
+        }
+    ];
+
+    // duplicamos varias veces para lograr un efecto de loop infinito real (pero visualmente infinito)
+    // La estrategia: clonamos muchas copias para que al desplazar continuamente nunca veamos el final,
+    // y además controlamos el reposicionamiento mediante JS (reset sin saltos).
+    // Pero para un loop suave y performance, usaremos una técnica mejor: generar muchas copias y
+    // cuando el scroll alcanza un umbral, resetear la posición sin interrupción visual.
+    // Enfoque: duplicar el conjunto original 5 veces, y al llegar a la mitad del track, reiniciamos posición.
+    
+    const TRACK = document.getElementById('carouselTrack');
+    let currentTranslateX = 0;
+    let animationFrameId = null;
+    let speed = 0.8;        // px por frame (~60fps => 48px/segundo aprox, ajustable)
+    let isPaused = false;
+    let wrapper = document.getElementById('carouselWrapper');
+    let trackWidth = 0;
+    let setWidthTimeout = null;
+    
+    // Construir track con multiples copias para que el loop sea visualmente infinito sin brusquedad
+    function buildInfiniteTrack() {
+        // Limpiamos track
+        TRACK.innerHTML = '';
+        // Número de copias para que el ancho total sea suficiente (al menos 3-4 veces el ancho visible)
+        const copies = 6;  // 6 copias del set original => aseguramos que siempre haya tarjetas por delante
+        for (let i = 0; i < copies; i++) {
+            cardsData.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                // guardamos data personalizada
+                card.setAttribute('data-index', idx);
+                card.setAttribute('data-img', item.img);
+                card.setAttribute('data-title', item.title);
+                card.setAttribute('data-detailed', item.detailed);
+                // estructura interna
+                card.innerHTML = `
+                    <img class="card-img" src="${item.img}" alt="${item.title}" loading="lazy">
+                    <div class="card-content">
+                        <div class="card-title">${item.title}</div>
+                        <div class="card-sub">${item.shortDesc}</div>
+                    </div>
+                `;
+                card.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openModal(item.img, item.title, item.detailed);
+                });
+                TRACK.appendChild(card);
+            });
+        }
+        // recalcular ancho total del track
+        updateTrackWidth();
+    }
+    
+    function updateTrackWidth() {
+        trackWidth = TRACK.scrollWidth;
+    }
+    
+    // movimiento continuo usando requestAnimationFrame (velocidad constante)
+    function startAutoScroll() {
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        
+        function step() {
+            if (!isPaused) {
+                // mover hacia la izquierda (incrementamos translateX negativo)
+                currentTranslateX -= speed;
+                // límite para reset suave: cuando hemos desplazado más de la mitad del track width (o un set completo)
+                // la idea: si currentTranslateX <= -trackWidth / 2 , entonces sumamos trackWidth/2 para dar la ilusión de loop infinito sin brinco brusco
+                // Pero trackWidth = ancho de todas las copias; para loop perfecto, detectamos cuando hemos pasado un bloque equivalente a todas las tarjetas originales.
+                // mejor: ancho de una sola copia del set original.
+                const originalSetWidth = getOriginalSetWidth();
+                if (originalSetWidth === 0) {
+                    // fallback
+                    if (Math.abs(currentTranslateX) >= trackWidth / 2) {
+                        currentTranslateX += trackWidth / 2;
+                    }
+                } else {
+                    // Si nos movemos más allá de una copia completa, reposicionamos sumando el ancho del set original
+                    while (currentTranslateX <= -originalSetWidth) {
+                        currentTranslateX += originalSetWidth;
+                    }
+                    while (currentTranslateX > 0) {
+                        currentTranslateX -= originalSetWidth;
+                    }
+                }
+                
+                // Aplicar transformación
+                TRACK.style.transform = `translateX(${currentTranslateX}px)`;
+            }
+            animationFrameId = requestAnimationFrame(step);
+        }
+        
+        step();
+    }
+    
+    // Calcular el ancho total de un set completo de tarjetas original (sin copias)
+    function getOriginalSetWidth() {
+        if (!TRACK.children.length) return 0;
+        const totalCardsOriginal = cardsData.length;
+        // obtenemos el ancho de cada tarjeta + gap (gap es 1.5rem = 24px)
+        let firstCard = TRACK.children[0];
+        if (!firstCard) return 0;
+        const cardWidth = firstCard.offsetWidth;
+        const gap = 24; // 1.5rem en px (asumiendo 16px base)
+        return (cardWidth + gap) * totalCardsOriginal;
+    }
+    
+    // Observar cambios de tamaño (responsive) para recalcular umbrales y mantener smoothness
+    function recalcAndReset() {
+        updateTrackWidth();
+        const originalWidth = getOriginalSetWidth();
+        if (originalWidth) {
+            // ajustar currentTranslateX para mantener posición relativa congruente
+            // normalizamos dentro del rango [ -originalWidth , 0 ]
+            while (currentTranslateX <= -originalWidth) {
+                currentTranslateX += originalWidth;
+            }
+            while (currentTranslateX > 0) {
+                currentTranslateX -= originalWidth;
+            }
+            TRACK.style.transform = `translateX(${currentTranslateX}px)`;
+        }
+    }
+    
+    // Evento resize con debounce
+    window.addEventListener('resize', () => {
+        if (setWidthTimeout) clearTimeout(setWidthTimeout);
+        setWidthTimeout = setTimeout(() => {
+            recalcAndReset();
+        }, 150);
+    });
+    
+    // --- Pausa con hover sobre el contenedor del carrusel ---
+    const carouselWrapperDiv = document.querySelector('.carousel-wrapper');
+    const pauseStatusSpan = document.getElementById('pauseStatus');
+    
+    carouselWrapperDiv.addEventListener('mouseenter', () => {
+        isPaused = true;
+        if (pauseStatusSpan) pauseStatusSpan.innerHTML = '⏸️ Pausado (hover)';
+    });
+    carouselWrapperDiv.addEventListener('mouseleave', () => {
+        isPaused = false;
+        if (pauseStatusSpan) pauseStatusSpan.innerHTML = '🖱️ Pasa el mouse para pausar';
+    });
+    
+    // ----- Modal logic -----
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modalImg');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const closeBtn = document.getElementById('closeModalBtn');
+    
+    function openModal(imgSrc, title, detailedText) {
+        modalImg.src = imgSrc;
+        modalTitle.innerText = title;
+        modalDesc.innerText = detailedText;
+        modal.classList.add('active');
+        // Pausar carrusel momentáneamente? se podría opcional pero no es necesario. 
+        // Pero mejora UX: al abrir modal, detenemos scroll para no distraer (opcional)
+        // Guardamos estado anterior y lo pausamos.
+        const wasPaused = isPaused;
+        if (!wasPaused) {
+            isPaused = true;
+            // opcional: restaurar al cerrar. Mejor: restaurar al cerrar modal.
+            modal.setAttribute('data-wasPaused', 'false');
+        } else {
+            modal.setAttribute('data-wasPaused', 'true');
+        }
+    }
+    
+    function closeModalHandler() {
+        modal.classList.remove('active');
+        // restaurar pausa si antes no estaba pausado por hover
+        const wasPausedAttr = modal.getAttribute('data-wasPaused');
+        if (wasPausedAttr === 'false') {
+            // solo si no hay hover activo actualmente
+            if (!carouselWrapperDiv.matches(':hover')) {
+                isPaused = false;
+            }
+        }
+    }
+    
+    closeBtn.addEventListener('click', closeModalHandler);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModalHandler();
+    });
+    
+    // Inicializar todo
+    buildInfiniteTrack();
+    // Esperar a que renderice y calcular ancho original
+    setTimeout(() => {
+        updateTrackWidth();
+        // normalizar posición inicial
+        currentTranslateX = 0;
+        recalcAndReset();
+        startAutoScroll();
+    }, 50);
+    
+    // Pequeña corrección adicional: si el contenido cambia de tamaño por imágenes, volver a calcular
+    window.addEventListener('load', () => {
+        recalcAndReset();
+    });
+    
+    // Prevenir que al hacer clic en tarjeta se active hover que pause, pero no afecta, el modal abre correctamente.
+</script>
+</body>
+</html>

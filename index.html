@@ -157,7 +157,7 @@
             right: -28px;
         }
 
-        /* Modal simplificado - SOLO IMAGEN Y TÍTULO */
+        /* Modal principal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -199,7 +199,7 @@
             transform: scale(1);
         }
 
-        /* Contenedor de la imagen del modal - clickeable */
+        /* Contenedor de la imagen del modal - clickeable para ampliar */
         .modal-img-container {
             position: relative;
             cursor: pointer;
@@ -220,7 +220,13 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-        .modal-img-container:hover .modal-img {
+        /* Efecto de zoom al hacer clic */
+        .modal-img.zoomed {
+            transform: scale(1.8);
+            cursor: zoom-out;
+        }
+
+        .modal-img-container:hover .modal-img:not(.zoomed) {
             transform: scale(1.02);
         }
 
@@ -242,9 +248,10 @@
             font-weight: 500;
             border: 1px solid rgba(255,255,255,0.2);
             z-index: 10;
+            transition: opacity 0.3s;
         }
 
-        /* Título del modal - SOLO TEXTO */
+        /* Título del modal */
         .modal-title-container {
             text-align: center;
             margin-top: 20px;
@@ -262,7 +269,7 @@
             text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        /* Botón de cerrar simplificado (X en la esquina) */
+        /* Botón de cerrar */
         .close-modal-btn {
             position: fixed;
             top: 25px;
@@ -304,6 +311,11 @@
             font-size: 12px;
             pointer-events: none;
             z-index: 1001;
+        }
+
+        /* Scrollbar para cuando la imagen está ampliada */
+        body.modal-zoomed {
+            overflow: hidden;
         }
 
         @media (max-width: 768px) {
@@ -349,6 +361,9 @@
                 top: 15px;
                 right: 15px;
             }
+            .modal-img.zoomed {
+                transform: scale(1.5);
+            }
         }
 
         @media (max-width: 480px) {
@@ -378,6 +393,9 @@
                 bottom: 10px;
                 right: 10px;
             }
+            .modal-img.zoomed {
+                transform: scale(1.3);
+            }
         }
     </style>
 </head>
@@ -401,8 +419,8 @@
     <div class="modal-card">
         <div class="modal-img-container" id="modalImgContainer">
             <img id="modalImg" class="modal-img" src="" alt="detalle">
-            <div class="zoom-hint">
-                🔍 Click para ampliar
+            <div class="zoom-hint" id="zoomHint">
+                🔍 Haz clic para ampliar
             </div>
         </div>
         <div class="modal-title-container">
@@ -420,32 +438,27 @@
         {
             img: "Infografía(1).png",
             title: "SEMANA 1",
-            shortDesc: "Identidad institucional y sentido de pertenencia universitaria",
-            detailed: "INFOGRAFÍA: Contenido detallado sobre identidad institucional y cómo fortalecer el sentido de pertenencia en la comunidad universitaria."
+            shortDesc: "Identidad institucional y sentido de pertenencia universitaria"
         },
         {
             img: "HISTORIETA(1).png",
             title: "SEMANA 2",
-            shortDesc: "Liderazgo académico y trabajo en equipo en el contexto universitario",
-            detailed: "HISTORIETA: Historia ilustrada sobre liderazgo académico y la importancia del trabajo colaborativo en la universidad."
+            shortDesc: "Liderazgo académico y trabajo en equipo en el contexto universitario"
         },
         {
             img: "https://picsum.photos/id/26/800/600",
             title: "SEMANA 3",
-            shortDesc: "Estrategias efectivas para la mejora de las técnicas de estudio",
-            detailed: "VIDEO: Tutorial con técnicas de estudio efectivas, métodos de memorización y organización del tiempo."
+            shortDesc: "Estrategias efectivas para la mejora de las técnicas de estudio"
         },
         {
             img: "https://picsum.photos/id/42/800/600",
             title: "SEMANA 4",
-            shortDesc: "Estrategias efectivas para el fortalecimiento de los hábitos de estudio",
-            detailed: "ANIMACIÓN DIGITAL: Contenido animado sobre cómo crear y mantener hábitos de estudio saludables y productivos."
+            shortDesc: "Estrategias efectivas para el fortalecimiento de los hábitos de estudio"
         },
         {
             img: "https://picsum.photos/id/15/800/600",
             title: "SEMANA 5",
-            shortDesc: "Evaluación y seguimiento del aprendizaje",
-            detailed: "Material completo sobre métodos de autoevaluación y seguimiento del progreso académico."
+            shortDesc: "Evaluación y seguimiento del aprendizaje"
         },
     ];
 
@@ -459,6 +472,7 @@
     let startTranslate = 0;
     let setWidthTimeout = null;
     let currentImageSrc = '';
+    let isZoomed = false;
     
     // Construir track con múltiples copias
     function buildInfiniteTrack() {
@@ -604,17 +618,39 @@
         }
     });
     
-    // --- Modal SIMPLIFICADO ---
+    // --- Modal CON ZOOM EN LA MISMA PÁGINA ---
     const modal = document.getElementById('modal');
     const modalImg = document.getElementById('modalImg');
     const modalImgContainer = document.getElementById('modalImgContainer');
     const modalTitle = document.getElementById('modalTitle');
     const closeModalBtn = document.getElementById('closeModalBtn');
+    const zoomHint = document.getElementById('zoomHint');
     
-    function openImageInNewTab() {
-        if (currentImageSrc) {
-            window.open(currentImageSrc, '_blank');
+    // Función para hacer zoom/deszoom
+    function toggleZoom() {
+        if (isZoomed) {
+            modalImg.classList.remove('zoomed');
+            zoomHint.innerHTML = '🔍 Haz clic para ampliar';
+            isZoomed = false;
+            // Permitir scroll si es necesario
+            document.body.style.overflow = '';
+        } else {
+            modalImg.classList.add('zoomed');
+            zoomHint.innerHTML = '🔍 Haz clic para reducir';
+            isZoomed = true;
+            // Evitar scroll cuando está ampliado
+            document.body.style.overflow = 'hidden';
         }
+    }
+    
+    // Resetear zoom al cerrar modal
+    function resetZoom() {
+        if (isZoomed) {
+            modalImg.classList.remove('zoomed');
+            isZoomed = false;
+            zoomHint.innerHTML = '🔍 Haz clic para ampliar';
+        }
+        document.body.style.overflow = '';
     }
     
     function openModal(imgSrc, title) {
@@ -631,21 +667,27 @@
         } else {
             modal.setAttribute('data-wasPaused', 'true');
         }
+        // Resetear zoom al abrir
+        resetZoom();
     }
     
     function closeModalHandler() {
         modal.classList.remove('active');
-        document.body.style.overflow = '';
+        resetZoom();
         const wasPausedAttr = modal.getAttribute('data-wasPaused');
         if (wasPausedAttr === 'false') {
             if (!carouselWrapperDiv.matches(':hover') && !isDragging) {
                 isPaused = false;
             }
         }
+        document.body.style.overflow = '';
     }
     
-    // Click en la imagen para abrir en nueva pestaña
-    modalImgContainer.addEventListener('click', openImageInNewTab);
+    // Click en la imagen para hacer zoom (no redirige)
+    modalImgContainer.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleZoom();
+    });
     
     // Cerrar con el botón X
     closeModalBtn.addEventListener('click', closeModalHandler);

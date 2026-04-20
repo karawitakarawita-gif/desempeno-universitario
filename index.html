@@ -199,7 +199,7 @@
             transform: scale(1);
         }
 
-        /* Contenedor de la imagen del modal - clickeable para ampliar */
+        /* Contenedor de la imagen del modal - clickeable */
         .modal-img-container {
             position: relative;
             cursor: pointer;
@@ -220,13 +220,7 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-        /* Efecto de zoom al hacer clic */
-        .modal-img.zoomed {
-            transform: scale(1.8);
-            cursor: zoom-out;
-        }
-
-        .modal-img-container:hover .modal-img:not(.zoomed) {
+        .modal-img-container:hover .modal-img {
             transform: scale(1.02);
         }
 
@@ -248,7 +242,6 @@
             font-weight: 500;
             border: 1px solid rgba(255,255,255,0.2);
             z-index: 10;
-            transition: opacity 0.3s;
         }
 
         /* Título del modal */
@@ -269,7 +262,7 @@
             text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        /* Botón de cerrar */
+        /* Botón de cerrar simplificado */
         .close-modal-btn {
             position: fixed;
             top: 25px;
@@ -297,7 +290,7 @@
             border-color: rgba(255,255,255,0.4);
         }
 
-        /* Instrucción para cerrar */
+        /* Texto inferior */
         .close-hint {
             position: fixed;
             bottom: 25px;
@@ -313,9 +306,136 @@
             z-index: 1001;
         }
 
-        /* Scrollbar para cuando la imagen está ampliada */
-        body.modal-zoomed {
+        /* ========== VISTA PREVIA DE IMAGEN (ZOOM) ========== */
+        .preview-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.98);
+            z-index: 2000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preview-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .preview-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow: hidden;
+            position: relative;
+            cursor: grab;
+        }
+
+        .preview-container.dragging {
+            cursor: grabbing;
+        }
+
+        .preview-image {
+            max-width: none;
+            max-height: none;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            transition: transform 0.1s ease;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .preview-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
+            border-radius: 50px;
+            display: flex;
+            gap: 20px;
+            z-index: 2001;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .preview-controls button {
+            background: rgba(30, 45, 60, 0.9);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preview-controls button:hover {
+            background: #2c4a6e;
+            transform: scale(1.1);
+        }
+
+        .preview-controls span {
+            color: #e8f0fe;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .preview-close {
+            position: fixed;
+            top: 25px;
+            right: 30px;
+            background: rgba(30, 45, 60, 0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            transition: all 0.2s ease;
+            color: #e8f0fe;
+            z-index: 2001;
+            font-weight: bold;
+        }
+
+        .preview-close:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+
+        .zoom-info {
+            position: fixed;
+            top: 25px;
+            left: 30px;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            padding: 8px 15px;
+            border-radius: 30px;
+            color: #8aa9c9;
+            font-size: 12px;
+            z-index: 2001;
+            pointer-events: none;
         }
 
         @media (max-width: 768px) {
@@ -361,8 +481,14 @@
                 top: 15px;
                 right: 15px;
             }
-            .modal-img.zoomed {
-                transform: scale(1.5);
+            .preview-controls {
+                padding: 8px 16px;
+                gap: 12px;
+            }
+            .preview-controls button {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
             }
         }
 
@@ -393,9 +519,6 @@
                 bottom: 10px;
                 right: 10px;
             }
-            .modal-img.zoomed {
-                transform: scale(1.3);
-            }
         }
     </style>
 </head>
@@ -413,14 +536,14 @@
     <button class="nav-btn" id="nextBtn">→</button>
 </div>
 
-<!-- Modal SIMPLIFICADO - solo imagen y título -->
+<!-- Modal principal -->
 <div id="modal" class="modal-overlay">
     <button class="close-modal-btn" id="closeModalBtn">✕</button>
     <div class="modal-card">
         <div class="modal-img-container" id="modalImgContainer">
             <img id="modalImg" class="modal-img" src="" alt="detalle">
-            <div class="zoom-hint" id="zoomHint">
-                🔍 Haz clic para ampliar
+            <div class="zoom-hint">
+                🔍 Click para ampliar
             </div>
         </div>
         <div class="modal-title-container">
@@ -428,7 +551,24 @@
         </div>
     </div>
     <div class="close-hint">
-        ✕ Haz clic fuera o presiona ESC para cerrar
+        Haz clic para ampliar
+    </div>
+</div>
+
+<!-- Vista previa de imagen (zoom y movimiento) -->
+<div id="previewOverlay" class="preview-overlay">
+    <button class="preview-close" id="previewCloseBtn">✕</button>
+    <div class="zoom-info" id="zoomInfo">
+        🔍 Zoom: 100% | Arrastra para mover
+    </div>
+    <div class="preview-container" id="previewContainer">
+        <img id="previewImage" class="preview-image" src="" alt="vista previa">
+    </div>
+    <div class="preview-controls">
+        <button id="zoomOutBtn" title="Alejar">−</button>
+        <span id="zoomLevel">100%</span>
+        <button id="zoomInBtn" title="Acercar">+</button>
+        <button id="resetZoomBtn" title="Restablecer">⟳</button>
     </div>
 </div>
 
@@ -459,7 +599,7 @@
             img: "https://picsum.photos/id/15/800/600",
             title: "SEMANA 5",
             shortDesc: "Evaluación y seguimiento del aprendizaje"
-        },
+        }
     ];
 
     const TRACK = document.getElementById('carouselTrack');
@@ -472,7 +612,16 @@
     let startTranslate = 0;
     let setWidthTimeout = null;
     let currentImageSrc = '';
-    let isZoomed = false;
+    
+    // Variables para el zoom
+    let currentZoom = 1;
+    let translateX = 0;
+    let translateY = 0;
+    let isPanning = false;
+    let panStartX = 0;
+    let panStartY = 0;
+    let panStartTranslateX = 0;
+    let panStartTranslateY = 0;
     
     // Construir track con múltiples copias
     function buildInfiniteTrack() {
@@ -618,40 +767,23 @@
         }
     });
     
-    // --- Modal CON ZOOM EN LA MISMA PÁGINA ---
+    // --- Modal principal ---
     const modal = document.getElementById('modal');
     const modalImg = document.getElementById('modalImg');
     const modalImgContainer = document.getElementById('modalImgContainer');
     const modalTitle = document.getElementById('modalTitle');
     const closeModalBtn = document.getElementById('closeModalBtn');
-    const zoomHint = document.getElementById('zoomHint');
     
-    // Función para hacer zoom/deszoom
-    function toggleZoom() {
-        if (isZoomed) {
-            modalImg.classList.remove('zoomed');
-            zoomHint.innerHTML = '🔍 Haz clic para ampliar';
-            isZoomed = false;
-            // Permitir scroll si es necesario
-            document.body.style.overflow = '';
-        } else {
-            modalImg.classList.add('zoomed');
-            zoomHint.innerHTML = '🔍 Haz clic para reducir';
-            isZoomed = true;
-            // Evitar scroll cuando está ampliado
-            document.body.style.overflow = 'hidden';
-        }
-    }
-    
-    // Resetear zoom al cerrar modal
-    function resetZoom() {
-        if (isZoomed) {
-            modalImg.classList.remove('zoomed');
-            isZoomed = false;
-            zoomHint.innerHTML = '🔍 Haz clic para ampliar';
-        }
-        document.body.style.overflow = '';
-    }
+    // --- Elementos de la vista previa ---
+    const previewOverlay = document.getElementById('previewOverlay');
+    const previewImage = document.getElementById('previewImage');
+    const previewContainer = document.getElementById('previewContainer');
+    const previewCloseBtn = document.getElementById('previewCloseBtn');
+    const zoomInBtn = document.getElementById('zoomInBtn');
+    const zoomOutBtn = document.getElementById('zoomOutBtn');
+    const resetZoomBtn = document.getElementById('resetZoomBtn');
+    const zoomLevelSpan = document.getElementById('zoomLevel');
+    const zoomInfo = document.getElementById('zoomInfo');
     
     function openModal(imgSrc, title) {
         currentImageSrc = imgSrc;
@@ -667,42 +799,132 @@
         } else {
             modal.setAttribute('data-wasPaused', 'true');
         }
-        // Resetear zoom al abrir
-        resetZoom();
     }
     
     function closeModalHandler() {
         modal.classList.remove('active');
-        resetZoom();
+        document.body.style.overflow = '';
         const wasPausedAttr = modal.getAttribute('data-wasPaused');
         if (wasPausedAttr === 'false') {
             if (!carouselWrapperDiv.matches(':hover') && !isDragging) {
                 isPaused = false;
             }
         }
-        document.body.style.overflow = '';
     }
     
-    // Click en la imagen para hacer zoom (no redirige)
-    modalImgContainer.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleZoom();
+    // --- Funciones de zoom y movimiento ---
+    function updatePreviewTransform() {
+        previewImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
+        zoomLevelSpan.innerText = `${Math.round(currentZoom * 100)}%`;
+        zoomInfo.innerText = `🔍 Zoom: ${Math.round(currentZoom * 100)}% | Arrastra para mover`;
+    }
+    
+    function resetZoom() {
+        currentZoom = 1;
+        translateX = 0;
+        translateY = 0;
+        updatePreviewTransform();
+    }
+    
+    function zoomIn() {
+        if (currentZoom < 5) {
+            currentZoom = Math.min(5, currentZoom + 0.25);
+            updatePreviewTransform();
+        }
+    }
+    
+    function zoomOut() {
+        if (currentZoom > 0.5) {
+            currentZoom = Math.max(0.5, currentZoom - 0.25);
+            if (currentZoom === 1) {
+                translateX = 0;
+                translateY = 0;
+            }
+            updatePreviewTransform();
+        }
+    }
+    
+    // Función para abrir la vista previa con zoom
+    function openPreview(imgSrc) {
+        previewImage.src = imgSrc;
+        resetZoom();
+        previewOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closePreview() {
+        previewOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+        resetZoom();
+    }
+    
+    // Evento para abrir la vista previa al hacer clic en la imagen del modal
+    modalImgContainer.addEventListener('click', () => {
+        if (currentImageSrc) {
+            openPreview(currentImageSrc);
+        }
     });
     
-    // Cerrar con el botón X
-    closeModalBtn.addEventListener('click', closeModalHandler);
+    // Eventos de pan (arrastrar) en la vista previa
+    previewContainer.addEventListener('mousedown', (e) => {
+        if (currentZoom > 1) {
+            isPanning = true;
+            panStartX = e.clientX;
+            panStartY = e.clientY;
+            panStartTranslateX = translateX;
+            panStartTranslateY = translateY;
+            previewContainer.classList.add('dragging');
+            previewContainer.style.cursor = 'grabbing';
+            e.preventDefault();
+        }
+    });
     
-    // Cerrar al hacer clic en el overlay (fondo)
+    window.addEventListener('mousemove', (e) => {
+        if (isPanning && currentZoom > 1) {
+            const deltaX = e.clientX - panStartX;
+            const deltaY = e.clientY - panStartY;
+            translateX = panStartTranslateX + deltaX;
+            translateY = panStartTranslateY + deltaY;
+            updatePreviewTransform();
+        }
+    });
+    
+    window.addEventListener('mouseup', () => {
+        if (isPanning) {
+            isPanning = false;
+            previewContainer.classList.remove('dragging');
+            previewContainer.style.cursor = 'grab';
+        }
+    });
+    
+    // Eventos de los botones de zoom
+    zoomInBtn.addEventListener('click', zoomIn);
+    zoomOutBtn.addEventListener('click', zoomOut);
+    resetZoomBtn.addEventListener('click', resetZoom);
+    
+    // Cerrar preview
+    previewCloseBtn.addEventListener('click', closePreview);
+    previewOverlay.addEventListener('click', (e) => {
+        if (e.target === previewOverlay) closePreview();
+    });
+    
+    // Cerrar con ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (previewOverlay.classList.contains('active')) {
+                closePreview();
+            } else if (modal.classList.contains('active')) {
+                closeModalHandler();
+            }
+        }
+    });
+    
+    // Cerrar modal con clic en overlay
     modal.addEventListener('click', (e) => {
         if (e.target === modal) closeModalHandler();
     });
     
-    // Cerrar con tecla ESC
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
-            closeModalHandler();
-        }
-    });
+    closeModalBtn.addEventListener('click', closeModalHandler);
     
     function recalcAndReset() {
         updateTrackWidth();

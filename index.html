@@ -21,7 +21,6 @@
             padding: 2rem 1rem;
         }
 
-        /* Contenedor principal del carrusel */
         .carousel-container {
             max-width: 1600px;
             width: 100%;
@@ -35,7 +34,6 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Wrapper con posicionamiento para los botones laterales */
         .carousel-wrapper {
             position: relative;
             overflow: hidden;
@@ -56,7 +54,6 @@
             transition: transform 0.08s linear;
         }
 
-        /* Tarjeta moderna - MÁS GRANDE */
         .card {
             flex: 0 0 auto;
             width: 340px;
@@ -114,7 +111,6 @@
             line-height: 1.4;
         }
 
-        /* Botones de navegación LATERALES - MÁS GRANDES */
         .nav-btn {
             position: absolute;
             top: 50%;
@@ -157,7 +153,6 @@
             right: -28px;
         }
 
-        /* Modal principal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -199,7 +194,6 @@
             transform: scale(1);
         }
 
-        /* Contenedor de la imagen del modal - clickeable */
         .modal-img-container {
             position: relative;
             cursor: pointer;
@@ -224,7 +218,6 @@
             transform: scale(1.02);
         }
 
-        /* Indicador de que la imagen es clickeable */
         .zoom-hint {
             position: absolute;
             bottom: 20px;
@@ -244,7 +237,6 @@
             z-index: 10;
         }
 
-        /* Título del modal */
         .modal-title-container {
             text-align: center;
             margin-top: 20px;
@@ -262,7 +254,6 @@
             text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        /* Botón de cerrar simplificado */
         .close-modal-btn {
             position: fixed;
             top: 25px;
@@ -290,7 +281,6 @@
             border-color: rgba(255,255,255,0.4);
         }
 
-        /* Texto inferior */
         .close-hint {
             position: fixed;
             bottom: 25px;
@@ -306,7 +296,6 @@
             z-index: 1001;
         }
 
-        /* ========== VISTA PREVIA DE IMAGEN (ZOOM) ========== */
         .preview-overlay {
             position: fixed;
             top: 0;
@@ -439,86 +428,29 @@
         }
 
         @media (max-width: 768px) {
-            .card {
-                width: 280px;
-            }
-            .card-img {
-                height: 220px;
-            }
-            .card-title {
-                font-size: 1.3rem;
-            }
-            .card-sub {
-                font-size: 0.85rem;
-            }
-            .carousel-container {
-                padding: 1.5rem 1rem;
-            }
-            .nav-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 1.6rem;
-            }
-            #prevBtn {
-                left: -18px;
-            }
-            #nextBtn {
-                right: -18px;
-            }
-            .modal-title {
-                font-size: 1.8rem;
-            }
-            .zoom-hint {
-                font-size: 11px;
-                padding: 5px 12px;
-                bottom: 15px;
-                right: 15px;
-            }
-            .close-modal-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.5rem;
-                top: 15px;
-                right: 15px;
-            }
-            .preview-controls {
-                padding: 8px 16px;
-                gap: 12px;
-            }
-            .preview-controls button {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
-            }
+            .card { width: 280px; }
+            .card-img { height: 220px; }
+            .card-title { font-size: 1.3rem; }
+            .card-sub { font-size: 0.85rem; }
+            .carousel-container { padding: 1.5rem 1rem; }
+            .nav-btn { width: 45px; height: 45px; font-size: 1.6rem; }
+            #prevBtn { left: -18px; }
+            #nextBtn { right: -18px; }
+            .modal-title { font-size: 1.8rem; }
+            .zoom-hint { font-size: 11px; padding: 5px 12px; bottom: 15px; right: 15px; }
+            .close-modal-btn { width: 40px; height: 40px; font-size: 1.5rem; top: 15px; right: 15px; }
+            .preview-controls { padding: 8px 16px; gap: 12px; }
+            .preview-controls button { width: 35px; height: 35px; font-size: 1rem; }
         }
 
         @media (max-width: 480px) {
-            .card {
-                width: 260px;
-            }
-            .card-img {
-                height: 200px;
-            }
-            .nav-btn {
-                width: 38px;
-                height: 38px;
-                font-size: 1.3rem;
-            }
-            #prevBtn {
-                left: -12px;
-            }
-            #nextBtn {
-                right: -12px;
-            }
-            .modal-title {
-                font-size: 1.4rem;
-            }
-            .zoom-hint {
-                font-size: 10px;
-                padding: 4px 10px;
-                bottom: 10px;
-                right: 10px;
-            }
+            .card { width: 260px; }
+            .card-img { height: 200px; }
+            .nav-btn { width: 38px; height: 38px; font-size: 1.3rem; }
+            #prevBtn { left: -12px; }
+            #nextBtn { right: -12px; }
+            .modal-title { font-size: 1.4rem; }
+            .zoom-hint { font-size: 10px; padding: 4px 10px; bottom: 10px; right: 10px; }
         }
     </style>
 </head>
@@ -526,41 +458,29 @@
 
 <div class="carousel-container">
     <div class="carousel-wrapper" id="carouselWrapper">
-        <div class="carousel-track" id="carouselTrack">
-            <!-- Las tarjetas se generarán dinámicamente con JS -->
-        </div>
+        <div class="carousel-track" id="carouselTrack"></div>
     </div>
-    
-    <!-- Botones de navegación LATERALES -->
     <button class="nav-btn" id="prevBtn">←</button>
     <button class="nav-btn" id="nextBtn">→</button>
 </div>
 
-<!-- Modal principal -->
 <div id="modal" class="modal-overlay">
     <button class="close-modal-btn" id="closeModalBtn">✕</button>
     <div class="modal-card">
         <div class="modal-img-container" id="modalImgContainer">
             <img id="modalImg" class="modal-img" src="" alt="detalle">
-            <div class="zoom-hint">
-                🔍 Click para ampliar
-            </div>
+            <div class="zoom-hint">🔍 Click para ampliar</div>
         </div>
         <div class="modal-title-container">
             <h2 id="modalTitle" class="modal-title"></h2>
         </div>
     </div>
-    <div class="close-hint">
-        Haz clic para ampliar
-    </div>
+    <div class="close-hint">Haz clic para ampliar</div>
 </div>
 
-<!-- Vista previa de imagen (zoom y movimiento) -->
 <div id="previewOverlay" class="preview-overlay">
     <button class="preview-close" id="previewCloseBtn">✕</button>
-    <div class="zoom-info" id="zoomInfo">
-        🔍 Zoom: 100% | Arrastra para mover
-    </div>
+    <div class="zoom-info" id="zoomInfo">🔍 Zoom: 100% | Arrastra para mover</div>
     <div class="preview-container" id="previewContainer">
         <img id="previewImage" class="preview-image" src="" alt="vista previa">
     </div>
@@ -573,15 +493,15 @@
 </div>
 
 <script>
-    // ---------- DATA: conjunto de tarjetas ----------
+    // ***** TUS IMÁGENES DE IMGUR AQUÍ (para SEMANA 1 y 2) *****
     const cardsData = [
         {
-            img: "https://picsum.photos/id/100/1200/800",
+            img: "https://i.imgur.com/UFo1DYB.jpeg", // Tu imagen de Imgur para SEMANA 1
             title: "SEMANA 1",
             shortDesc: "Identidad institucional y sentido de pertenencia universitaria"
         },
         {
-            img: "https://picsum.photos/id/101/1200/800",
+            img: "https://i.imgur.com/UFo1DYB.jpeg", // Tu imagen de Imgur para SEMANA 2 (la misma URL, cámbiala si tienes otra)
             title: "SEMANA 2",
             shortDesc: "Liderazgo académico y trabajo en equipo en el contexto universitario"
         },
@@ -613,36 +533,12 @@
     let setWidthTimeout = null;
     let currentImageSrc = '';
     
-    // Variables para el zoom
     let currentZoom = 1;
-    let translateX = 0;
-    let translateY = 0;
+    let translateX = 0, translateY = 0;
     let isPanning = false;
-    let panStartX = 0;
-    let panStartY = 0;
-    let panStartTranslateX = 0;
-    let panStartTranslateY = 0;
-    
-    // Función para obtener una URL de imagen válida (evita problemas con imágenes locales)
-    function getValidImageUrl(imgSrc) {
-        // Si la imagen es local y no tiene extensión común, usamos una de respaldo
-        if (imgSrc && (imgSrc.includes('Infografía') || imgSrc.includes('HISTORIETA'))) {
-            // Usamos imágenes de respaldo de alta calidad
-            const fallbackImages = {
-                'SEMANA 1': 'https://picsum.photos/id/100/1200/800',
-                'SEMANA 2': 'https://picsum.photos/id/101/1200/800'
-            };
-            // Buscamos el título correspondiente
-            for (const card of cardsData) {
-                if (card.img === imgSrc) {
-                    return fallbackImages[card.title] || 'https://picsum.photos/id/100/1200/800';
-                }
-            }
-        }
-        return imgSrc;
-    }
-    
-    // Construir track con múltiples copias
+    let panStartX = 0, panStartY = 0;
+    let panStartTranslateX = 0, panStartTranslateY = 0;
+
     function buildInfiniteTrack() {
         TRACK.innerHTML = '';
         const copies = 6;
@@ -651,9 +547,8 @@
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.setAttribute('data-index', idx);
-                const validImgSrc = getValidImageUrl(item.img);
                 card.innerHTML = `
-                    <img class="card-img" src="${validImgSrc}" alt="${item.title}" loading="lazy" onerror="this.src='https://picsum.photos/id/1/800/600'">
+                    <img class="card-img" src="${item.img}" alt="${item.title}" loading="lazy" onerror="this.src='https://picsum.photos/id/1/800/600'">
                     <div class="card-content">
                         <div class="card-title">${item.title}</div>
                         <div class="card-sub">${item.shortDesc}</div>
@@ -661,7 +556,7 @@
                 `;
                 card.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    openModal(validImgSrc, item.title);
+                    openModal(item.img, item.title);
                 });
                 TRACK.appendChild(card);
             });
@@ -669,10 +564,7 @@
         updateTrackWidth();
     }
     
-    function updateTrackWidth() {
-        trackWidth = TRACK.scrollWidth;
-    }
-    
+    function updateTrackWidth() { trackWidth = TRACK.scrollWidth; }
     let trackWidth = 0;
     
     function getOriginalSetWidth() {
@@ -688,18 +580,13 @@
     function normalizeTranslate() {
         const originalSetWidth = getOriginalSetWidth();
         if (originalSetWidth === 0) return;
-        while (currentTranslateX <= -originalSetWidth) {
-            currentTranslateX += originalSetWidth;
-        }
-        while (currentTranslateX > 0) {
-            currentTranslateX -= originalSetWidth;
-        }
+        while (currentTranslateX <= -originalSetWidth) currentTranslateX += originalSetWidth;
+        while (currentTranslateX > 0) currentTranslateX -= originalSetWidth;
         TRACK.style.transform = `translateX(${currentTranslateX}px)`;
     }
     
     function startAutoScroll() {
         if (animationFrameId) cancelAnimationFrame(animationFrameId);
-        
         function step() {
             if (!isPaused && !isDragging) {
                 currentTranslateX -= speed;
@@ -710,9 +597,7 @@
         step();
     }
     
-    // --- Drag to scroll ---
     const carouselWrapperDiv = document.querySelector('.carousel-wrapper');
-    
     carouselWrapperDiv.addEventListener('mousedown', (e) => {
         if (e.target.closest('.card')) return;
         isDragging = true;
@@ -737,16 +622,13 @@
         }
     });
     
-    // Prevenir que el drag afecte a los clicks en tarjetas
     let dragOccurred = false;
     carouselWrapperDiv.addEventListener('mousedown', (e) => {
         if (e.target.closest('.card')) {
             dragOccurred = false;
             const startDragCheck = e.clientX;
             const onMouseMove = (moveEvent) => {
-                if (Math.abs(moveEvent.clientX - startDragCheck) > 5) {
-                    dragOccurred = true;
-                }
+                if (Math.abs(moveEvent.clientX - startDragCheck) > 5) dragOccurred = true;
                 window.removeEventListener('mousemove', onMouseMove);
             };
             window.addEventListener('mousemove', onMouseMove);
@@ -754,47 +636,32 @@
         }
     });
     
-    // --- Botones de navegación ---
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     
     function moveStep(direction) {
         const step = getOriginalSetWidth() / cardsData.length;
-        if (direction === 'next') {
-            currentTranslateX -= step;
-        } else {
-            currentTranslateX += step;
-        }
+        if (direction === 'next') currentTranslateX -= step;
+        else currentTranslateX += step;
         normalizeTranslate();
         isPaused = true;
         setTimeout(() => {
-            if (!carouselWrapperDiv.matches(':hover')) {
-                isPaused = false;
-            }
+            if (!carouselWrapperDiv.matches(':hover')) isPaused = false;
         }, 300);
     }
     
     prevBtn.addEventListener('click', () => moveStep('prev'));
     nextBtn.addEventListener('click', () => moveStep('next'));
     
-    // --- Hover pausa ---
-    carouselWrapperDiv.addEventListener('mouseenter', () => {
-        isPaused = true;
-    });
-    carouselWrapperDiv.addEventListener('mouseleave', () => {
-        if (!isDragging) {
-            isPaused = false;
-        }
-    });
+    carouselWrapperDiv.addEventListener('mouseenter', () => { isPaused = true; });
+    carouselWrapperDiv.addEventListener('mouseleave', () => { if (!isDragging) isPaused = false; });
     
-    // --- Modal principal ---
     const modal = document.getElementById('modal');
     const modalImg = document.getElementById('modalImg');
     const modalImgContainer = document.getElementById('modalImgContainer');
     const modalTitle = document.getElementById('modalTitle');
     const closeModalBtn = document.getElementById('closeModalBtn');
     
-    // --- Elementos de la vista previa ---
     const previewOverlay = document.getElementById('previewOverlay');
     const previewImage = document.getElementById('previewImage');
     const previewContainer = document.getElementById('previewContainer');
@@ -826,19 +693,14 @@
         document.body.style.overflow = '';
         const wasPausedAttr = modal.getAttribute('data-wasPaused');
         if (wasPausedAttr === 'false') {
-            if (!carouselWrapperDiv.matches(':hover') && !isDragging) {
-                isPaused = false;
-            }
+            if (!carouselWrapperDiv.matches(':hover') && !isDragging) isPaused = false;
         }
     }
     
-    // --- Funciones de zoom y movimiento ---
     function updatePreviewTransform() {
         previewImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
         zoomLevelSpan.innerText = `${Math.round(currentZoom * 100)}%`;
-        if (zoomInfoSpan) {
-            zoomInfoSpan.innerText = `🔍 Zoom: ${Math.round(currentZoom * 100)}% | Arrastra para mover`;
-        }
+        if (zoomInfoSpan) zoomInfoSpan.innerText = `🔍 Zoom: ${Math.round(currentZoom * 100)}% | Arrastra para mover`;
     }
     
     function resetZoom() {
@@ -866,9 +728,7 @@
         }
     }
     
-    // Función para abrir la vista previa con zoom
     function openPreview(imgSrc) {
-        // Asegurar que la imagen se carga correctamente
         previewImage.src = imgSrc;
         resetZoom();
         previewOverlay.classList.add('active');
@@ -881,15 +741,11 @@
         resetZoom();
     }
     
-    // Evento para abrir la vista previa al hacer clic en la imagen del modal
     modalImgContainer.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (currentImageSrc) {
-            openPreview(currentImageSrc);
-        }
+        if (currentImageSrc) openPreview(currentImageSrc);
     });
     
-    // Eventos de pan (arrastrar) en la vista previa
     previewContainer.addEventListener('mousedown', (e) => {
         if (currentZoom > 1) {
             isPanning = true;
@@ -921,33 +777,20 @@
         }
     });
     
-    // Eventos de los botones de zoom
     zoomInBtn.addEventListener('click', zoomIn);
     zoomOutBtn.addEventListener('click', zoomOut);
     resetZoomBtn.addEventListener('click', resetZoom);
-    
-    // Cerrar preview
     previewCloseBtn.addEventListener('click', closePreview);
-    previewOverlay.addEventListener('click', (e) => {
-        if (e.target === previewOverlay) closePreview();
-    });
+    previewOverlay.addEventListener('click', (e) => { if (e.target === previewOverlay) closePreview(); });
     
-    // Cerrar con ESC
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            if (previewOverlay.classList.contains('active')) {
-                closePreview();
-            } else if (modal.classList.contains('active')) {
-                closeModalHandler();
-            }
+            if (previewOverlay.classList.contains('active')) closePreview();
+            else if (modal.classList.contains('active')) closeModalHandler();
         }
     });
     
-    // Cerrar modal con clic en overlay
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModalHandler();
-    });
-    
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModalHandler(); });
     closeModalBtn.addEventListener('click', closeModalHandler);
     
     function recalcAndReset() {
@@ -957,12 +800,9 @@
     
     window.addEventListener('resize', () => {
         if (setWidthTimeout) clearTimeout(setWidthTimeout);
-        setWidthTimeout = setTimeout(() => {
-            recalcAndReset();
-        }, 150);
+        setWidthTimeout = setTimeout(() => { recalcAndReset(); }, 150);
     });
     
-    // Inicializar
     buildInfiniteTrack();
     setTimeout(() => {
         updateTrackWidth();
@@ -971,9 +811,7 @@
         startAutoScroll();
     }, 50);
     
-    window.addEventListener('load', () => {
-        recalcAndReset();
-    });
+    window.addEventListener('load', () => { recalcAndReset(); });
 </script>
 </body>
 </html>

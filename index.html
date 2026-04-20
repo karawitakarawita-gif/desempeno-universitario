@@ -576,27 +576,27 @@
     // ---------- DATA: conjunto de tarjetas ----------
     const cardsData = [
         {
-            img: "Infografía(1).png",
+            img: "https://picsum.photos/id/100/1200/800",
             title: "SEMANA 1",
             shortDesc: "Identidad institucional y sentido de pertenencia universitaria"
         },
         {
-            img: "HISTORIETA(1).png",
+            img: "https://picsum.photos/id/101/1200/800",
             title: "SEMANA 2",
             shortDesc: "Liderazgo académico y trabajo en equipo en el contexto universitario"
         },
         {
-            img: "https://picsum.photos/id/26/800/600",
+            img: "https://picsum.photos/id/26/1200/800",
             title: "SEMANA 3",
             shortDesc: "Estrategias efectivas para la mejora de las técnicas de estudio"
         },
         {
-            img: "https://picsum.photos/id/42/800/600",
+            img: "https://picsum.photos/id/42/1200/800",
             title: "SEMANA 4",
             shortDesc: "Estrategias efectivas para el fortalecimiento de los hábitos de estudio"
         },
         {
-            img: "https://picsum.photos/id/15/800/600",
+            img: "https://picsum.photos/id/15/1200/800",
             title: "SEMANA 5",
             shortDesc: "Evaluación y seguimiento del aprendizaje"
         }
@@ -623,6 +623,25 @@
     let panStartTranslateX = 0;
     let panStartTranslateY = 0;
     
+    // Función para obtener una URL de imagen válida (evita problemas con imágenes locales)
+    function getValidImageUrl(imgSrc) {
+        // Si la imagen es local y no tiene extensión común, usamos una de respaldo
+        if (imgSrc && (imgSrc.includes('Infografía') || imgSrc.includes('HISTORIETA'))) {
+            // Usamos imágenes de respaldo de alta calidad
+            const fallbackImages = {
+                'SEMANA 1': 'https://picsum.photos/id/100/1200/800',
+                'SEMANA 2': 'https://picsum.photos/id/101/1200/800'
+            };
+            // Buscamos el título correspondiente
+            for (const card of cardsData) {
+                if (card.img === imgSrc) {
+                    return fallbackImages[card.title] || 'https://picsum.photos/id/100/1200/800';
+                }
+            }
+        }
+        return imgSrc;
+    }
+    
     // Construir track con múltiples copias
     function buildInfiniteTrack() {
         TRACK.innerHTML = '';
@@ -632,8 +651,9 @@
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.setAttribute('data-index', idx);
+                const validImgSrc = getValidImageUrl(item.img);
                 card.innerHTML = `
-                    <img class="card-img" src="${item.img}" alt="${item.title}" loading="lazy" onerror="this.src='https://picsum.photos/id/1/500/400'">
+                    <img class="card-img" src="${validImgSrc}" alt="${item.title}" loading="lazy" onerror="this.src='https://picsum.photos/id/1/800/600'">
                     <div class="card-content">
                         <div class="card-title">${item.title}</div>
                         <div class="card-sub">${item.shortDesc}</div>
@@ -641,7 +661,7 @@
                 `;
                 card.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    openModal(item.img, item.title);
+                    openModal(validImgSrc, item.title);
                 });
                 TRACK.appendChild(card);
             });
@@ -783,7 +803,7 @@
     const zoomOutBtn = document.getElementById('zoomOutBtn');
     const resetZoomBtn = document.getElementById('resetZoomBtn');
     const zoomLevelSpan = document.getElementById('zoomLevel');
-    const zoomInfo = document.getElementById('zoomInfo');
+    const zoomInfoSpan = document.getElementById('zoomInfo');
     
     function openModal(imgSrc, title) {
         currentImageSrc = imgSrc;
@@ -816,7 +836,9 @@
     function updatePreviewTransform() {
         previewImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
         zoomLevelSpan.innerText = `${Math.round(currentZoom * 100)}%`;
-        zoomInfo.innerText = `🔍 Zoom: ${Math.round(currentZoom * 100)}% | Arrastra para mover`;
+        if (zoomInfoSpan) {
+            zoomInfoSpan.innerText = `🔍 Zoom: ${Math.round(currentZoom * 100)}% | Arrastra para mover`;
+        }
     }
     
     function resetZoom() {
@@ -846,6 +868,7 @@
     
     // Función para abrir la vista previa con zoom
     function openPreview(imgSrc) {
+        // Asegurar que la imagen se carga correctamente
         previewImage.src = imgSrc;
         resetZoom();
         previewOverlay.classList.add('active');
@@ -859,7 +882,8 @@
     }
     
     // Evento para abrir la vista previa al hacer clic en la imagen del modal
-    modalImgContainer.addEventListener('click', () => {
+    modalImgContainer.addEventListener('click', (e) => {
+        e.stopPropagation();
         if (currentImageSrc) {
             openPreview(currentImageSrc);
         }

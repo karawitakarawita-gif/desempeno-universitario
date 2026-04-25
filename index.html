@@ -76,7 +76,8 @@
             border-color: rgba(100, 150, 200, 0.3);
         }
 
-        .card-img {
+        /* Estilo tanto para imagen como para video en miniatura */
+        .card-media {
             width: 100%;
             height: 260px;
             object-fit: cover;
@@ -84,8 +85,20 @@
             transition: transform 0.5s ease;
             pointer-events: none;
         }
+        
+        /* Estilo específico para el video en miniatura (ocupa el mismo espacio que la imagen) */
+        .card-video {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+            pointer-events: none;
+            background-color: #000;
+        }
 
-        .card:hover .card-img {
+        .card:hover .card-media,
+        .card:hover .card-video {
             transform: scale(1.05);
         }
 
@@ -157,7 +170,7 @@
             right: -28px;
         }
 
-        /* Modal - Ahora soporta VIDEO e IMAGEN */
+        /* --- Modal para VIDEO y para IMAGEN (Adaptado) --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -199,7 +212,7 @@
             transform: scale(1);
         }
 
-        /* Contenedor del contenido del modal (imagen o video) */
+        /* Contenedor del medio (imagen o video) en el modal */
         .modal-media-container {
             position: relative;
             cursor: pointer;
@@ -208,6 +221,7 @@
             display: inline-block;
             border-radius: 1rem;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            text-align: center;
         }
 
         .modal-img {
@@ -220,31 +234,50 @@
             transition: transform 0.3s ease;
             border-radius: 1rem;
         }
-
-        /* Contenedor de video responsive */
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 1000px;
-            background: #000;
-            border-radius: 1rem;
-            overflow: hidden;
-        }
-
-        .video-wrapper iframe {
-            width: 100%;
-            height: 70vh;
-            min-height: 400px;
+        
+        /* Estilo para el video en el modal */
+        .modal-video {
+            max-width: 90vw;
+            max-height: 85vh;
+            width: auto;
+            height: auto;
             display: block;
-            border: none;
+            border-radius: 1rem;
+            outline: none;
+            background: #000;
         }
 
         .modal-media-container:hover .modal-img {
             transform: scale(1.02);
         }
+        
+        /* Para el video no aplicamos hover scale para no interferir con controles */
+        .modal-media-container:hover .modal-video {
+            transform: none;
+        }
 
-        /* Indicador de que la imagen es clickeable */
+        /* Indicador de que es clickeable (para imagen) */
         .zoom-hint {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            color: #e8f0fe;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            pointer-events: none;
+            font-weight: 500;
+            border: 1px solid rgba(255,255,255,0.2);
+            z-index: 10;
+        }
+        
+        /* Hint específico para video (sin indicador de clic para abrir nueva pestaña) */
+        .video-hint {
             position: absolute;
             bottom: 20px;
             right: 20px;
@@ -325,31 +358,11 @@
             z-index: 1001;
         }
 
-        /* Badge de video en la tarjeta */
-        .video-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(255,0,0,0.8);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            z-index: 2;
-            pointer-events: none;
-            backdrop-filter: blur(4px);
-        }
-
-        .card {
-            position: relative;
-        }
-
         @media (max-width: 768px) {
             .card {
                 width: 280px;
             }
-            .card-img {
+            .card-media, .card-video {
                 height: 220px;
             }
             .card-title {
@@ -375,7 +388,7 @@
             .modal-title {
                 font-size: 1.8rem;
             }
-            .zoom-hint {
+            .zoom-hint, .video-hint {
                 font-size: 11px;
                 padding: 5px 12px;
                 bottom: 15px;
@@ -388,17 +401,13 @@
                 top: 15px;
                 right: 15px;
             }
-            .video-wrapper iframe {
-                height: 50vh;
-                min-height: 300px;
-            }
         }
 
         @media (max-width: 480px) {
             .card {
                 width: 260px;
             }
-            .card-img {
+            .card-media, .card-video {
                 height: 200px;
             }
             .nav-btn {
@@ -414,16 +423,6 @@
             }
             .modal-title {
                 font-size: 1.4rem;
-            }
-            .zoom-hint {
-                font-size: 10px;
-                padding: 4px 10px;
-                bottom: 10px;
-                right: 10px;
-            }
-            .video-wrapper iframe {
-                height: 40vh;
-                min-height: 250px;
             }
         }
     </style>
@@ -442,16 +441,14 @@
     <button class="nav-btn" id="nextBtn">→</button>
 </div>
 
-<!-- Modal - SOPORTA VIDEO E IMAGEN -->
+<!-- Modal ADAPTADO: puede mostrar IMAGEN o VIDEO -->
 <div id="modal" class="modal-overlay">
     <button class="close-modal-btn" id="closeModalBtn">✕</button>
     <div class="modal-card">
         <div class="modal-media-container" id="modalMediaContainer">
-            <!-- Aquí se cargará dinámicamente imagen o video -->
-            <div id="modalContent"></div>
-            <div class="zoom-hint" id="zoomHint">
-                🔍 Click para ampliar
-            </div>
+            <!-- Aquí se insertará dinámicamente <img> o <video> -->
+            <div id="modalDynamicMedia"></div>
+            <div id="modalHint" class="zoom-hint">🔍 Click para ampliar</div>
         </div>
         <div class="modal-title-container">
             <h2 id="modalTitle" class="modal-title"></h2>
@@ -463,29 +460,14 @@
 </div>
 
 <script>
-    // Función para extraer ID de YouTube de diferentes formatos
-    function getYouTubeId(url) {
-        const patterns = [
-            /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/,
-            /youtube\.com\/embed\/([^&\n?#]+)/,
-            /youtube\.com\/v\/([^&\n?#]+)/
-        ];
-        
-        for (let pattern of patterns) {
-            const match = url.match(pattern);
-            if (match) return match[1];
-        }
-        return null;
-    }
-
-    // ---------- DATA: conjunto de tarjetas ----------
+    // ---------- DATA: conjunto de tarjetas. Para SEMANA 3 se usa video local "AUTOREGULACIONEMOCIONAL.mp4" ----------
     const cardsData = [
         {
             img: "Infografía(1).png",
             title: "SEMANA 1",
             shortDesc: "Identidad institucional y sentido de pertenencia universitaria",
             detailed: "INFOGRAFÍA: Contenido detallado sobre identidad institucional y cómo fortalecer el sentido de pertenencia en la comunidad universitaria.",
-            type: "image"
+            type: "image"      // tipo imagen
         },
         {
             img: "HISTORIETA(1).png",
@@ -495,12 +477,13 @@
             type: "image"
         },
         {
-            img: "https://img.youtube.com/vi/TH5_PWzRX2U/maxresdefault.jpg",
+            // VIDEO LOCAL: nombre del archivo "AUTOREGULACIONEMOCIONAL.mp4"
+            video: "AUTOREGULACIONEMOCIONAL.mp4",
+            poster: "",   // puedes añadir una imagen de poster si lo deseas (opcional)
             title: "SEMANA 3",
-            shortDesc: "Estrategias efectivas para la mejora de las técnicas de estudio",
-            detailed: "VIDEO: Tutorial con técnicas de estudio efectivas, métodos de memorización y organización del tiempo.",
-            type: "video",
-            videoUrl: "https://youtu.be/TH5_PWzRX2U"
+            shortDesc: "Estrategias efectivas para la mejora de las técnicas de estudio - VIDEO",
+            detailed: "VIDEO: Tutorial sobre autorregulación emocional y técnicas de estudio efectivas.",
+            type: "video"
         },
         {
             img: "https://picsum.photos/id/42/800/600",
@@ -527,10 +510,13 @@
     let startX = 0;
     let startTranslate = 0;
     let setWidthTimeout = null;
-    let currentMediaType = '';
-    let currentVideoUrl = '';
     
-    // Construir track con múltiples copias
+    // Variables para manejar el modal y contenido actual (imagen o video)
+    let currentMediaType = 'image';   // 'image' o 'video'
+    let currentVideoSrc = '';
+    let currentImageSrc = '';
+    
+    // Construir track con múltiples copias (infinite)
     function buildInfiniteTrack() {
         TRACK.innerHTML = '';
         const copies = 6;
@@ -539,35 +525,37 @@
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.setAttribute('data-index', idx);
-                card.setAttribute('data-type', item.type);
-                if (item.videoUrl) {
-                    card.setAttribute('data-video-url', item.videoUrl);
+                // Según el tipo, mostrar imagen miniatura (img) o un video miniatura (pero usaremos un elemento <video> silenciado, sin controles? 
+                // Para mantener uniformidad, mostraremos una imagen de preview si existe, si es video y no hay poster, usamos un elemento video con preload="metadata" para que se vea un frame.
+                // Pero para simplicidad y buena apariencia, si es video intentamos usar un elemento <video> con controles desactivados, autoplay muted loop? 
+                // En el carrusel queremos una miniatura estática, así que mejor mostrar un <video> con poster si existiera, o mostrar un frame por defecto.
+                // Dado que es más limpio, para el video mostraremos un elemento video con un frame inicial (usando preload="metadata") sin controles y detenido.
+                let mediaHtml = '';
+                if (item.type === 'video') {
+                    // Para la tarjeta usamos un elemento video que se vea como miniatura, sin autoplay, sin controles, y con objeto cover para ajustarse.
+                    // Así al pasar el mouse se escala igual que las imágenes.
+                    mediaHtml = `<video class="card-video" preload="metadata" muted playsinline disablePictureInPicture>
+                                    <source src="${item.video}" type="video/mp4">
+                                    Tu navegador no soporta el elemento de video.
+                                </video>`;
+                } else {
+                    // Imagen normal
+                    mediaHtml = `<img class="card-media" src="${item.img}" alt="${item.title}" loading="lazy" onerror="this.src='https://picsum.photos/id/1/500/400'">`;
                 }
-                
-                // Si es video, mostrar thumbnail de YouTube
-                let imgSrc = item.img;
-                if (item.type === 'video' && item.videoUrl) {
-                    const videoId = getYouTubeId(item.videoUrl);
-                    if (videoId) {
-                        imgSrc = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-                    }
-                }
-                
                 card.innerHTML = `
-                    ${item.type === 'video' ? '<div class="video-badge">▶ VIDEO</div>' : ''}
-                    <img class="card-img" src="${imgSrc}" alt="${item.title}" loading="lazy" onerror="this.src='https://picsum.photos/id/1/500/400'">
+                    ${mediaHtml}
                     <div class="card-content">
                         <div class="card-title">${item.title}</div>
                         <div class="card-sub">${item.shortDesc}</div>
                     </div>
                 `;
-                
+                // Evento click para abrir modal (ya sea imagen o video)
                 card.addEventListener('click', (e) => {
                     e.stopPropagation();
                     if (item.type === 'video') {
-                        openVideoModal(item.videoUrl, item.title);
+                        openModalVideo(item.video, item.title);
                     } else {
-                        openImageModal(item.img, item.title);
+                        openModalImage(item.img, item.title);
                     }
                 });
                 TRACK.appendChild(card);
@@ -644,6 +632,23 @@
         }
     });
     
+    // Prevenir que el drag afecte a los clicks en tarjetas
+    let dragOccurred = false;
+    carouselWrapperDiv.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.card')) {
+            dragOccurred = false;
+            const startDragCheck = e.clientX;
+            const onMouseMove = (moveEvent) => {
+                if (Math.abs(moveEvent.clientX - startDragCheck) > 5) {
+                    dragOccurred = true;
+                }
+                window.removeEventListener('mousemove', onMouseMove);
+            };
+            window.addEventListener('mousemove', onMouseMove);
+            setTimeout(() => window.removeEventListener('mousemove', onMouseMove), 100);
+        }
+    });
+    
     // --- Botones de navegación ---
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
@@ -679,37 +684,33 @@
     
     // --- Modal para IMAGEN ---
     const modal = document.getElementById('modal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalContent = document.getElementById('modalContent');
+    const modalDynamicMedia = document.getElementById('modalDynamicMedia');
     const modalMediaContainer = document.getElementById('modalMediaContainer');
-    const zoomHint = document.getElementById('zoomHint');
+    const modalTitleElem = document.getElementById('modalTitle');
+    const modalHint = document.getElementById('modalHint');
     const closeModalBtn = document.getElementById('closeModalBtn');
-    let currentImageSrc = '';
     
-    function openImageModal(imgSrc, title) {
+    // Función para abrir modal de imagen
+    function openModalImage(imgSrc, title) {
         currentMediaType = 'image';
         currentImageSrc = imgSrc;
-        
-        // Crear contenido de imagen
-        modalContent.innerHTML = `
-            <img id="modalImg" class="modal-img" src="${imgSrc}" alt="${title}">
-        `;
-        
-        // Mostrar hint de zoom para imágenes
-        zoomHint.style.display = 'flex';
-        
-        // Configurar evento de click para abrir en nueva pestaña
-        const modalImg = document.getElementById('modalImg');
-        if (modalImg) {
-            modalImg.onclick = () => {
-                window.open(currentImageSrc, '_blank');
-            };
-        }
-        
-        modalTitle.innerText = title;
+        // Limpiar contenido y crear elemento img
+        modalDynamicMedia.innerHTML = '';
+        const imgElement = document.createElement('img');
+        imgElement.src = imgSrc;
+        imgElement.alt = title;
+        imgElement.className = 'modal-img';
+        modalDynamicMedia.appendChild(imgElement);
+        modalTitleElem.innerText = title;
+        // Ajustar hint y comportamiento del contenedor
+        modalHint.textContent = '🔍 Click para ampliar';
+        modalHint.style.display = 'flex';
+        // Eliminar event listener anterior y añadir nuevo para abrir en nueva pestaña
+        modalMediaContainer.onclick = () => {
+            if (currentImageSrc) window.open(currentImageSrc, '_blank');
+        };
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
-        
         const wasPaused = isPaused;
         if (!wasPaused) {
             isPaused = true;
@@ -717,38 +718,38 @@
         } else {
             modal.setAttribute('data-wasPaused', 'true');
         }
+        // Si hay algún video previo en reproducción en el modal, detenerlo ya que se reemplaza
     }
     
-    // --- Modal para VIDEO ---
-    function openVideoModal(videoUrl, title) {
+    // Función para abrir modal de VIDEO
+    function openModalVideo(videoSrc, title) {
         currentMediaType = 'video';
-        const videoId = getYouTubeId(videoUrl);
-        
-        if (!videoId) {
-            console.error('No se pudo extraer el ID del video');
-            return;
-        }
-        
-        // Crear iframe de YouTube embebido
-        modalContent.innerHTML = `
-            <div class="video-wrapper">
-                <iframe 
-                    src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1"
-                    title="${title}"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                </iframe>
-            </div>
-        `;
-        
-        // Ocultar hint de zoom para videos
-        zoomHint.style.display = 'none';
-        
-        modalTitle.innerText = title;
+        currentVideoSrc = videoSrc;
+        modalDynamicMedia.innerHTML = '';
+        const videoElement = document.createElement('video');
+        videoElement.src = videoSrc;
+        videoElement.className = 'modal-video';
+        videoElement.controls = true;
+        videoElement.autoplay = false;
+        videoElement.loop = false;
+        videoElement.muted = false;
+        videoElement.style.maxWidth = '90vw';
+        videoElement.style.maxHeight = '85vh';
+        // Para mejor experiencia, cargar el video
+        videoElement.load();
+        modalDynamicMedia.appendChild(videoElement);
+        modalTitleElem.innerText = title;
+        // Cambiar hint: en video no se puede "ampliar" en nueva pestaña, mostramos mensaje diferente
+        modalHint.textContent = '🎬 Controles disponibles';
+        modalHint.style.display = 'flex';
+        // El contenedor ya no abrirá nueva pestaña, removemos el onclick o dejamos que no haga nada extra
+        modalMediaContainer.onclick = (e) => {
+            // Evitamos que al hacer click en el contenedor se abra nueva ventana, pero si quieren pausar/reproducir usarán los controles nativos.
+            // No hacemos nada para no interferir con los controles del video.
+            e.stopPropagation();
+        };
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
-        
         const wasPaused = isPaused;
         if (!wasPaused) {
             isPaused = true;
@@ -759,31 +760,25 @@
     }
     
     function closeModalHandler() {
-        // Detener video si está reproduciéndose
+        // Si hay un video activo y se está reproduciendo, lo pausamos para liberar recursos
         if (currentMediaType === 'video') {
-            const iframe = modalContent.querySelector('iframe');
-            if (iframe) {
-                // Recargar el iframe para detener el video
-                const src = iframe.src;
-                iframe.src = '';
-                iframe.src = src.replace('autoplay=1', 'autoplay=0');
+            const videoEl = modalDynamicMedia.querySelector('video');
+            if (videoEl) {
+                videoEl.pause();
+                videoEl.currentTime = 0;
             }
         }
-        
         modal.classList.remove('active');
         document.body.style.overflow = '';
-        
-        // Limpiar contenido del modal
-        setTimeout(() => {
-            modalContent.innerHTML = '';
-        }, 300);
-        
         const wasPausedAttr = modal.getAttribute('data-wasPaused');
         if (wasPausedAttr === 'false') {
             if (!carouselWrapperDiv.matches(':hover') && !isDragging) {
                 isPaused = false;
             }
         }
+        // Limpiar contenido dinámico opcional
+        // modalDynamicMedia.innerHTML = '';
+        currentMediaType = 'image';
     }
     
     // Cerrar con el botón X

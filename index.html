@@ -157,7 +157,7 @@
             right: -28px;
         }
 
-        /* Modal simplificado - SOLO IMAGEN Y TÍTULO */
+        /* Modal - Ahora soporta VIDEO e IMAGEN */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -199,13 +199,15 @@
             transform: scale(1);
         }
 
-        /* Contenedor de la imagen del modal - clickeable */
-        .modal-img-container {
+        /* Contenedor del contenido del modal (imagen o video) */
+        .modal-media-container {
             position: relative;
             cursor: pointer;
-            background-color: transparent;
+            background-color: #000;
             overflow: hidden;
             display: inline-block;
+            border-radius: 1rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         .modal-img {
@@ -217,10 +219,27 @@
             display: block;
             transition: transform 0.3s ease;
             border-radius: 1rem;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-        .modal-img-container:hover .modal-img {
+        /* Contenedor de video responsive */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            background: #000;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .video-wrapper iframe {
+            width: 100%;
+            height: 70vh;
+            min-height: 400px;
+            display: block;
+            border: none;
+        }
+
+        .modal-media-container:hover .modal-img {
             transform: scale(1.02);
         }
 
@@ -244,7 +263,7 @@
             z-index: 10;
         }
 
-        /* Título del modal - SOLO TEXTO */
+        /* Título del modal */
         .modal-title-container {
             text-align: center;
             margin-top: 20px;
@@ -306,6 +325,26 @@
             z-index: 1001;
         }
 
+        /* Badge de video en la tarjeta */
+        .video-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,0,0,0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 2;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .card {
+            position: relative;
+        }
+
         @media (max-width: 768px) {
             .card {
                 width: 280px;
@@ -349,6 +388,10 @@
                 top: 15px;
                 right: 15px;
             }
+            .video-wrapper iframe {
+                height: 50vh;
+                min-height: 300px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -378,6 +421,10 @@
                 bottom: 10px;
                 right: 10px;
             }
+            .video-wrapper iframe {
+                height: 40vh;
+                min-height: 250px;
+            }
         }
     </style>
 </head>
@@ -395,13 +442,14 @@
     <button class="nav-btn" id="nextBtn">→</button>
 </div>
 
-<!-- Modal SIMPLIFICADO - solo imagen y título -->
+<!-- Modal - SOPORTA VIDEO E IMAGEN -->
 <div id="modal" class="modal-overlay">
     <button class="close-modal-btn" id="closeModalBtn">✕</button>
     <div class="modal-card">
-        <div class="modal-img-container" id="modalImgContainer">
-            <img id="modalImg" class="modal-img" src="" alt="detalle">
-            <div class="zoom-hint">
+        <div class="modal-media-container" id="modalMediaContainer">
+            <!-- Aquí se cargará dinámicamente imagen o video -->
+            <div id="modalContent"></div>
+            <div class="zoom-hint" id="zoomHint">
                 🔍 Click para ampliar
             </div>
         </div>
@@ -415,37 +463,58 @@
 </div>
 
 <script>
+    // Función para extraer ID de YouTube de diferentes formatos
+    function getYouTubeId(url) {
+        const patterns = [
+            /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/,
+            /youtube\.com\/embed\/([^&\n?#]+)/,
+            /youtube\.com\/v\/([^&\n?#]+)/
+        ];
+        
+        for (let pattern of patterns) {
+            const match = url.match(pattern);
+            if (match) return match[1];
+        }
+        return null;
+    }
+
     // ---------- DATA: conjunto de tarjetas ----------
     const cardsData = [
         {
             img: "Infografía(1).png",
             title: "SEMANA 1",
             shortDesc: "Identidad institucional y sentido de pertenencia universitaria",
-            detailed: "INFOGRAFÍA: Contenido detallado sobre identidad institucional y cómo fortalecer el sentido de pertenencia en la comunidad universitaria."
+            detailed: "INFOGRAFÍA: Contenido detallado sobre identidad institucional y cómo fortalecer el sentido de pertenencia en la comunidad universitaria.",
+            type: "image"
         },
         {
             img: "HISTORIETA(1).png",
             title: "SEMANA 2",
             shortDesc: "Liderazgo académico y trabajo en equipo en el contexto universitario",
-            detailed: "HISTORIETA: Historia ilustrada sobre liderazgo académico y la importancia del trabajo colaborativo en la universidad."
+            detailed: "HISTORIETA: Historia ilustrada sobre liderazgo académico y la importancia del trabajo colaborativo en la universidad.",
+            type: "image"
         },
         {
-            img: "https://picsum.photos/id/26/800/600",
+            img: "https://img.youtube.com/vi/TH5_PWzRX2U/maxresdefault.jpg",
             title: "SEMANA 3",
             shortDesc: "Estrategias efectivas para la mejora de las técnicas de estudio",
-            detailed: "VIDEO: Tutorial con técnicas de estudio efectivas, métodos de memorización y organización del tiempo."
+            detailed: "VIDEO: Tutorial con técnicas de estudio efectivas, métodos de memorización y organización del tiempo.",
+            type: "video",
+            videoUrl: "https://youtu.be/TH5_PWzRX2U"
         },
         {
             img: "https://picsum.photos/id/42/800/600",
             title: "SEMANA 4",
             shortDesc: "Estrategias efectivas para el fortalecimiento de los hábitos de estudio",
-            detailed: "ANIMACIÓN DIGITAL: Contenido animado sobre cómo crear y mantener hábitos de estudio saludables y productivos."
+            detailed: "ANIMACIÓN DIGITAL: Contenido animado sobre cómo crear y mantener hábitos de estudio saludables y productivos.",
+            type: "image"
         },
         {
             img: "https://picsum.photos/id/15/800/600",
             title: "SEMANA 5",
             shortDesc: "Evaluación y seguimiento del aprendizaje",
-            detailed: "Material completo sobre métodos de autoevaluación y seguimiento del progreso académico."
+            detailed: "Material completo sobre métodos de autoevaluación y seguimiento del progreso académico.",
+            type: "image"
         },
     ];
 
@@ -458,7 +527,8 @@
     let startX = 0;
     let startTranslate = 0;
     let setWidthTimeout = null;
-    let currentImageSrc = '';
+    let currentMediaType = '';
+    let currentVideoUrl = '';
     
     // Construir track con múltiples copias
     function buildInfiniteTrack() {
@@ -469,16 +539,36 @@
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.setAttribute('data-index', idx);
+                card.setAttribute('data-type', item.type);
+                if (item.videoUrl) {
+                    card.setAttribute('data-video-url', item.videoUrl);
+                }
+                
+                // Si es video, mostrar thumbnail de YouTube
+                let imgSrc = item.img;
+                if (item.type === 'video' && item.videoUrl) {
+                    const videoId = getYouTubeId(item.videoUrl);
+                    if (videoId) {
+                        imgSrc = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+                    }
+                }
+                
                 card.innerHTML = `
-                    <img class="card-img" src="${item.img}" alt="${item.title}" loading="lazy" onerror="this.src='https://picsum.photos/id/1/500/400'">
+                    ${item.type === 'video' ? '<div class="video-badge">▶ VIDEO</div>' : ''}
+                    <img class="card-img" src="${imgSrc}" alt="${item.title}" loading="lazy" onerror="this.src='https://picsum.photos/id/1/500/400'">
                     <div class="card-content">
                         <div class="card-title">${item.title}</div>
                         <div class="card-sub">${item.shortDesc}</div>
                     </div>
                 `;
+                
                 card.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    openModal(item.img, item.title);
+                    if (item.type === 'video') {
+                        openVideoModal(item.videoUrl, item.title);
+                    } else {
+                        openImageModal(item.img, item.title);
+                    }
                 });
                 TRACK.appendChild(card);
             });
@@ -554,23 +644,6 @@
         }
     });
     
-    // Prevenir que el drag afecte a los clicks en tarjetas
-    let dragOccurred = false;
-    carouselWrapperDiv.addEventListener('mousedown', (e) => {
-        if (e.target.closest('.card')) {
-            dragOccurred = false;
-            const startDragCheck = e.clientX;
-            const onMouseMove = (moveEvent) => {
-                if (Math.abs(moveEvent.clientX - startDragCheck) > 5) {
-                    dragOccurred = true;
-                }
-                window.removeEventListener('mousemove', onMouseMove);
-            };
-            window.addEventListener('mousemove', onMouseMove);
-            setTimeout(() => window.removeEventListener('mousemove', onMouseMove), 100);
-        }
-    });
-    
     // --- Botones de navegación ---
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
@@ -604,26 +677,78 @@
         }
     });
     
-    // --- Modal SIMPLIFICADO ---
+    // --- Modal para IMAGEN ---
     const modal = document.getElementById('modal');
-    const modalImg = document.getElementById('modalImg');
-    const modalImgContainer = document.getElementById('modalImgContainer');
     const modalTitle = document.getElementById('modalTitle');
+    const modalContent = document.getElementById('modalContent');
+    const modalMediaContainer = document.getElementById('modalMediaContainer');
+    const zoomHint = document.getElementById('zoomHint');
     const closeModalBtn = document.getElementById('closeModalBtn');
+    let currentImageSrc = '';
     
-    function openImageInNewTab() {
-        if (currentImageSrc) {
-            window.open(currentImageSrc, '_blank');
-        }
-    }
-    
-    function openModal(imgSrc, title) {
+    function openImageModal(imgSrc, title) {
+        currentMediaType = 'image';
         currentImageSrc = imgSrc;
-        modalImg.src = imgSrc;
-        modalImg.alt = title;
+        
+        // Crear contenido de imagen
+        modalContent.innerHTML = `
+            <img id="modalImg" class="modal-img" src="${imgSrc}" alt="${title}">
+        `;
+        
+        // Mostrar hint de zoom para imágenes
+        zoomHint.style.display = 'flex';
+        
+        // Configurar evento de click para abrir en nueva pestaña
+        const modalImg = document.getElementById('modalImg');
+        if (modalImg) {
+            modalImg.onclick = () => {
+                window.open(currentImageSrc, '_blank');
+            };
+        }
+        
         modalTitle.innerText = title;
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        
+        const wasPaused = isPaused;
+        if (!wasPaused) {
+            isPaused = true;
+            modal.setAttribute('data-wasPaused', 'false');
+        } else {
+            modal.setAttribute('data-wasPaused', 'true');
+        }
+    }
+    
+    // --- Modal para VIDEO ---
+    function openVideoModal(videoUrl, title) {
+        currentMediaType = 'video';
+        const videoId = getYouTubeId(videoUrl);
+        
+        if (!videoId) {
+            console.error('No se pudo extraer el ID del video');
+            return;
+        }
+        
+        // Crear iframe de YouTube embebido
+        modalContent.innerHTML = `
+            <div class="video-wrapper">
+                <iframe 
+                    src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1"
+                    title="${title}"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        `;
+        
+        // Ocultar hint de zoom para videos
+        zoomHint.style.display = 'none';
+        
+        modalTitle.innerText = title;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
         const wasPaused = isPaused;
         if (!wasPaused) {
             isPaused = true;
@@ -634,8 +759,25 @@
     }
     
     function closeModalHandler() {
+        // Detener video si está reproduciéndose
+        if (currentMediaType === 'video') {
+            const iframe = modalContent.querySelector('iframe');
+            if (iframe) {
+                // Recargar el iframe para detener el video
+                const src = iframe.src;
+                iframe.src = '';
+                iframe.src = src.replace('autoplay=1', 'autoplay=0');
+            }
+        }
+        
         modal.classList.remove('active');
         document.body.style.overflow = '';
+        
+        // Limpiar contenido del modal
+        setTimeout(() => {
+            modalContent.innerHTML = '';
+        }, 300);
+        
         const wasPausedAttr = modal.getAttribute('data-wasPaused');
         if (wasPausedAttr === 'false') {
             if (!carouselWrapperDiv.matches(':hover') && !isDragging) {
@@ -643,9 +785,6 @@
             }
         }
     }
-    
-    // Click en la imagen para abrir en nueva pestaña
-    modalImgContainer.addEventListener('click', openImageInNewTab);
     
     // Cerrar con el botón X
     closeModalBtn.addEventListener('click', closeModalHandler);

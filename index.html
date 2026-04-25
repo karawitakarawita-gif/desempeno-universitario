@@ -21,7 +21,6 @@
             padding: 2rem 1rem;
         }
 
-        /* Contenedor principal del carrusel */
         .carousel-container {
             max-width: 1600px;
             width: 100%;
@@ -35,7 +34,6 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Wrapper con posicionamiento para los botones laterales */
         .carousel-wrapper {
             position: relative;
             overflow: hidden;
@@ -56,7 +54,6 @@
             transition: transform 0.08s linear;
         }
 
-        /* Tarjeta moderna - MÁS GRANDE */
         .card {
             flex: 0 0 auto;
             width: 340px;
@@ -76,7 +73,6 @@
             border-color: rgba(100, 150, 200, 0.3);
         }
 
-        /* Estilo tanto para imagen como para video en miniatura */
         .card-media {
             width: 100%;
             height: 260px;
@@ -85,8 +81,7 @@
             transition: transform 0.5s ease;
             pointer-events: none;
         }
-        
-        /* Estilo específico para el video en miniatura (ocupa el mismo espacio que la imagen) */
+
         .card-video {
             width: 100%;
             height: 260px;
@@ -127,7 +122,6 @@
             line-height: 1.4;
         }
 
-        /* Botones de navegación LATERALES - MÁS GRANDES */
         .nav-btn {
             position: absolute;
             top: 50%;
@@ -170,7 +164,6 @@
             right: -28px;
         }
 
-        /* --- Modal para VIDEO y para IMAGEN (Adaptado) --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -212,10 +205,47 @@
             transform: scale(1);
         }
 
-        /* Contenedor del medio (imagen o video) en el modal */
+        /* Selector de videos (para semana 3 con dos opciones) */
+        .video-selector {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 60px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .video-option-btn {
+            background: linear-gradient(135deg, #1e2a3a, #16212e);
+            border: 1px solid rgba(100, 150, 200, 0.5);
+            color: #e8f0fe;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .video-option-btn:hover {
+            background: #2c4a6e;
+            transform: scale(1.02);
+            border-color: #7aa9d4;
+        }
+
+        .video-option-btn.active {
+            background: #2c4a6e;
+            border-color: #e8f0fe;
+            box-shadow: 0 0 15px rgba(100,150,200,0.5);
+        }
+
         .modal-media-container {
             position: relative;
-            cursor: pointer;
             background-color: #000;
             overflow: hidden;
             display: inline-block;
@@ -234,8 +264,7 @@
             transition: transform 0.3s ease;
             border-radius: 1rem;
         }
-        
-        /* Estilo para el video en el modal */
+
         .modal-video {
             max-width: 90vw;
             max-height: 85vh;
@@ -250,13 +279,7 @@
         .modal-media-container:hover .modal-img {
             transform: scale(1.02);
         }
-        
-        /* Para el video no aplicamos hover scale para no interferir con controles */
-        .modal-media-container:hover .modal-video {
-            transform: none;
-        }
 
-        /* Indicador de que es clickeable (para imagen) */
         .zoom-hint {
             position: absolute;
             bottom: 20px;
@@ -275,8 +298,7 @@
             border: 1px solid rgba(255,255,255,0.2);
             z-index: 10;
         }
-        
-        /* Hint específico para video (sin indicador de clic para abrir nueva pestaña) */
+
         .video-hint {
             position: absolute;
             bottom: 20px;
@@ -296,7 +318,6 @@
             z-index: 10;
         }
 
-        /* Título del modal */
         .modal-title-container {
             text-align: center;
             margin-top: 20px;
@@ -314,7 +335,6 @@
             text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        /* Botón de cerrar simplificado (X en la esquina) */
         .close-modal-btn {
             position: fixed;
             top: 25px;
@@ -342,7 +362,6 @@
             border-color: rgba(255,255,255,0.4);
         }
 
-        /* Instrucción para cerrar */
         .close-hint {
             position: fixed;
             bottom: 25px;
@@ -359,71 +378,18 @@
         }
 
         @media (max-width: 768px) {
-            .card {
-                width: 280px;
-            }
-            .card-media, .card-video {
-                height: 220px;
-            }
-            .card-title {
-                font-size: 1.3rem;
-            }
-            .card-sub {
-                font-size: 0.85rem;
-            }
-            .carousel-container {
-                padding: 1.5rem 1rem;
-            }
-            .nav-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 1.6rem;
-            }
-            #prevBtn {
-                left: -18px;
-            }
-            #nextBtn {
-                right: -18px;
-            }
-            .modal-title {
-                font-size: 1.8rem;
-            }
-            .zoom-hint, .video-hint {
-                font-size: 11px;
-                padding: 5px 12px;
-                bottom: 15px;
-                right: 15px;
-            }
-            .close-modal-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.5rem;
-                top: 15px;
-                right: 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .card {
-                width: 260px;
-            }
-            .card-media, .card-video {
-                height: 200px;
-            }
-            .nav-btn {
-                width: 38px;
-                height: 38px;
-                font-size: 1.3rem;
-            }
-            #prevBtn {
-                left: -12px;
-            }
-            #nextBtn {
-                right: -12px;
-            }
-            .modal-title {
-                font-size: 1.4rem;
-            }
+            .card { width: 280px; }
+            .card-media, .card-video { height: 220px; }
+            .card-title { font-size: 1.3rem; }
+            .card-sub { font-size: 0.85rem; }
+            .carousel-container { padding: 1.5rem 1rem; }
+            .nav-btn { width: 45px; height: 45px; font-size: 1.6rem; }
+            #prevBtn { left: -18px; }
+            #nextBtn { right: -18px; }
+            .modal-title { font-size: 1.8rem; }
+            .zoom-hint, .video-hint { font-size: 11px; padding: 5px 12px; bottom: 15px; right: 15px; }
+            .close-modal-btn { width: 40px; height: 40px; font-size: 1.5rem; top: 15px; right: 15px; }
+            .video-option-btn { padding: 6px 16px; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -431,22 +397,19 @@
 
 <div class="carousel-container">
     <div class="carousel-wrapper" id="carouselWrapper">
-        <div class="carousel-track" id="carouselTrack">
-            <!-- Las tarjetas se generarán dinámicamente con JS -->
-        </div>
+        <div class="carousel-track" id="carouselTrack"></div>
     </div>
-    
-    <!-- Botones de navegación LATERALES -->
     <button class="nav-btn" id="prevBtn">←</button>
     <button class="nav-btn" id="nextBtn">→</button>
 </div>
 
-<!-- Modal ADAPTADO: puede mostrar IMAGEN o VIDEO -->
+<!-- Modal adaptado para mostrar selector de videos en semana 3 -->
 <div id="modal" class="modal-overlay">
     <button class="close-modal-btn" id="closeModalBtn">✕</button>
     <div class="modal-card">
+        <!-- Contenedor para selector de videos (solo se mostrará cuando sea necesario) -->
+        <div id="videoSelectorContainer" class="video-selector" style="display: none;"></div>
         <div class="modal-media-container" id="modalMediaContainer">
-            <!-- Aquí se insertará dinámicamente <img> o <video> -->
             <div id="modalDynamicMedia"></div>
             <div id="modalHint" class="zoom-hint">🔍 Click para ampliar</div>
         </div>
@@ -454,51 +417,46 @@
             <h2 id="modalTitle" class="modal-title"></h2>
         </div>
     </div>
-    <div class="close-hint">
-        ✕ Haz clic fuera o presiona ESC para cerrar
-    </div>
+    <div class="close-hint">✕ Haz clic fuera o presiona ESC para cerrar</div>
 </div>
 
 <script>
-    // ---------- DATA: conjunto de tarjetas. Para SEMANA 3 se usa video local "AUTOREGULACIONEMOCIONAL.mp4" ----------
+    // DATOS: Semana 3 ahora tiene dos videos locales
     const cardsData = [
         {
             img: "Infografía(1).png",
             title: "SEMANA 1",
             shortDesc: "Identidad institucional y sentido de pertenencia universitaria",
-            detailed: "INFOGRAFÍA: Contenido detallado sobre identidad institucional y cómo fortalecer el sentido de pertenencia en la comunidad universitaria.",
-            type: "image"      // tipo imagen
+            type: "image"
         },
         {
             img: "HISTORIETA(1).png",
             title: "SEMANA 2",
             shortDesc: "Liderazgo académico y trabajo en equipo en el contexto universitario",
-            detailed: "HISTORIETA: Historia ilustrada sobre liderazgo académico y la importancia del trabajo colaborativo en la universidad.",
             type: "image"
         },
         {
-            // VIDEO LOCAL: nombre del archivo "AUTOREGULACIONEMOCIONAL.mp4"
-            video: "AUTOREGULACIONEMOCIONAL.mp4",
-            poster: "",   // puedes añadir una imagen de poster si lo deseas (opcional)
+            // Semana 3 con MÚLTIPLES VIDEOS (2)
+            videos: [
+                { src: "AUTOREGULACIONEMOCIONAL.mp4", name: "🎬 Video 1: Autorregulación Emocional" },
+                { src: "AUTO REGULACION EMOCIONA 2.mp4", name: "🎬 Video 2: Autorregulación Emocional Parte 2" }
+            ],
             title: "SEMANA 3",
-            shortDesc: "Estrategias efectivas para la mejora de las técnicas de estudio - VIDEO",
-            detailed: "VIDEO: Tutorial sobre autorregulación emocional y técnicas de estudio efectivas.",
-            type: "video"
+            shortDesc: "Estrategias efectivas para la mejora de las técnicas de estudio - 2 Videos",
+            type: "multi-video"   // Tipo especial para múltiples videos
         },
         {
             img: "https://picsum.photos/id/42/800/600",
             title: "SEMANA 4",
             shortDesc: "Estrategias efectivas para el fortalecimiento de los hábitos de estudio",
-            detailed: "ANIMACIÓN DIGITAL: Contenido animado sobre cómo crear y mantener hábitos de estudio saludables y productivos.",
             type: "image"
         },
         {
             img: "https://picsum.photos/id/15/800/600",
             title: "SEMANA 5",
             shortDesc: "Evaluación y seguimiento del aprendizaje",
-            detailed: "Material completo sobre métodos de autoevaluación y seguimiento del progreso académico.",
             type: "image"
-        },
+        }
     ];
 
     const TRACK = document.getElementById('carouselTrack');
@@ -511,12 +469,12 @@
     let startTranslate = 0;
     let setWidthTimeout = null;
     
-    // Variables para manejar el modal y contenido actual (imagen o video)
-    let currentMediaType = 'image';   // 'image' o 'video'
+    let currentMediaType = 'image';
     let currentVideoSrc = '';
     let currentImageSrc = '';
+    let currentVideoList = [];      // Para almacenar lista de videos de la semana activa
     
-    // Construir track con múltiples copias (infinite)
+    // Construir track infinito
     function buildInfiniteTrack() {
         TRACK.innerHTML = '';
         const copies = 6;
@@ -525,23 +483,22 @@
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.setAttribute('data-index', idx);
-                // Según el tipo, mostrar imagen miniatura (img) o un video miniatura (pero usaremos un elemento <video> silenciado, sin controles? 
-                // Para mantener uniformidad, mostraremos una imagen de preview si existe, si es video y no hay poster, usamos un elemento video con preload="metadata" para que se vea un frame.
-                // Pero para simplicidad y buena apariencia, si es video intentamos usar un elemento <video> con controles desactivados, autoplay muted loop? 
-                // En el carrusel queremos una miniatura estática, así que mejor mostrar un <video> con poster si existiera, o mostrar un frame por defecto.
-                // Dado que es más limpio, para el video mostraremos un elemento video con un frame inicial (usando preload="metadata") sin controles y detenido.
+                
                 let mediaHtml = '';
-                if (item.type === 'video') {
-                    // Para la tarjeta usamos un elemento video que se vea como miniatura, sin autoplay, sin controles, y con objeto cover para ajustarse.
-                    // Así al pasar el mouse se escala igual que las imágenes.
+                if (item.type === 'multi-video') {
+                    // Mostrar una miniatura de video representativa (usando el primer video como previsualización)
                     mediaHtml = `<video class="card-video" preload="metadata" muted playsinline disablePictureInPicture>
+                                    <source src="${item.videos[0].src}" type="video/mp4">
+                                    Tu navegador no soporta video.
+                                </video>`;
+                } else if (item.type === 'video') {
+                    mediaHtml = `<video class="card-video" preload="metadata" muted playsinline>
                                     <source src="${item.video}" type="video/mp4">
-                                    Tu navegador no soporta el elemento de video.
                                 </video>`;
                 } else {
-                    // Imagen normal
                     mediaHtml = `<img class="card-media" src="${item.img}" alt="${item.title}" loading="lazy" onerror="this.src='https://picsum.photos/id/1/500/400'">`;
                 }
+                
                 card.innerHTML = `
                     ${mediaHtml}
                     <div class="card-content">
@@ -549,10 +506,12 @@
                         <div class="card-sub">${item.shortDesc}</div>
                     </div>
                 `;
-                // Evento click para abrir modal (ya sea imagen o video)
+                
                 card.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    if (item.type === 'video') {
+                    if (item.type === 'multi-video') {
+                        openModalMultiVideo(item.videos, item.title);
+                    } else if (item.type === 'video') {
                         openModalVideo(item.video, item.title);
                     } else {
                         openModalImage(item.img, item.title);
@@ -564,10 +523,7 @@
         updateTrackWidth();
     }
     
-    function updateTrackWidth() {
-        trackWidth = TRACK.scrollWidth;
-    }
-    
+    function updateTrackWidth() { trackWidth = TRACK.scrollWidth; }
     let trackWidth = 0;
     
     function getOriginalSetWidth() {
@@ -583,18 +539,13 @@
     function normalizeTranslate() {
         const originalSetWidth = getOriginalSetWidth();
         if (originalSetWidth === 0) return;
-        while (currentTranslateX <= -originalSetWidth) {
-            currentTranslateX += originalSetWidth;
-        }
-        while (currentTranslateX > 0) {
-            currentTranslateX -= originalSetWidth;
-        }
+        while (currentTranslateX <= -originalSetWidth) currentTranslateX += originalSetWidth;
+        while (currentTranslateX > 0) currentTranslateX -= originalSetWidth;
         TRACK.style.transform = `translateX(${currentTranslateX}px)`;
     }
     
     function startAutoScroll() {
         if (animationFrameId) cancelAnimationFrame(animationFrameId);
-        
         function step() {
             if (!isPaused && !isDragging) {
                 currentTranslateX -= speed;
@@ -605,9 +556,8 @@
         step();
     }
     
-    // --- Drag to scroll ---
+    // Drag to scroll
     const carouselWrapperDiv = document.querySelector('.carousel-wrapper');
-    
     carouselWrapperDiv.addEventListener('mousedown', (e) => {
         if (e.target.closest('.card')) return;
         isDragging = true;
@@ -616,14 +566,12 @@
         carouselWrapperDiv.classList.add('dragging');
         carouselWrapperDiv.style.cursor = 'grabbing';
     });
-    
     window.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
         const deltaX = e.clientX - startX;
         currentTranslateX = startTranslate + deltaX;
         normalizeTranslate();
     });
-    
     window.addEventListener('mouseup', () => {
         if (isDragging) {
             isDragging = false;
@@ -632,99 +580,38 @@
         }
     });
     
-    // Prevenir que el drag afecte a los clicks en tarjetas
-    let dragOccurred = false;
-    carouselWrapperDiv.addEventListener('mousedown', (e) => {
-        if (e.target.closest('.card')) {
-            dragOccurred = false;
-            const startDragCheck = e.clientX;
-            const onMouseMove = (moveEvent) => {
-                if (Math.abs(moveEvent.clientX - startDragCheck) > 5) {
-                    dragOccurred = true;
-                }
-                window.removeEventListener('mousemove', onMouseMove);
-            };
-            window.addEventListener('mousemove', onMouseMove);
-            setTimeout(() => window.removeEventListener('mousemove', onMouseMove), 100);
-        }
-    });
-    
-    // --- Botones de navegación ---
+    // Botones navegación
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    
     function moveStep(direction) {
         const step = getOriginalSetWidth() / cardsData.length;
-        if (direction === 'next') {
-            currentTranslateX -= step;
-        } else {
-            currentTranslateX += step;
-        }
+        if (direction === 'next') currentTranslateX -= step;
+        else currentTranslateX += step;
         normalizeTranslate();
         isPaused = true;
-        setTimeout(() => {
-            if (!carouselWrapperDiv.matches(':hover')) {
-                isPaused = false;
-            }
-        }, 300);
+        setTimeout(() => { if (!carouselWrapperDiv.matches(':hover')) isPaused = false; }, 300);
     }
-    
     prevBtn.addEventListener('click', () => moveStep('prev'));
     nextBtn.addEventListener('click', () => moveStep('next'));
     
-    // --- Hover pausa ---
-    carouselWrapperDiv.addEventListener('mouseenter', () => {
-        isPaused = true;
-    });
-    carouselWrapperDiv.addEventListener('mouseleave', () => {
-        if (!isDragging) {
-            isPaused = false;
-        }
-    });
+    carouselWrapperDiv.addEventListener('mouseenter', () => { isPaused = true; });
+    carouselWrapperDiv.addEventListener('mouseleave', () => { if (!isDragging) isPaused = false; });
     
-    // --- Modal para IMAGEN ---
+    // Elementos del modal
     const modal = document.getElementById('modal');
     const modalDynamicMedia = document.getElementById('modalDynamicMedia');
     const modalMediaContainer = document.getElementById('modalMediaContainer');
     const modalTitleElem = document.getElementById('modalTitle');
     const modalHint = document.getElementById('modalHint');
     const closeModalBtn = document.getElementById('closeModalBtn');
+    const videoSelectorContainer = document.getElementById('videoSelectorContainer');
     
-    // Función para abrir modal de imagen
-    function openModalImage(imgSrc, title) {
-        currentMediaType = 'image';
-        currentImageSrc = imgSrc;
-        // Limpiar contenido y crear elemento img
-        modalDynamicMedia.innerHTML = '';
-        const imgElement = document.createElement('img');
-        imgElement.src = imgSrc;
-        imgElement.alt = title;
-        imgElement.className = 'modal-img';
-        modalDynamicMedia.appendChild(imgElement);
-        modalTitleElem.innerText = title;
-        // Ajustar hint y comportamiento del contenedor
-        modalHint.textContent = '🔍 Click para ampliar';
-        modalHint.style.display = 'flex';
-        // Eliminar event listener anterior y añadir nuevo para abrir en nueva pestaña
-        modalMediaContainer.onclick = () => {
-            if (currentImageSrc) window.open(currentImageSrc, '_blank');
-        };
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        const wasPaused = isPaused;
-        if (!wasPaused) {
-            isPaused = true;
-            modal.setAttribute('data-wasPaused', 'false');
-        } else {
-            modal.setAttribute('data-wasPaused', 'true');
-        }
-        // Si hay algún video previo en reproducción en el modal, detenerlo ya que se reemplaza
-    }
+    let currentActiveVideoSrc = '';
+    let currentVideoElement = null;
     
-    // Función para abrir modal de VIDEO
-    function openModalVideo(videoSrc, title) {
-        currentMediaType = 'video';
-        currentVideoSrc = videoSrc;
+    // Función para cargar un video específico en el modal (desde selector)
+    function loadVideoInModal(videoSrc, videoName) {
+        currentActiveVideoSrc = videoSrc;
         modalDynamicMedia.innerHTML = '';
         const videoElement = document.createElement('video');
         videoElement.src = videoSrc;
@@ -735,19 +622,101 @@
         videoElement.muted = false;
         videoElement.style.maxWidth = '90vw';
         videoElement.style.maxHeight = '85vh';
-        // Para mejor experiencia, cargar el video
         videoElement.load();
         modalDynamicMedia.appendChild(videoElement);
-        modalTitleElem.innerText = title;
-        // Cambiar hint: en video no se puede "ampliar" en nueva pestaña, mostramos mensaje diferente
+        currentVideoElement = videoElement;
+        
+        // Actualizar hint
         modalHint.textContent = '🎬 Controles disponibles';
         modalHint.style.display = 'flex';
-        // El contenedor ya no abrirá nueva pestaña, removemos el onclick o dejamos que no haga nada extra
-        modalMediaContainer.onclick = (e) => {
-            // Evitamos que al hacer click en el contenedor se abra nueva ventana, pero si quieren pausar/reproducir usarán los controles nativos.
-            // No hacemos nada para no interferir con los controles del video.
-            e.stopPropagation();
-        };
+        modalMediaContainer.onclick = (e) => { e.stopPropagation(); };
+    }
+    
+    // Abrir modal con múltiples videos (Semana 3)
+    function openModalMultiVideo(videosList, title) {
+        currentMediaType = 'multi-video';
+        currentVideoList = videosList;
+        modalTitleElem.innerText = title;
+        
+        // Mostrar selector de videos
+        videoSelectorContainer.style.display = 'flex';
+        videoSelectorContainer.innerHTML = '';
+        videosList.forEach((video, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'video-option-btn';
+            if (index === 0) btn.classList.add('active');
+            btn.textContent = video.name;
+            btn.addEventListener('click', () => {
+                // Actualizar active visual
+                document.querySelectorAll('.video-option-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                // Cargar el video seleccionado
+                loadVideoInModal(video.src, video.name);
+            });
+            videoSelectorContainer.appendChild(btn);
+        });
+        
+        // Cargar el primer video por defecto
+        if (videosList.length > 0) {
+            loadVideoInModal(videosList[0].src, videosList[0].name);
+        }
+        
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        const wasPaused = isPaused;
+        if (!wasPaused) {
+            isPaused = true;
+            modal.setAttribute('data-wasPaused', 'false');
+        } else {
+            modal.setAttribute('data-wasPaused', 'true');
+        }
+    }
+    
+    // Abrir modal video individual (por si se necesita en el futuro)
+    function openModalVideo(videoSrc, title) {
+        currentMediaType = 'video';
+        currentVideoSrc = videoSrc;
+        videoSelectorContainer.style.display = 'none';
+        modalTitleElem.innerText = title;
+        modalDynamicMedia.innerHTML = '';
+        const videoElement = document.createElement('video');
+        videoElement.src = videoSrc;
+        videoElement.className = 'modal-video';
+        videoElement.controls = true;
+        videoElement.autoplay = false;
+        videoElement.style.maxWidth = '90vw';
+        videoElement.style.maxHeight = '85vh';
+        videoElement.load();
+        modalDynamicMedia.appendChild(videoElement);
+        modalHint.textContent = '🎬 Controles disponibles';
+        modalHint.style.display = 'flex';
+        modalMediaContainer.onclick = (e) => { e.stopPropagation(); };
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        const wasPaused = isPaused;
+        if (!wasPaused) {
+            isPaused = true;
+            modal.setAttribute('data-wasPaused', 'false');
+        } else {
+            modal.setAttribute('data-wasPaused', 'true');
+        }
+    }
+    
+    // Abrir modal imagen
+    function openModalImage(imgSrc, title) {
+        currentMediaType = 'image';
+        currentImageSrc = imgSrc;
+        videoSelectorContainer.style.display = 'none';
+        modalDynamicMedia.innerHTML = '';
+        const imgElement = document.createElement('img');
+        imgElement.src = imgSrc;
+        imgElement.alt = title;
+        imgElement.className = 'modal-img';
+        modalDynamicMedia.appendChild(imgElement);
+        modalTitleElem.innerText = title;
+        modalHint.textContent = '🔍 Click para ampliar';
+        modalHint.style.display = 'flex';
+        modalMediaContainer.onclick = () => { if (currentImageSrc) window.open(currentImageSrc, '_blank'); };
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
         const wasPaused = isPaused;
@@ -760,8 +729,13 @@
     }
     
     function closeModalHandler() {
-        // Si hay un video activo y se está reproduciendo, lo pausamos para liberar recursos
-        if (currentMediaType === 'video') {
+        // Pausar cualquier video en reproducción
+        if (currentVideoElement) {
+            currentVideoElement.pause();
+            currentVideoElement.currentTime = 0;
+            currentVideoElement = null;
+        }
+        if (currentMediaType === 'multi-video' || currentMediaType === 'video') {
             const videoEl = modalDynamicMedia.querySelector('video');
             if (videoEl) {
                 videoEl.pause();
@@ -776,25 +750,15 @@
                 isPaused = false;
             }
         }
-        // Limpiar contenido dinámico opcional
-        // modalDynamicMedia.innerHTML = '';
+        // Limpiar selector
+        videoSelectorContainer.style.display = 'none';
+        videoSelectorContainer.innerHTML = '';
         currentMediaType = 'image';
     }
     
-    // Cerrar con el botón X
     closeModalBtn.addEventListener('click', closeModalHandler);
-    
-    // Cerrar al hacer clic en el overlay (fondo)
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModalHandler();
-    });
-    
-    // Cerrar con tecla ESC
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
-            closeModalHandler();
-        }
-    });
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModalHandler(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModalHandler(); });
     
     function recalcAndReset() {
         updateTrackWidth();
@@ -803,12 +767,9 @@
     
     window.addEventListener('resize', () => {
         if (setWidthTimeout) clearTimeout(setWidthTimeout);
-        setWidthTimeout = setTimeout(() => {
-            recalcAndReset();
-        }, 150);
+        setWidthTimeout = setTimeout(() => recalcAndReset(), 150);
     });
     
-    // Inicializar
     buildInfiniteTrack();
     setTimeout(() => {
         updateTrackWidth();
@@ -817,9 +778,7 @@
         startAutoScroll();
     }, 50);
     
-    window.addEventListener('load', () => {
-        recalcAndReset();
-    });
+    window.addEventListener('load', () => recalcAndReset());
 </script>
 </body>
 </html>

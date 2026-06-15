@@ -818,8 +818,11 @@
    HELPERS
    ============================================================ */
 function enc(s) {
-  // Proper encoding for URLs with spaces and parentheses
-  return encodeURIComponent(s);
+  return s.split('').map(c => {
+    if (c === ' ') return '%20';
+    if (c.charCodeAt(0) > 127) return encodeURIComponent(c);
+    return c;
+  }).join('');
 }
 
 /* ============================================================
@@ -901,10 +904,11 @@ const weeks = [
     tags: ['Hábitos de estudio', 'Planificación', 'Semana 4'],
     skills: ['Producción de video', 'Hábitos académicos', 'Gestión del tiempo', 'Planificación']
   },
+  /* ── SEMANA 6: cambiado de type:'text' a type:'image' con SEMANA 6.jpeg ── */
   {
     id: 'SEM-06',
     semana: 'SEMANA 6',
-    badge: 'Imagen Resumen',
+    badge: 'Charla TED',
     title: 'Reevaluación Cognitiva — Preparación de la Charla TED',
     shortDesc: 'Script y estructura de la Charla TED académica sobre reevaluación cognitiva para gestionar la ansiedad universitaria.',
     text: 'En la Semana 6, el equipo desarrolló y estructuró el guion completo de su Charla TED académica, centrada en la reevaluación cognitiva como estrategia para gestionar la ansiedad académica. La charla integra el respaldo científico de Daniel Goleman, tres preguntas concretas de aplicación inmediata y una conexión directa con los ODS 3 y ODS 4.',
@@ -949,17 +953,16 @@ const weeks = [
     tags: ['Voluntariado', 'ODS 3', 'ODS 4', 'Semana 10'],
     skills: ['Lienzo', 'Diseño de campaña', 'ODS 3', 'ODS 4', 'Salud mental', 'Impacto social']
   },
+  /* ── SEMANA 11: cambiado de type:'coming-soon' a type:'video' con el mp4 ── */
   {
     id: 'SEM-11',
     semana: 'SEMANA 11',
     badge: 'Video TED',
     title: 'Video final de la Charla TED — Versión integrada',
-    shortDesc: 'Video final integrador de todos los aprendizajes del ciclo: reevaluación cognitiva y ODS.',
+    shortDesc: 'Video final integrador de todos los aprendizajes del ciclo.',
     text: 'El video final de la Semana 11 integra todos los aprendizajes del ciclo: la problemática de la ansiedad académica, la estrategia de reevaluación cognitiva, su relación con los ODS 3 y ODS 4, y la propuesta de voluntariado académico. Una Charla TED editada, de 6 a 8 minutos, con participación de todos los integrantes y un mensaje de impacto social claro.',
-    type: 'multi-video',
-    videos: [
-      { src: 'semana-11_quizFogiP (1).mp4', name: 'Charla TED final — versión completa' }
-    ],
+    type: 'video',
+    video: 'semana-11_quzFogiP (1).mp4',
     tags: ['Video TED', 'Integrador', 'Semana 11'],
     skills: ['Video', 'Charla TED', 'ODS 3', 'ODS 4', 'Edición', 'Impacto social']
   }
@@ -974,7 +977,7 @@ const members = [
     initials: 'GCB',
     role: 'Análisis · ODS y propuesta',
     id: '100232186',
-    total: 95,
+    total: 99,
     color: '#00e5ff'
   },
   {
@@ -998,7 +1001,7 @@ const members = [
     initials: 'IVC',
     role: 'Cierre TED · Dossier',
     id: '100230271',
-    total: 70,
+    total: 80,
     color: '#ff9100'
   },
   {
@@ -1006,7 +1009,7 @@ const members = [
     initials: 'LNG',
     role: 'Diseño visual · Grabación',
     id: '100224568',
-    total: 40,
+    total: 30,
     color: '#ff4f5e'
   },
   {
@@ -1014,7 +1017,7 @@ const members = [
     initials: 'FQC',
     role: 'Edición · Control de tiempo',
     id: '100235458',
-    total: 40,
+    total: 20,
     color: '#4a6070'
   }
 ];
@@ -1043,8 +1046,8 @@ function buildCardMedia(w) {
       return `
         <div class="media-placeholder mp-video">
           ${ICON_PLAY}
-          <span class="mp-label">${w.videos.length} video${w.videos.length > 1 ? 's' : ''} disponible${w.videos.length > 1 ? 's' : ''}</span>
-          <span class="mp-extra">× ${w.videos.length} Video${w.videos.length > 1 ? 's' : ''}</span>
+          <span class="mp-label">2 videos disponibles</span>
+          <span class="mp-extra">× 2 Videos</span>
         </div>
         <div class="card-overlay" aria-hidden="true"></div>
         <span class="card-badge">${w.badge}</span>`;
@@ -1263,25 +1266,21 @@ const modalTags    = document.getElementById('modalTags');
 const modalSkills  = document.getElementById('modalSkills');
 const mediaContainer = document.getElementById('modalMediaContainer');
 
-let activeVid = null; // currently playing <video> element
+let activeVid = null;
 
 function openModal(idx) {
   const w = weeks[idx];
 
-  // Stop previous video
   if (activeVid) { activeVid.pause(); activeVid = null; }
 
-  // Populate text
   modalIdEl.textContent    = w.id;
   modalTitle.textContent   = w.title;
   modalText.textContent    = w.text || '';
   modalTags.innerHTML      = w.tags.map(t => `<span class="modal-tag">${t}</span>`).join('');
   modalSkills.innerHTML    = w.skills.map(s => `<li>${s}</li>`).join('');
 
-  // Build and inject media
   mediaContainer.innerHTML = buildModalMedia(w);
 
-  // Wire up type-specific interactions
   if (w.type === 'image') {
     const wrap = document.getElementById('imgWrap');
     if (wrap) {
@@ -1322,10 +1321,9 @@ function closeModal() {
   if (activeVid) { activeVid.pause(); activeVid = null; }
   backdrop.classList.remove('open');
   document.body.style.overflow = '';
-  mediaContainer.innerHTML = ''; // free video resources
+  mediaContainer.innerHTML = '';
 }
 
-// Open modal on card click / keyboard
 track.addEventListener('click', e => {
   const card = e.target.closest('.project-card');
   if (card) openModal(parseInt(card.dataset.project, 10));
@@ -1399,7 +1397,6 @@ members.forEach(m => {
   teamGrid.appendChild(card);
 });
 
-/* Animate member bars on scroll */
 const barObs = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -1428,7 +1425,6 @@ members.forEach(m => {
   pBarsEl.appendChild(row);
 });
 
-/* Animate participation bars on scroll */
 const poObs = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -1442,4 +1438,3 @@ document.querySelectorAll('.participation-overview').forEach(c => poObs.observe(
 
 </body>
 </html>
-```

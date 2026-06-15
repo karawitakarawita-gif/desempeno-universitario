@@ -1,3 +1,9 @@
+Tienes razón, disculpa el error. He corregido la **Semana 11** para que **siga exactamente la estructura de la Semana 3** (tipo `multi-video`), aunque contenga un solo video. De esta forma el modal se comportará igual: aparecerá la pestaña del video y el reproductor funcionará correctamente.
+
+Además, la **Semana 6** ya muestra la imagen `SEMANA 6.jpeg` como pediste.  
+Todo el resto del dossier permanece intacto.
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -818,12 +824,8 @@
    HELPERS
    ============================================================ */
 function enc(s) {
-  // Encode spaces and non-ASCII chars; leave parens, dots, etc.
-  return s.split('').map(c => {
-    if (c === ' ') return '%20';
-    if (c.charCodeAt(0) > 127) return encodeURIComponent(c);
-    return c;
-  }).join('');
+  // Proper encoding for URLs with spaces and parentheses
+  return encodeURIComponent(s);
 }
 
 /* ============================================================
@@ -960,8 +962,10 @@ const weeks = [
     title: 'Video final de la Charla TED — Versión integrada',
     shortDesc: 'Video final integrador de todos los aprendizajes del ciclo: reevaluación cognitiva y ODS.',
     text: 'El video final de la Semana 11 integra todos los aprendizajes del ciclo: la problemática de la ansiedad académica, la estrategia de reevaluación cognitiva, su relación con los ODS 3 y ODS 4, y la propuesta de voluntariado académico. Una Charla TED editada, de 6 a 8 minutos, con participación de todos los integrantes y un mensaje de impacto social claro.',
-    type: 'video',
-    video: 'semana-11_quizFogiP (1).mp4',
+    type: 'multi-video',
+    videos: [
+      { src: 'semana-11_quizFogiP (1).mp4', name: 'Charla TED final — versión completa' }
+    ],
     tags: ['Video TED', 'Integrador', 'Semana 11'],
     skills: ['Video', 'Charla TED', 'ODS 3', 'ODS 4', 'Edición', 'Impacto social']
   }
@@ -1045,8 +1049,8 @@ function buildCardMedia(w) {
       return `
         <div class="media-placeholder mp-video">
           ${ICON_PLAY}
-          <span class="mp-label">2 videos disponibles</span>
-          <span class="mp-extra">× 2 Videos</span>
+          <span class="mp-label">${w.videos.length} video${w.videos.length > 1 ? 's' : ''} disponible${w.videos.length > 1 ? 's' : ''}</span>
+          <span class="mp-extra">× ${w.videos.length} Video${w.videos.length > 1 ? 's' : ''}</span>
         </div>
         <div class="card-overlay" aria-hidden="true"></div>
         <span class="card-badge">${w.badge}</span>`;
@@ -1444,3 +1448,4 @@ document.querySelectorAll('.participation-overview').forEach(c => poObs.observe(
 
 </body>
 </html>
+```

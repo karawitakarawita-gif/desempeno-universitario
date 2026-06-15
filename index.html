@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CYBERLAB — Portafolio de Proyectos</title>
+  <title>Dossier Académico — Desempeño Universitario 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
-    /* ── Reset & base ─────────────────────────────────────── */
+    /* ── Reset & base ───────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -44,67 +44,66 @@
       overflow-x: hidden;
     }
 
-    /* ── Scanline texture overlay ─────────────────────────── */
+    /* Scanline texture */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.07) 2px, rgba(0,0,0,.07) 4px);
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,.07) 2px, rgba(0,0,0,.07) 4px
+      );
     }
 
-    /* ── Header / Nav ─────────────────────────────────────── */
+    /* ── Header ─────────────────────────────────────────── */
     header {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(8,12,16,.92);
-      backdrop-filter: blur(12px);
+      background: rgba(8,12,16,.94);
+      backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
       padding: 0 2rem;
       display: flex; align-items: center; gap: 2rem;
-      height: 60px;
+      height: 58px;
     }
 
     .logo {
       font-family: var(--mono);
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: var(--accent);
-      letter-spacing: .12em;
+      letter-spacing: .14em;
       display: flex; align-items: center; gap: 8px;
+      white-space: nowrap;
     }
     .logo-bracket { color: var(--text-lo); }
-
     .logo-dot {
-      width: 8px; height: 8px;
+      width: 7px; height: 7px;
       background: var(--accent2);
       border-radius: 50%;
       animation: pulse-dot 2s ease-in-out infinite;
+      flex-shrink: 0;
     }
-
     @keyframes pulse-dot {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: .4; transform: scale(.7); }
+      50%       { opacity: .35; transform: scale(.65); }
     }
 
     nav { margin-left: auto; display: flex; gap: 1.5rem; }
-
     nav a {
       font-family: var(--mono);
-      font-size: .75rem;
-      letter-spacing: .1em;
-      color: var(--text-mid);
-      text-decoration: none;
+      font-size: .72rem; letter-spacing: .1em;
+      color: var(--text-mid); text-decoration: none;
       text-transform: uppercase;
       transition: color var(--transition);
     }
     nav a:hover { color: var(--accent); }
 
-    /* ── Hero ─────────────────────────────────────────────── */
+    /* ── Hero ───────────────────────────────────────────── */
     .hero {
       position: relative; z-index: 1;
       text-align: center;
-      padding: 5rem 2rem 4rem;
+      padding: 4.5rem 2rem 3.5rem;
       border-bottom: 1px solid var(--border);
       overflow: hidden;
     }
-
     .hero-grid-bg {
       position: absolute; inset: 0; z-index: -1;
       background-image:
@@ -116,638 +115,589 @@
 
     .hero-eyebrow {
       font-family: var(--mono);
-      font-size: .7rem;
-      letter-spacing: .25em;
-      color: var(--accent);
-      text-transform: uppercase;
-      margin-bottom: 1.25rem;
+      font-size: .68rem; letter-spacing: .28em;
+      color: var(--accent); text-transform: uppercase;
+      margin-bottom: 1.1rem;
     }
-
     .hero-eyebrow::before { content: '> '; color: var(--accent2); }
 
     .hero h1 {
-      font-size: clamp(2.4rem, 6vw, 4rem);
-      font-weight: 600;
-      line-height: 1.1;
-      letter-spacing: -.02em;
-      margin-bottom: 1rem;
+      font-size: clamp(1.9rem, 5vw, 3.4rem);
+      font-weight: 600; line-height: 1.1;
+      letter-spacing: -.02em; margin-bottom: .45rem;
     }
-
     .hero h1 span { color: var(--accent); }
 
-    .hero p {
-      font-size: 1rem;
-      color: var(--text-mid);
-      max-width: 540px;
-      margin: 0 auto 2.5rem;
-      line-height: 1.7;
+    .hero-course {
+      font-family: var(--mono);
+      font-size: .72rem; color: var(--accent-dim);
+      letter-spacing: .14em; text-transform: uppercase;
+      margin-bottom: 1.2rem;
     }
+
+    .hero p {
+      font-size: .92rem; color: var(--text-mid);
+      max-width: 520px; margin: 0 auto 2rem;
+      line-height: 1.75;
+    }
+
+    .hero-chips {
+      display: flex; justify-content: center; gap: .5rem;
+      flex-wrap: wrap; margin-bottom: 2.2rem;
+    }
+    .chip {
+      font-family: var(--mono); font-size: .6rem;
+      color: var(--text-mid); letter-spacing: .1em;
+      background: var(--bg-panel); border: 1px solid var(--border);
+      padding: 4px 10px; border-radius: 3px;
+    }
+    .chip em { color: var(--accent); font-style: normal; }
 
     .hero-stats {
-      display: flex; justify-content: center; gap: 3rem;
-      flex-wrap: wrap;
+      display: flex; justify-content: center;
+      gap: 3rem; flex-wrap: wrap;
     }
-
-    .stat {
-      font-family: var(--mono);
-      text-align: center;
-    }
-    .stat-num {
-      font-size: 1.8rem;
-      color: var(--accent);
-      display: block;
-      line-height: 1;
-    }
+    .stat { font-family: var(--mono); text-align: center; }
+    .stat-num { font-size: 1.75rem; color: var(--accent); display: block; line-height: 1; }
     .stat-lbl {
-      font-size: .65rem;
-      color: var(--text-lo);
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      margin-top: .3rem;
-      display: block;
+      font-size: .62rem; color: var(--text-lo);
+      letter-spacing: .15em; text-transform: uppercase;
+      margin-top: .3rem; display: block;
     }
 
-    /* ── Section wrapper ──────────────────────────────────── */
+    /* ── Section wrapper ────────────────────────────────── */
     .section { position: relative; z-index: 1; }
-
     .section-header {
       display: flex; align-items: center; gap: 1rem;
-      padding: 3rem 2.5rem 1.5rem;
+      padding: 2.8rem 2.5rem 1.4rem;
     }
-
     .section-label {
-      font-family: var(--mono);
-      font-size: .7rem;
-      letter-spacing: .2em;
-      color: var(--accent);
-      text-transform: uppercase;
+      font-family: var(--mono); font-size: .68rem;
+      letter-spacing: .2em; color: var(--accent);
+      text-transform: uppercase; white-space: nowrap;
     }
+    .section-title { font-size: 1.1rem; font-weight: 500; color: var(--text-hi); }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
 
-    .section-title {
-      font-size: 1.15rem;
-      font-weight: 500;
-      color: var(--text-hi);
-    }
-
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* ── Carousel ─────────────────────────────────────────── */
-    .carousel-wrap {
-      position: relative;
-      padding: 0 2.5rem 2.5rem;
-    }
-
-    .carousel {
-      overflow: hidden;
-      border-radius: var(--radius-lg);
-    }
-
+    /* ── Carousel ───────────────────────────────────────── */
+    .carousel-wrap { position: relative; padding: 0 2.5rem 2.5rem; }
+    .carousel { overflow: hidden; border-radius: var(--radius-lg); }
     .carousel-track {
       display: flex;
       transition: transform .45s cubic-bezier(.4,0,.2,1);
       gap: 1.25rem;
     }
 
-    /* Cards per page: 3 visible */
+    /* Cards — 3 per page */
     .project-card {
       flex: 0 0 calc((100% - 2 * 1.25rem) / 3);
       min-width: 0;
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      cursor: pointer;
-      overflow: hidden;
+      cursor: pointer; overflow: hidden;
       transition: border-color var(--transition), background var(--transition), transform var(--transition);
-      position: relative;
     }
-
     .project-card:hover {
       border-color: var(--border-hi);
       background: var(--bg-card-h);
       transform: translateY(-3px);
     }
-
-    .card-media {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      position: relative;
+    .project-card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
 
+    /* Card media */
+    .card-media {
+      width: 100%; aspect-ratio: 16 / 9;
+      overflow: hidden; position: relative;
+      background: var(--bg-deep);
+    }
     .card-media img {
       width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: brightness(.85) saturate(.9);
-      transition: filter var(--transition), transform .4s ease;
+      object-fit: cover; display: block;
+      filter: brightness(.82) saturate(.88);
+      transition: filter var(--transition), transform .42s ease;
+    }
+    .project-card:hover .card-media img {
+      filter: brightness(.96) saturate(1.08);
+      transform: scale(1.04);
     }
 
-    .project-card:hover .card-media img {
-      filter: brightness(.95) saturate(1.1);
-      transform: scale(1.03);
+    /* Placeholder backgrounds for non-image types */
+    .media-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: .55rem; position: relative;
+    }
+    .mp-video {
+      background: linear-gradient(145deg, #091a2b 0%, #07121e 100%);
+    }
+    .mp-text {
+      background: linear-gradient(145deg, #1a0b2e 0%, #110820 100%);
+    }
+    .mp-soon {
+      background: var(--bg-deep);
+    }
+
+    /* Animated grid for coming-soon card */
+    .cs-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,229,255,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,.045) 1px, transparent 1px);
+      background-size: 22px 22px;
+      animation: grid-scroll 9s linear infinite;
+    }
+    @keyframes grid-scroll {
+      from { transform: translateY(0); }
+      to   { transform: translateY(22px); }
+    }
+    .cs-blink-text {
+      font-family: var(--mono); font-size: .52rem;
+      letter-spacing: .32em; text-transform: uppercase;
+      color: var(--accent); opacity: .55; position: relative; z-index: 1;
+      animation: blink-fade 1.6s step-end infinite;
+    }
+    @keyframes blink-fade {
+      0%, 100% { opacity: .55; }
+      50%       { opacity: .1; }
+    }
+
+    .mp-icon {
+      width: 34px; height: 34px;
+      color: var(--accent); opacity: .65; flex-shrink: 0;
+      position: relative; z-index: 1;
+    }
+    .mp-label {
+      font-family: var(--mono); font-size: .6rem;
+      color: var(--text-lo); letter-spacing: .14em;
+      text-transform: uppercase; position: relative; z-index: 1;
+    }
+    .mp-extra {
+      position: absolute; bottom: 8px; left: 8px;
+      font-family: var(--mono); font-size: .56rem;
+      letter-spacing: .12em; color: var(--accent2);
+      background: rgba(57,255,20,.1); border: 1px solid rgba(57,255,20,.28);
+      padding: 2px 7px; border-radius: 2px; z-index: 2;
     }
 
     .card-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(180deg, transparent 50%, rgba(8,12,16,.85) 100%);
+      background: linear-gradient(180deg, transparent 52%, rgba(8,12,16,.82) 100%);
     }
-
     .card-badge {
-      position: absolute; top: 10px; right: 10px;
-      font-family: var(--mono);
-      font-size: .6rem;
-      letter-spacing: .12em;
-      background: var(--accent);
-      color: var(--bg-void);
-      padding: 3px 8px;
-      border-radius: 3px;
-      text-transform: uppercase;
+      position: absolute; top: 9px; right: 9px;
+      font-family: var(--mono); font-size: .56rem;
+      letter-spacing: .12em; background: var(--accent);
+      color: var(--bg-void); padding: 3px 8px;
+      border-radius: 3px; text-transform: uppercase; z-index: 2;
+    }
+    .card-badge.badge-soon {
+      background: transparent; color: var(--text-lo);
+      border: 1px solid var(--text-lo);
     }
 
-    .card-body {
-      padding: .9rem 1.1rem 1rem;
-    }
-
+    .card-body { padding: .85rem 1.05rem .95rem; }
     .card-num {
-      font-family: var(--mono);
-      font-size: .6rem;
-      color: var(--accent);
-      letter-spacing: .15em;
-      margin-bottom: .3rem;
+      font-family: var(--mono); font-size: .58rem;
+      color: var(--accent); letter-spacing: .15em; margin-bottom: .3rem;
     }
-
     .card-title {
-      font-size: .9rem;
-      font-weight: 500;
-      color: var(--text-hi);
-      line-height: 1.3;
-      margin-bottom: .5rem;
+      font-size: .88rem; font-weight: 600;
+      color: var(--text-hi); line-height: 1.25; margin-bottom: .45rem;
     }
-
     .card-desc {
-      font-size: .75rem;
-      color: var(--text-mid);
-      line-height: 1.5;
+      font-size: .72rem; color: var(--text-mid); line-height: 1.55;
       display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
-
     .card-footer {
       display: flex; align-items: center; justify-content: space-between;
-      margin-top: .75rem;
-      padding-top: .6rem;
-      border-top: 1px solid var(--border);
+      margin-top: .7rem; padding-top: .55rem; border-top: 1px solid var(--border);
     }
-
     .card-tag {
-      font-family: var(--mono);
-      font-size: .6rem;
-      color: var(--accent-dim);
-      letter-spacing: .08em;
+      font-family: var(--mono); font-size: .58rem;
+      color: var(--accent-dim); letter-spacing: .07em;
     }
-
     .card-arrow {
-      font-size: .7rem;
-      color: var(--text-lo);
+      font-size: .68rem; color: var(--text-lo);
       transition: color var(--transition), transform var(--transition);
     }
-    .project-card:hover .card-arrow {
-      color: var(--accent);
-      transform: translateX(3px);
-    }
+    .project-card:hover .card-arrow { color: var(--accent); transform: translateX(3px); }
 
-    /* ── Carousel controls ────────────────────────────────── */
+    /* ── Carousel controls ──────────────────────────────── */
     .carousel-controls {
-      display: flex; justify-content: center; align-items: center; gap: 1rem;
-      padding: 1rem 0 .5rem;
+      display: flex; justify-content: center; align-items: center;
+      gap: 1rem; padding: .9rem 0 .4rem;
     }
-
     .carousel-btn {
-      width: 36px; height: 36px;
-      background: var(--bg-panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--text-mid);
-      cursor: pointer;
-      font-size: 1rem;
+      width: 34px; height: 34px;
+      background: var(--bg-panel); border: 1px solid var(--border);
+      border-radius: var(--radius); color: var(--text-mid);
+      cursor: pointer; font-size: 1rem;
       display: flex; align-items: center; justify-content: center;
       transition: all var(--transition);
     }
-    .carousel-btn:hover {
-      border-color: var(--border-hi);
-      color: var(--accent);
-      background: var(--bg-card);
-    }
-    .carousel-btn:disabled {
-      opacity: .3;
-      cursor: not-allowed;
-    }
-
-    .carousel-dots {
-      display: flex; gap: 6px;
-    }
-
+    .carousel-btn:hover { border-color: var(--border-hi); color: var(--accent); background: var(--bg-card); }
+    .carousel-btn:disabled { opacity: .3; cursor: not-allowed; }
+    .carousel-dots { display: flex; gap: 6px; }
     .carousel-dot {
-      width: 6px; height: 6px;
-      background: var(--text-lo);
-      border-radius: 50%;
-      cursor: pointer;
-      transition: all var(--transition);
-      border: none;
-      padding: 0;
+      width: 6px; height: 6px; background: var(--text-lo);
+      border-radius: 50%; cursor: pointer;
+      transition: all var(--transition); border: none; padding: 0;
     }
-    .carousel-dot.active {
-      background: var(--accent);
-      width: 18px;
-      border-radius: 3px;
-    }
+    .carousel-dot.active { background: var(--accent); width: 18px; border-radius: 3px; }
 
-    /* ── Modal ────────────────────────────────────────────── */
+    /* ── Modal ──────────────────────────────────────────── */
     .modal-backdrop {
-      display: none;
-      position: fixed; inset: 0; z-index: 1000;
-      background: rgba(4, 6, 10, .88);
-      backdrop-filter: blur(6px);
-      align-items: center; justify-content: center;
-      padding: 1.5rem;
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(4,6,10,.9);
+      backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 1.5rem;
     }
     .modal-backdrop.open { display: flex; }
 
     .modal {
-      background: var(--bg-panel);
-      border: 1px solid var(--border-hi);
+      background: var(--bg-panel); border: 1px solid var(--border-hi);
       border-radius: var(--radius-lg);
-      width: 100%;
-      max-width: 740px;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
+      width: 100%; max-width: 760px; max-height: 92vh;
+      overflow-y: auto; position: relative;
       animation: modal-in .28s cubic-bezier(.4,0,.2,1);
     }
-
     @keyframes modal-in {
-      from { opacity: 0; transform: translateY(20px) scale(.97); }
+      from { opacity: 0; transform: translateY(18px) scale(.97); }
       to   { opacity: 1; transform: none; }
     }
-
-    .modal::-webkit-scrollbar { width: 4px; }
+    .modal::-webkit-scrollbar { width: 3px; }
     .modal::-webkit-scrollbar-track { background: transparent; }
-    .modal::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 4px; }
+    .modal::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 3px; }
 
-    .modal-close {
+    .modal-topbar {
       position: sticky; top: 0; z-index: 2;
       display: flex; justify-content: space-between; align-items: center;
-      padding: .9rem 1.2rem .9rem 1.4rem;
-      background: var(--bg-panel);
-      border-bottom: 1px solid var(--border);
+      padding: .85rem 1.2rem .85rem 1.4rem;
+      background: var(--bg-panel); border-bottom: 1px solid var(--border);
     }
-
-    .modal-close-id {
-      font-family: var(--mono);
-      font-size: .65rem;
-      letter-spacing: .18em;
-      color: var(--accent);
-      text-transform: uppercase;
+    .modal-topbar-id {
+      font-family: var(--mono); font-size: .62rem;
+      letter-spacing: .18em; color: var(--accent); text-transform: uppercase;
     }
-
     .modal-close-btn {
       background: none; border: none; cursor: pointer;
-      color: var(--text-mid); font-size: 1.2rem; line-height: 1;
-      padding: 4px 8px;
-      border-radius: var(--radius);
+      color: var(--text-mid); font-size: 1.1rem; line-height: 1;
+      padding: 4px 8px; border-radius: var(--radius);
       transition: color var(--transition), background var(--transition);
     }
     .modal-close-btn:hover { color: var(--danger); background: rgba(255,79,94,.1); }
 
-    .modal-media-wrap {
-      position: relative;
-      cursor: zoom-in;
-      overflow: hidden;
-      background: var(--bg-deep);
-    }
+    /* Media container — dynamic content goes here */
+    #modalMediaContainer { background: var(--bg-deep); }
 
-    .modal-media-wrap img,
-    .modal-media-wrap video {
-      width: 100%; max-height: 380px;
-      object-fit: contain;
-      display: block;
+    /* Image media */
+    .modal-img-wrap {
+      position: relative; cursor: zoom-in; overflow: hidden;
+    }
+    .modal-img-wrap img {
+      width: 100%; max-height: 390px;
+      object-fit: contain; display: block;
       transition: transform .3s ease;
     }
-    .modal-media-wrap:hover img,
-    .modal-media-wrap:hover video {
-      transform: scale(1.01);
-    }
-
+    .modal-img-wrap:hover img { transform: scale(1.012); }
     .modal-zoom-hint {
       position: absolute; bottom: 10px; right: 12px;
-      font-family: var(--mono);
-      font-size: .6rem;
-      color: var(--accent);
-      letter-spacing: .1em;
-      background: rgba(8,12,16,.75);
-      padding: 4px 8px; border-radius: 3px;
-      pointer-events: none;
+      font-family: var(--mono); font-size: .58rem;
+      color: var(--accent); letter-spacing: .1em;
+      background: rgba(8,12,16,.78); padding: 4px 8px;
+      border-radius: 3px; pointer-events: none;
     }
 
-    .modal-body {
-      padding: 1.6rem 1.8rem 2rem;
+    /* Video media */
+    .modal-video-wrap video {
+      width: 100%; max-height: 390px;
+      object-fit: contain; display: block;
+      background: #000;
     }
 
-    .modal-tags {
-      display: flex; flex-wrap: wrap; gap: .5rem;
-      margin-bottom: 1.1rem;
+    /* Multi-video tabs */
+    .video-tabs {
+      display: flex; gap: .45rem; padding: .7rem 1rem;
+      background: var(--bg-panel); border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .vtab {
+      font-family: var(--mono); font-size: .6rem;
+      letter-spacing: .1em; color: var(--text-mid);
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: 5px 12px; border-radius: 3px;
+      cursor: pointer; transition: all var(--transition);
+      text-transform: uppercase;
+    }
+    .vtab.active {
+      color: var(--accent); border-color: var(--accent-dim);
+      background: rgba(0,229,255,.08);
+    }
+    .vtab:hover:not(.active) { border-color: var(--border-hi); color: var(--text-hi); }
+
+    /* TED text content */
+    .ted-scroll {
+      max-height: 360px; overflow-y: auto; padding: 1.4rem 1.6rem;
+      background: var(--bg-deep);
+    }
+    .ted-scroll::-webkit-scrollbar { width: 3px; }
+    .ted-scroll::-webkit-scrollbar-thumb { background: var(--accent-dim); }
+
+    .ted-label {
+      font-family: var(--mono); font-size: .58rem;
+      letter-spacing: .2em; color: var(--accent2);
+      text-transform: uppercase; margin-bottom: .45rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .ted-label::before { content: ''; display: block; width: 10px; height: 1px; background: var(--accent2); }
+
+    .ted-para {
+      font-size: .82rem; color: var(--text-mid);
+      line-height: 1.82; margin-bottom: 1.1rem;
+    }
+    .ted-blockquote {
+      border-left: 2px solid var(--accent-dim);
+      padding: .55rem 1rem; margin: .8rem 0;
+      background: rgba(0,229,255,.04); border-radius: 0 3px 3px 0;
+      font-size: .78rem; color: var(--text-mid);
+      font-style: italic; line-height: 1.75;
+    }
+    .ted-cite {
+      display: block; font-size: .62rem; font-style: normal;
+      color: var(--text-lo); margin-top: .3rem;
+      font-family: var(--mono); letter-spacing: .04em;
+    }
+    .ted-pills {
+      display: flex; flex-direction: column; gap: .4rem; margin: .8rem 0;
+    }
+    .ted-pill {
+      font-family: var(--mono); font-size: .68rem;
+      color: var(--accent); letter-spacing: .05em;
+      padding: .38rem .75rem;
+      background: rgba(0,229,255,.06);
+      border: 1px solid rgba(0,229,255,.14);
+      border-radius: 3px;
+    }
+    .ted-pill::before { content: '▸ '; color: var(--accent2); }
+    .ted-ods {
+      font-size: .8rem; color: var(--text-mid); line-height: 1.7;
+    }
+    .ted-ods strong { color: var(--accent); font-weight: 500; }
+
+    /* Coming-soon modal state */
+    .cs-modal-wrap {
+      height: 290px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 1rem;
+      position: relative; overflow: hidden;
+    }
+    .cs-modal-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+      animation: grid-scroll 11s linear infinite;
+    }
+    .cs-modal-icon { width: 52px; height: 52px; color: var(--text-lo); position: relative; z-index: 1; }
+    .cs-modal-title {
+      font-family: var(--mono); font-size: .85rem;
+      color: var(--text-mid); letter-spacing: .32em;
+      text-transform: uppercase; position: relative; z-index: 1;
+    }
+    .cs-modal-title span { color: var(--accent); animation: blink-fade 1.6s step-end infinite; }
+    .cs-modal-sub {
+      font-size: .75rem; color: var(--text-lo); line-height: 1.65;
+      max-width: 300px; text-align: center;
+      position: relative; z-index: 1;
     }
 
+    /* Modal body */
+    .modal-body { padding: 1.5rem 1.75rem 2rem; }
+    .modal-tags { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 1rem; }
     .modal-tag {
-      font-family: var(--mono);
-      font-size: .6rem;
-      letter-spacing: .1em;
-      color: var(--accent-dim);
+      font-family: var(--mono); font-size: .58rem;
+      letter-spacing: .1em; color: var(--accent-dim);
       background: rgba(0,229,255,.07);
       border: 1px solid rgba(0,229,255,.2);
-      padding: 3px 10px;
-      border-radius: 3px;
-      text-transform: uppercase;
+      padding: 3px 10px; border-radius: 3px; text-transform: uppercase;
     }
-
     .modal-title {
-      font-size: 1.35rem;
-      font-weight: 600;
-      color: var(--text-hi);
-      letter-spacing: -.01em;
-      margin-bottom: .9rem;
-      line-height: 1.25;
+      font-size: 1.2rem; font-weight: 600; color: var(--text-hi);
+      letter-spacing: -.01em; margin-bottom: .85rem; line-height: 1.25;
     }
-
-    .modal-text {
-      font-size: .9rem;
-      color: var(--text-mid);
-      line-height: 1.75;
+    .modal-text { font-size: .88rem; color: var(--text-mid); line-height: 1.8; }
+    .modal-sub-lbl {
+      font-family: var(--mono); font-size: .62rem;
+      letter-spacing: .2em; color: var(--accent);
+      text-transform: uppercase; margin: 1.3rem 0 .5rem;
     }
-
-    .modal-section-lbl {
-      font-family: var(--mono);
-      font-size: .65rem;
-      letter-spacing: .2em;
-      color: var(--accent);
-      text-transform: uppercase;
-      margin: 1.4rem 0 .5rem;
+    .modal-skills {
+      display: flex; flex-wrap: wrap; gap: .4rem; list-style: none;
     }
-
-    .modal-tech-list {
-      display: flex; flex-wrap: wrap; gap: .4rem;
-      list-style: none;
-    }
-
-    .modal-tech-list li {
-      font-family: var(--mono);
-      font-size: .7rem;
-      color: var(--text-mid);
-      background: var(--bg-card);
-      border: 1px solid var(--border);
+    .modal-skills li {
+      font-family: var(--mono); font-size: .68rem; color: var(--text-mid);
+      background: var(--bg-card); border: 1px solid var(--border);
       padding: 4px 12px; border-radius: 3px;
     }
 
-    /* ── Lightbox ─────────────────────────────────────────── */
+    /* ── Lightbox ───────────────────────────────────────── */
     .lightbox {
-      display: none;
-      position: fixed; inset: 0; z-index: 2000;
+      display: none; position: fixed; inset: 0; z-index: 2000;
       background: rgba(0,0,0,.97);
-      align-items: center; justify-content: center;
-      cursor: zoom-out;
+      align-items: center; justify-content: center; cursor: zoom-out;
     }
     .lightbox.open { display: flex; }
-
-    .lightbox-inner {
-      position: relative;
-      max-width: 96vw; max-height: 94vh;
-    }
-
-    .lightbox img, .lightbox video {
+    .lightbox-inner { position: relative; max-width: 96vw; max-height: 94vh; }
+    .lightbox img {
       max-width: 96vw; max-height: 90vh;
-      object-fit: contain;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      display: block;
+      object-fit: contain; border: 1px solid var(--border);
+      border-radius: var(--radius); display: block;
     }
-
     .lightbox-close {
       position: absolute; top: -18px; right: -18px;
-      background: var(--bg-panel);
-      border: 1px solid var(--border-hi);
-      border-radius: 50%;
-      width: 34px; height: 34px;
-      color: var(--text-hi);
-      cursor: pointer;
-      font-size: 1rem;
+      background: var(--bg-panel); border: 1px solid var(--border-hi);
+      border-radius: 50%; width: 32px; height: 32px;
+      color: var(--text-hi); cursor: pointer; font-size: .95rem;
       display: flex; align-items: center; justify-content: center;
       transition: all var(--transition);
     }
     .lightbox-close:hover { color: var(--danger); border-color: var(--danger); }
 
-    /* ── Team Section ─────────────────────────────────────── */
+    /* ── Team section ───────────────────────────────────── */
     .team-section {
       position: relative; z-index: 1;
       border-top: 1px solid var(--border);
-      padding: 3.5rem 2.5rem 4rem;
+      padding: 3rem 2.5rem 3.5rem;
     }
-
     .team-header {
-      display: flex; align-items: center; gap: 1rem;
-      margin-bottom: 2.5rem;
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 2.2rem;
     }
-
     .team-label {
-      font-family: var(--mono);
-      font-size: .7rem; letter-spacing: .2em;
-      color: var(--accent2);
-      text-transform: uppercase;
+      font-family: var(--mono); font-size: .68rem;
+      letter-spacing: .2em; color: var(--accent2);
+      text-transform: uppercase; white-space: nowrap;
     }
-
-    .team-title {
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: var(--text-hi);
-    }
+    .team-title { font-size: 1.1rem; font-weight: 500; color: var(--text-hi); }
+    .team-line { flex: 1; height: 1px; background: var(--border); }
 
     .team-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.2rem;
     }
-
     .member-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.4rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.3rem;
       transition: border-color var(--transition);
     }
     .member-card:hover { border-color: var(--border-hi); }
-
     .member-top {
-      display: flex; align-items: center; gap: .9rem;
-      margin-bottom: 1.1rem;
+      display: flex; align-items: center; gap: .85rem; margin-bottom: 1rem;
     }
-
     .member-avatar {
-      width: 46px; height: 46px; border-radius: 50%;
-      background: var(--bg-deep);
-      border: 2px solid var(--accent);
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--bg-deep); border: 2px solid currentColor;
       display: flex; align-items: center; justify-content: center;
-      font-family: var(--mono);
-      font-size: .85rem;
-      color: var(--accent);
+      font-family: var(--mono); font-size: .78rem;
       flex-shrink: 0;
     }
-
-    .member-name {
-      font-size: .95rem;
-      font-weight: 500;
-      color: var(--text-hi);
-      line-height: 1.2;
-    }
-
+    .member-name { font-size: .9rem; font-weight: 500; color: var(--text-hi); line-height: 1.2; }
     .member-role {
-      font-family: var(--mono);
-      font-size: .62rem;
-      color: var(--text-lo);
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      margin-top: .2rem;
+      font-family: var(--mono); font-size: .6rem;
+      color: var(--text-lo); letter-spacing: .1em;
+      text-transform: uppercase; margin-top: .2rem;
     }
-
-    /* Contribution bar */
-    .contrib-row { margin-bottom: .65rem; }
+    .member-id {
+      font-family: var(--mono); font-size: .56rem;
+      color: var(--text-lo); letter-spacing: .07em; margin-top: .12rem;
+    }
 
     .contrib-head {
       display: flex; justify-content: space-between; align-items: baseline;
-      margin-bottom: .35rem;
+      margin-bottom: .32rem;
     }
-
     .contrib-lbl {
-      font-family: var(--mono);
-      font-size: .62rem;
-      color: var(--text-mid);
-      letter-spacing: .08em;
+      font-family: var(--mono); font-size: .6rem;
+      color: var(--text-mid); letter-spacing: .08em;
     }
-
     .contrib-pct {
-      font-family: var(--mono);
-      font-size: .7rem;
-      color: var(--accent);
+      font-family: var(--mono); font-size: .68rem;
     }
-
     .bar-bg {
-      height: 4px;
-      background: var(--bg-void);
-      border-radius: 2px;
-      overflow: hidden;
+      height: 4px; background: var(--bg-void);
+      border-radius: 2px; overflow: hidden;
     }
-
     .bar-fill {
-      height: 100%;
-      border-radius: 2px;
-      background: linear-gradient(90deg, var(--accent-dim), var(--accent));
-      transition: width 1.2s cubic-bezier(.4,0,.2,1);
-      width: 0;
+      height: 100%; border-radius: 2px; width: 0;
+      transition: width 1.25s cubic-bezier(.4,0,.2,1);
     }
-
-    .bar-fill.green {
-      background: linear-gradient(90deg, #1a7a08, var(--accent2));
-    }
-
     .member-total {
-      margin-top: 1rem;
-      padding-top: .8rem;
+      margin-top: .9rem; padding-top: .75rem;
       border-top: 1px solid var(--border);
       display: flex; justify-content: space-between; align-items: center;
     }
-
     .total-lbl {
-      font-family: var(--mono);
-      font-size: .6rem;
-      color: var(--text-lo);
-      letter-spacing: .12em;
-      text-transform: uppercase;
+      font-family: var(--mono); font-size: .58rem;
+      color: var(--text-lo); letter-spacing: .12em; text-transform: uppercase;
     }
+    .total-num { font-family: var(--mono); font-size: 1.05rem; }
 
-    .total-num {
-      font-family: var(--mono);
-      font-size: 1.1rem;
-      color: var(--accent);
+    /* Participation overview */
+    .participation-overview {
+      margin-top: 2.5rem; padding: 1.4rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
     }
-
-    /* Donut chart SVG */
-    .donut-wrap {
-      margin-top: 3rem;
-      display: flex; align-items: center; justify-content: center;
-      flex-wrap: wrap; gap: 3rem;
+    .po-title {
+      font-family: var(--mono); font-size: .62rem;
+      letter-spacing: .2em; color: var(--accent);
+      text-transform: uppercase; margin-bottom: 1.1rem;
     }
-
-    .donut-legend {
-      display: flex; flex-direction: column; gap: .7rem;
+    .po-row {
+      display: grid; grid-template-columns: 150px 1fr 44px;
+      align-items: center; gap: .75rem; margin-bottom: .65rem;
     }
-
-    .legend-row {
-      display: flex; align-items: center; gap: .7rem;
-      font-family: var(--mono); font-size: .7rem;
-      color: var(--text-mid);
+    .po-name {
+      font-family: var(--mono); font-size: .65rem; color: var(--text-mid);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
+    .po-pct { font-family: var(--mono); font-size: .68rem; text-align: right; }
 
-    .legend-dot {
-      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
-    }
-
-    .legend-name { color: var(--text-hi); min-width: 120px; }
-    .legend-val  { color: var(--accent); }
-
-    /* ── Footer ───────────────────────────────────────────── */
+    /* ── Footer ─────────────────────────────────────────── */
     footer {
       position: relative; z-index: 1;
       border-top: 1px solid var(--border);
-      padding: 1.4rem 2.5rem;
+      padding: 1.3rem 2.5rem;
       display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem;
+      flex-wrap: wrap; gap: .75rem;
     }
+    .footer-brand { font-family: var(--mono); font-size: .75rem; color: var(--text-lo); letter-spacing: .1em; }
+    .footer-info  { font-family: var(--mono); font-size: .62rem; color: var(--text-lo); letter-spacing: .07em; }
 
-    .footer-logo {
-      font-family: var(--mono);
-      font-size: .8rem;
-      color: var(--text-lo);
-      letter-spacing: .1em;
-    }
-
-    .footer-copy {
-      font-family: var(--mono);
-      font-size: .65rem;
-      color: var(--text-lo);
-      letter-spacing: .08em;
-    }
-
-    /* ── Responsive ───────────────────────────────────────── */
+    /* ── Responsive ─────────────────────────────────────── */
     @media (max-width: 900px) {
-      .project-card {
-        flex: 0 0 calc((100% - 1.25rem) / 2);
-      }
+      .project-card { flex: 0 0 calc((100% - 1.25rem) / 2); }
     }
-
     @media (max-width: 600px) {
       nav { display: none; }
       .project-card { flex: 0 0 100%; }
-      .hero h1 { font-size: 2rem; }
+      .hero h1 { font-size: 1.9rem; }
       .hero-stats { gap: 1.5rem; }
-      .section-header, .carousel-wrap, .team-section { padding-left: 1rem; padding-right: 1rem; }
-      .modal { max-height: 95vh; }
-      .modal-body { padding: 1.2rem; }
+      .section-header,
+      .carousel-wrap,
+      .team-section { padding-left: 1rem; padding-right: 1rem; }
+      .modal { max-height: 96vh; }
+      .modal-body { padding: 1.1rem; }
+      .po-row { grid-template-columns: 90px 1fr 38px; }
+      .po-name { font-size: .58rem; }
+      .ted-scroll { padding: 1rem; }
     }
-
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition: none !important; animation: none !important; }
     }
@@ -755,304 +705,107 @@
 </head>
 <body>
 
-<!-- ── HEADER ──────────────────────────────────────────────────── -->
+<!-- ── HEADER ──────────────────────────────────────────── -->
 <header>
   <div class="logo">
     <span class="logo-bracket">[</span>
     <div class="logo-dot" aria-hidden="true"></div>
-    CYBERLAB
+    DOSSIER
     <span class="logo-bracket">]</span>
   </div>
   <nav aria-label="Navegación principal">
-    <a href="#proyectos">Proyectos</a>
+    <a href="#actividades">Actividades</a>
     <a href="#equipo">Equipo</a>
   </nav>
 </header>
 
-<!-- ── HERO ────────────────────────────────────────────────────── -->
+<!-- ── HERO ────────────────────────────────────────────── -->
 <section class="hero">
   <div class="hero-grid-bg" aria-hidden="true"></div>
-  <p class="hero-eyebrow">Sistema inicializado — versión 2.1.0</p>
-  <h1>Portafolio de<br/><span>Proyectos</span></h1>
-  <p>Soluciones tecnológicas construidas con precisión. Explora el trabajo del equipo, desde análisis de seguridad hasta sistemas de datos en tiempo real.</p>
+  <p class="hero-eyebrow">Desempeño Universitario — Ciclo 2026-1</p>
+  <h1>Dossier de<br/><span>Desarrollo Académico</span></h1>
+  <p class="hero-course">GARAY JARAMILLO, JORGE ARTURO &nbsp;·&nbsp; Docente</p>
+  <p>Registro cronológico de actividades, producciones y reflexiones elaboradas a lo largo del curso, evidenciando el proceso de aprendizaje académico y emocional del equipo.</p>
+  <div class="hero-chips">
+    <span class="chip">CURSO: <em>DESEMPEÑO UNIVERSITARIO</em></span>
+    <span class="chip">CICLO: <em>2026-1</em></span>
+    <span class="chip">SEMANAS: <em>1 · 2 · 3 · 4 · 6 · 7 · 9 · 10 · 11</em></span>
+  </div>
   <div class="hero-stats">
     <div class="stat">
-      <span class="stat-num">12</span>
-      <span class="stat-lbl">Proyectos</span>
+      <span class="stat-num">09</span>
+      <span class="stat-lbl">Actividades</span>
     </div>
     <div class="stat">
-      <span class="stat-num">04</span>
+      <span class="stat-num">06</span>
       <span class="stat-lbl">Integrantes</span>
     </div>
     <div class="stat">
-      <span class="stat-num">2024</span>
+      <span class="stat-num">2026</span>
       <span class="stat-lbl">Ciclo</span>
     </div>
   </div>
 </section>
 
-<!-- ── CAROUSEL SECTION ─────────────────────────────────────────── -->
-<section id="proyectos" class="section">
+<!-- ── CAROUSEL SECTION ─────────────────────────────────── -->
+<section id="actividades" class="section">
   <div class="section-header">
     <span class="section-label">// 01</span>
-    <span class="section-title">Proyectos desarrollados</span>
+    <span class="section-title">Actividades por semana</span>
     <div class="section-line" aria-hidden="true"></div>
   </div>
-
   <div class="carousel-wrap">
-    <div class="carousel" role="region" aria-label="Carrusel de proyectos">
-      <div class="carousel-track" id="carouselTrack">
-
-        <!-- Card 1 -->
-        <article class="project-card" data-project="0" role="button" tabindex="0" aria-label="Ver proyecto: Sistema de Detección de Intrusiones">
-          <div class="card-media">
-            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&q=80" alt="Sistema de Detección de Intrusiones" loading="lazy" />
-            <div class="card-overlay" aria-hidden="true"></div>
-            <span class="card-badge">Seguridad</span>
-          </div>
-          <div class="card-body">
-            <p class="card-num">PRJ-001</p>
-            <h3 class="card-title">Sistema de Detección de Intrusiones</h3>
-            <p class="card-desc">Motor IDS basado en machine learning para identificar patrones anómalos en tráfico de red en tiempo real.</p>
-            <div class="card-footer">
-              <span class="card-tag">Python · ML · Redes</span>
-              <span class="card-arrow">→</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 2 -->
-        <article class="project-card" data-project="1" role="button" tabindex="0" aria-label="Ver proyecto: Dashboard de Ciberseguridad">
-          <div class="card-media">
-            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80" alt="Dashboard de Ciberseguridad" loading="lazy" />
-            <div class="card-overlay" aria-hidden="true"></div>
-            <span class="card-badge">Analytics</span>
-          </div>
-          <div class="card-body">
-            <p class="card-num">PRJ-002</p>
-            <h3 class="card-title">Dashboard de Ciberseguridad</h3>
-            <p class="card-desc">Panel centralizado con visualizaciones en tiempo real de amenazas, vectores de ataque y logs del sistema.</p>
-            <div class="card-footer">
-              <span class="card-tag">React · D3.js · WebSocket</span>
-              <span class="card-arrow">→</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 3 -->
-        <article class="project-card" data-project="2" role="button" tabindex="0" aria-label="Ver proyecto: Cifrado de Archivos AES-256">
-          <div class="card-media">
-            <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&q=80" alt="Cifrado de Archivos" loading="lazy" />
-            <div class="card-overlay" aria-hidden="true"></div>
-            <span class="card-badge">Criptografía</span>
-          </div>
-          <div class="card-body">
-            <p class="card-num">PRJ-003</p>
-            <h3 class="card-title">Cifrado de Archivos AES-256</h3>
-            <p class="card-desc">Herramienta de cifrado simétrico con interfaz CLI para proteger archivos sensibles usando estándar AES-256.</p>
-            <div class="card-footer">
-              <span class="card-tag">C++ · Criptografía · CLI</span>
-              <span class="card-arrow">→</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 4 -->
-        <article class="project-card" data-project="3" role="button" tabindex="0" aria-label="Ver proyecto: Honeypot Adaptativo">
-          <div class="card-media">
-            <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80" alt="Honeypot Adaptativo" loading="lazy" />
-            <div class="card-overlay" aria-hidden="true"></div>
-            <span class="card-badge">Defensa</span>
-          </div>
-          <div class="card-body">
-            <p class="card-num">PRJ-004</p>
-            <h3 class="card-title">Honeypot Adaptativo</h3>
-            <p class="card-desc">Sistema señuelo que simula servicios vulnerables para atraer, registrar y analizar técnicas de atacantes reales.</p>
-            <div class="card-footer">
-              <span class="card-tag">Docker · Python · Logs</span>
-              <span class="card-arrow">→</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 5 -->
-        <article class="project-card" data-project="4" role="button" tabindex="0" aria-label="Ver proyecto: Scanner de Vulnerabilidades">
-          <div class="card-media">
-            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&q=80" alt="Scanner de Vulnerabilidades" loading="lazy" />
-            <div class="card-overlay" aria-hidden="true"></div>
-            <span class="card-badge">Pentest</span>
-          </div>
-          <div class="card-body">
-            <p class="card-num">PRJ-005</p>
-            <h3 class="card-title">Scanner de Vulnerabilidades Web</h3>
-            <p class="card-desc">Herramienta automática para detectar vulnerabilidades OWASP Top 10 en aplicaciones web mediante análisis estático y dinámico.</p>
-            <div class="card-footer">
-              <span class="card-tag">Python · OWASP · REST</span>
-              <span class="card-arrow">→</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 6 -->
-        <article class="project-card" data-project="5" role="button" tabindex="0" aria-label="Ver proyecto: Autenticación Sin Contraseña">
-          <div class="card-media">
-            <img src="https://images.unsplash.com/photo-1633265486064-086b219458ec?w=600&q=80" alt="Autenticación Sin Contraseña" loading="lazy" />
-            <div class="card-overlay" aria-hidden="true"></div>
-            <span class="card-badge">Auth</span>
-          </div>
-          <div class="card-body">
-            <p class="card-num">PRJ-006</p>
-            <h3 class="card-title">Autenticación Sin Contraseña</h3>
-            <p class="card-desc">Sistema de autenticación basado en FIDO2 y WebAuthn con soporte para llaves de seguridad físicas y biometría.</p>
-            <div class="card-footer">
-              <span class="card-tag">WebAuthn · Node.js · FIDO2</span>
-              <span class="card-arrow">→</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 7 -->
-        <article class="project-card" data-project="6" role="button" tabindex="0" aria-label="Ver proyecto: Análisis Forense de Red">
-          <div class="card-media">
-            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" alt="Análisis Forense de Red" loading="lazy" />
-            <div class="card-overlay" aria-hidden="true"></div>
-            <span class="card-badge">Forense</span>
-          </div>
-          <div class="card-body">
-            <p class="card-num">PRJ-007</p>
-            <h3 class="card-title">Análisis Forense de Red</h3>
-            <p class="card-desc">Plataforma para capturar, reconstruir y analizar tráfico de red en investigaciones de incidentes de seguridad.</p>
-            <div class="card-footer">
-              <span class="card-tag">Wireshark · Python · PCAP</span>
-              <span class="card-arrow">→</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 8 -->
-        <article class="project-card" data-project="7" role="button" tabindex="0" aria-label="Ver proyecto: Gestor de Contraseñas Offline">
-          <div class="card-media">
-            <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80" alt="Gestor de Contraseñas" loading="lazy" />
-            <div class="card-overlay" aria-hidden="true"></div>
-            <span class="card-badge">Privacidad</span>
-          </div>
-          <div class="card-body">
-            <p class="card-num">PRJ-008</p>
-            <h3 class="card-title">Gestor de Contraseñas Offline</h3>
-            <p class="card-desc">Aplicación de escritorio para gestionar credenciales de forma segura, completamente offline con vault cifrado.</p>
-            <div class="card-footer">
-              <span class="card-tag">Electron · SQLite · AES</span>
-              <span class="card-arrow">→</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 9 -->
-        <article class="project-card" data-project="8" role="button" tabindex="0" aria-label="Ver proyecto: VPN Corporativa Personalizada">
-          <div class="card-media">
-            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&q=80" alt="VPN Corporativa" loading="lazy" />
-            <div class="card-overlay" aria-hidden="true"></div>
-            <span class="card-badge">Redes</span>
-          </div>
-          <div class="card-body">
-            <p class="card-num">PRJ-009</p>
-            <h3 class="card-title">VPN Corporativa Personalizada</h3>
-            <p class="card-desc">Solución VPN de código abierto con panel de administración, control de acceso por roles y auditoría de conexiones.</p>
-            <div class="card-footer">
-              <span class="card-tag">WireGuard · Go · RBAC</span>
-              <span class="card-arrow">→</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 10 -->
-        <article class="project-card" data-project="9" role="button" tabindex="0" aria-label="Ver proyecto: SIEM Ligero">
-          <div class="card-media">
-            <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&q=80" alt="SIEM Ligero" loading="lazy" />
-            <div class="card-overlay" aria-hidden="true"></div>
-            <span class="card-badge">SIEM</span>
-          </div>
-          <div class="card-body">
-            <p class="card-num">PRJ-010</p>
-            <h3 class="card-title">SIEM Ligero para PyMEs</h3>
-            <p class="card-desc">Sistema de gestión de eventos de seguridad simplificado, diseñado para pequeñas y medianas empresas sin equipo SOC dedicado.</p>
-            <div class="card-footer">
-              <span class="card-tag">Elastic · Kibana · Python</span>
-              <span class="card-arrow">→</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 11 -->
-        <article class="project-card" data-project="10" role="button" tabindex="0" aria-label="Ver proyecto: CTF Toolkit">
-          <div class="card-media">
-            <img src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=600&q=80" alt="CTF Toolkit" loading="lazy" />
-            <div class="card-overlay" aria-hidden="true"></div>
-            <span class="card-badge">CTF</span>
-          </div>
-          <div class="card-body">
-            <p class="card-num">PRJ-011</p>
-            <h3 class="card-title">CTF Toolkit Unificado</h3>
-            <p class="card-desc">Suite de herramientas para competencias Capture The Flag: esteganografía, criptoanálisis, reversing y explotación web.</p>
-            <div class="card-footer">
-              <span class="card-tag">Python · Bash · Reversing</span>
-              <span class="card-arrow">→</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 12 -->
-        <article class="project-card" data-project="11" role="button" tabindex="0" aria-label="Ver proyecto: Simulador de Ataques Phishing">
-          <div class="card-media">
-            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=80" alt="Simulador de Phishing" loading="lazy" />
-            <div class="card-overlay" aria-hidden="true"></div>
-            <span class="card-badge">Conciencia</span>
-          </div>
-          <div class="card-body">
-            <p class="card-num">PRJ-012</p>
-            <h3 class="card-title">Simulador de Ataques Phishing</h3>
-            <p class="card-desc">Plataforma educativa para entrenar empleados reconociendo correos fraudulentos mediante simulaciones controladas y métricas.</p>
-            <div class="card-footer">
-              <span class="card-tag">Django · SMTP · Analytics</span>
-              <span class="card-arrow">→</span>
-            </div>
-          </div>
-        </article>
-
-      </div><!-- /.carousel-track -->
-    </div><!-- /.carousel -->
-
-    <!-- Controls -->
-    <div class="carousel-controls">
-      <button class="carousel-btn" id="prevBtn" aria-label="Proyecto anterior" disabled>←</button>
-      <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Páginas del carrusel"></div>
-      <button class="carousel-btn" id="nextBtn" aria-label="Siguiente proyecto">→</button>
+    <div class="carousel" role="region" aria-label="Carrusel de actividades académicas">
+      <div class="carousel-track" id="carouselTrack"></div>
     </div>
-  </div><!-- /.carousel-wrap -->
+    <div class="carousel-controls">
+      <button class="carousel-btn" id="prevBtn" aria-label="Página anterior" disabled>‹</button>
+      <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Páginas"></div>
+      <button class="carousel-btn" id="nextBtn" aria-label="Página siguiente">›</button>
+    </div>
+  </div>
 </section>
 
-<!-- ── MODAL ────────────────────────────────────────────────────── -->
-<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-label="Detalle del proyecto">
+<!-- ── TEAM SECTION ─────────────────────────────────────── -->
+<section id="equipo" class="team-section">
+  <div class="team-header">
+    <span class="team-label">// 02</span>
+    <span class="team-title">Integrantes del equipo</span>
+    <div class="team-line" aria-hidden="true"></div>
+  </div>
+  <div class="team-grid" id="teamGrid"></div>
+  <div class="participation-overview" id="participationOverview">
+    <p class="po-title">// Resumen de participación individual</p>
+    <div id="participationBars"></div>
+  </div>
+</section>
+
+<!-- ── FOOTER ───────────────────────────────────────────── -->
+<footer>
+  <span class="footer-brand">[DOSSIER] &nbsp;·&nbsp; Desempeño Universitario &nbsp;·&nbsp; 2026-1</span>
+  <span class="footer-info">Docente: GARAY JARAMILLO, JORGE ARTURO</span>
+</footer>
+
+<!-- ── MODAL ────────────────────────────────────────────── -->
+<div class="modal-backdrop" id="modalBackdrop"
+     role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal" id="modal">
-    <div class="modal-close">
-      <span class="modal-close-id" id="modalId">PRJ-001</span>
-      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Cerrar modal">✕</button>
+    <div class="modal-topbar">
+      <span class="modal-topbar-id" id="modalId"></span>
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Cerrar">✕</button>
     </div>
-    <div class="modal-media-wrap" id="modalMediaWrap" role="button" tabindex="0" aria-label="Ampliar imagen">
-      <img id="modalImg" src="" alt="" />
-      <span class="modal-zoom-hint">⊕ clic para ampliar</span>
-    </div>
+    <div id="modalMediaContainer"></div>
     <div class="modal-body">
       <div class="modal-tags" id="modalTags"></div>
       <h2 class="modal-title" id="modalTitle"></h2>
       <p class="modal-text" id="modalText"></p>
-      <p class="modal-section-lbl">Stack tecnológico</p>
-      <ul class="modal-tech-list" id="modalTech"></ul>
+      <p class="modal-sub-lbl">— Competencias y herramientas</p>
+      <ul class="modal-skills" id="modalSkills"></ul>
     </div>
   </div>
 </div>
 
-<!-- ── LIGHTBOX ─────────────────────────────────────────────────── -->
+<!-- ── LIGHTBOX ─────────────────────────────────────────── -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imagen ampliada">
   <div class="lightbox-inner">
     <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar imagen">✕</button>
@@ -1060,219 +813,312 @@
   </div>
 </div>
 
-<!-- ── TEAM SECTION ─────────────────────────────────────────────── -->
-<section id="equipo" class="team-section">
-  <div class="team-header">
-    <span class="team-label">// 02</span>
-    <span class="team-title">Integrantes del equipo</span>
-    <div class="section-line" aria-hidden="true"></div>
-  </div>
-
-  <div class="team-grid" id="teamGrid">
-    <!-- Se genera con JS para vincular animaciones -->
-  </div>
-
-  <!-- Gráfico de distribución total -->
-  <div class="donut-wrap">
-    <svg width="200" height="200" viewBox="0 0 200 200" aria-label="Gráfico de distribución de contribuciones por integrante" role="img">
-      <title>Distribución de contribuciones</title>
-      <circle cx="100" cy="100" r="70" fill="none" stroke="#131920" stroke-width="28"/>
-      <!-- Segmentos dibujados con JS -->
-      <g id="donutSegments"></g>
-      <text x="100" y="96" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="11" fill="#8ba3b4">TOTAL</text>
-      <text x="100" y="112" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="18" font-weight="600" fill="#00e5ff">100%</text>
-    </svg>
-    <div class="donut-legend" id="donutLegend"></div>
-  </div>
-</section>
-
-<!-- ── FOOTER ───────────────────────────────────────────────────── -->
-<footer>
-  <span class="footer-logo">[CYBERLAB] v2.1.0</span>
-  <span class="footer-copy">© 2024 — TODOS LOS DERECHOS RESERVADOS</span>
-</footer>
-
-
 <script>
-/* ================================================================
-   DATOS DE PROYECTOS
-   ================================================================ */
-const projects = [
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function enc(s) {
+  // Encode spaces and non-ASCII chars; leave parens, dots, etc.
+  return s.split('').map(c => {
+    if (c === ' ') return '%20';
+    if (c.charCodeAt(0) > 127) return encodeURIComponent(c);
+    return c;
+  }).join('');
+}
+
+/* ============================================================
+   SVG ICONS (inline)
+   ============================================================ */
+const ICON_PLAY = `<svg class="mp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+  <circle cx="12" cy="12" r="10"/>
+  <polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/>
+</svg>`;
+
+const ICON_MIC = `<svg class="mp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/>
+  <line x1="8" y1="23" x2="16" y2="23"/>
+</svg>`;
+
+const ICON_CLOCK = `<svg class="mp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12,6 12,12 16,14"/>
+</svg>`;
+
+const ICON_CLOCK_LG = `<svg class="cs-modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12,6 12,12 16,14"/>
+</svg>`;
+
+/* ============================================================
+   WEEKS DATA
+   ============================================================ */
+const weeks = [
   {
-    id: 'PRJ-001',
-    title: 'Sistema de Detección de Intrusiones',
-    img: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=900&q=85',
-    tags: ['Seguridad', 'Machine Learning'],
-    text: 'Motor IDS que emplea modelos de aprendizaje automático supervisado para identificar patrones anómalos en flujos de tráfico de red. Analiza headers de paquetes, frecuencia de conexiones y comportamiento de protocolos para clasificar amenazas en tiempo real con menos del 2% de falsos positivos. Se integra con firewalls y SIEM mediante alertas normalizadas en formato CEF.',
-    tech: ['Python 3.11', 'Scikit-learn', 'Scapy', 'PostgreSQL', 'Kafka', 'Grafana']
+    id: 'SEM-01',
+    semana: 'SEMANA 1',
+    badge: 'Infografía',
+    title: 'Identidad institucional y sentido de pertenencia universitaria',
+    shortDesc: 'Infografía que explora la identidad institucional y el sentido de pertenencia a la comunidad universitaria.',
+    text: 'En la Semana 1, el equipo elaboró una infografía que representa la identidad institucional y el sentido de pertenencia universitaria. El trabajo destaca los valores, la misión y la visión de la universidad, explorando cómo los estudiantes construyen su identidad como parte de la comunidad académica desde los primeros ciclos.',
+    type: 'image',
+    img: 'Infografía(1).png',
+    tags: ['Identidad', 'Pertenencia', 'Semana 1'],
+    skills: ['Infografía', 'Diseño visual', 'Identidad institucional', 'Comunicación']
   },
   {
-    id: 'PRJ-002',
-    title: 'Dashboard de Ciberseguridad',
-    img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=900&q=85',
-    tags: ['Analytics', 'Visualización'],
-    text: 'Panel de control centralizado que agrega eventos de múltiples fuentes (firewall, IDS, EDR, logs de SO) y los presenta en visualizaciones interactivas. Incluye mapa de ataques en tiempo real, líneas de tiempo de incidentes, heatmaps de actividad por hora y rankings de IPs sospechosas. Soporta múltiples organizaciones (multi-tenant) con control de acceso granular.',
-    tech: ['React 18', 'D3.js', 'Node.js', 'WebSocket', 'Redis', 'Elasticsearch']
+    id: 'SEM-02',
+    semana: 'SEMANA 2',
+    badge: 'Historieta',
+    title: 'Liderazgo académico y trabajo en equipo en el contexto universitario',
+    shortDesc: 'Historieta narrativa que ilustra el liderazgo académico y la colaboración entre estudiantes universitarios.',
+    text: 'A través de una historieta, el equipo exploró el liderazgo académico y el trabajo en equipo en el contexto universitario. La narrativa visual ilustra situaciones reales de colaboración entre compañeros y estrategias para fortalecer el trabajo grupal y el liderazgo responsable dentro de la institución.',
+    type: 'image',
+    img: 'HISTORIETA(1).png',
+    tags: ['Liderazgo', 'Trabajo en equipo', 'Semana 2'],
+    skills: ['Historieta', 'Narrativa visual', 'Liderazgo académico', 'Trabajo colaborativo']
   },
   {
-    id: 'PRJ-003',
-    title: 'Cifrado de Archivos AES-256',
-    img: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=900&q=85',
-    tags: ['Criptografía', 'CLI'],
-    text: 'Herramienta de línea de comandos para cifrado y descifrado de archivos individuales o carpetas completas usando AES-256-GCM con derivación de clave PBKDF2-SHA256 de 100k iteraciones. Soporta archivos de cualquier tamaño mediante procesamiento en chunks, incluye verificación de integridad con HMAC y genera claves de recuperación ante pérdida de contraseña.',
-    tech: ['C++17', 'OpenSSL', 'AES-256-GCM', 'PBKDF2', 'CMake', 'CLI11']
+    id: 'SEM-03',
+    semana: 'SEMANA 3',
+    badge: '2 Videos',
+    title: 'Estrategias efectivas para la mejora de las técnicas de estudio',
+    shortDesc: 'Dos videos complementarios sobre autorregulación emocional y mejora de las técnicas de estudio universitario.',
+    text: 'La Semana 3 presenta dos videos complementarios que desarrollan estrategias efectivas de autorregulación emocional aplicadas a la mejora de las técnicas de estudio. Cada video aborda aspectos distintos de la gestión emocional para optimizar el rendimiento académico y el aprendizaje autónomo.',
+    type: 'multi-video',
+    videos: [
+      { src: 'AUTOREGULACIONEMOCIONAL.mp4',       name: 'Video 1 — Autorregulación Emocional' },
+      { src: 'AUTO REGULACION EMOCIONA 2.mp4',    name: 'Video 2 — Autorregulación Emocional Parte 2' }
+    ],
+    tags: ['Autorregulación', 'Técnicas de estudio', 'Semana 3'],
+    skills: ['Producción de video', 'Autorregulación emocional', 'Técnicas de estudio']
   },
   {
-    id: 'PRJ-004',
-    title: 'Honeypot Adaptativo',
-    img: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=900&q=85',
-    tags: ['Defensa', 'Threat Intel'],
-    text: 'Sistema de señuelo de baja interacción que emula servicios como SSH, FTP, HTTP y bases de datos para atraer y registrar actividad maliciosa. Adapta su respuesta al comportamiento del atacante para maximizar el tiempo de reconocimiento. Genera automáticamente feeds de threat intelligence con IOCs exportables en formatos STIX/TAXII para compartir con la comunidad.',
-    tech: ['Python', 'Docker', 'PostgreSQL', 'STIX 2.1', 'Cowrie', 'Nginx']
+    id: 'SEM-04',
+    semana: 'SEMANA 4',
+    badge: 'Video',
+    title: 'Estrategias efectivas para el fortalecimiento de los hábitos de estudio',
+    shortDesc: 'Video sobre hábitos de estudio planificados con intención para mejorar el rendimiento académico.',
+    text: 'El video de la Semana 4 aborda estrategias para fortalecer los hábitos de estudio con intención y planificación consciente. Se presentan técnicas concretas para consolidar rutinas de aprendizaje efectivas, mejorar la organización del tiempo y potenciar el rendimiento académico de manera sostenida a lo largo del ciclo.',
+    type: 'video',
+    video: 'HABITOS DE ESTUDIO PLANIFICADOS CON INTENCION.mp4',
+    tags: ['Hábitos de estudio', 'Planificación', 'Semana 4'],
+    skills: ['Producción de video', 'Hábitos académicos', 'Gestión del tiempo', 'Planificación']
   },
   {
-    id: 'PRJ-005',
-    title: 'Scanner de Vulnerabilidades Web',
-    img: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=900&q=85',
-    tags: ['Pentest', 'OWASP'],
-    text: 'Escáner automático que combina análisis estático del código fuente y pruebas dinámicas en tiempo de ejecución para detectar vulnerabilidades del OWASP Top 10. Genera reportes en PDF con severidad CVSS, evidencia de explotación y recomendaciones de remediación priorizadas. Incluye módulo de comparación para rastrear la reducción de la superficie de ataque entre escaneos.',
-    tech: ['Python', 'Selenium', 'BeautifulSoup', 'SQLmap', 'CVSS 3.1', 'ReportLab']
+    id: 'SEM-06',
+    semana: 'SEMANA 6',
+    badge: 'Charla TED',
+    title: 'Reevaluación Cognitiva — Preparación de la Charla TED',
+    shortDesc: 'Script y estructura de la Charla TED académica sobre reevaluación cognitiva para gestionar la ansiedad universitaria.',
+    text: 'En la Semana 6, el equipo desarrolló y estructuró el guion completo de su Charla TED académica, centrada en la reevaluación cognitiva como estrategia para gestionar la ansiedad académica. La charla integra el respaldo científico de Daniel Goleman, tres preguntas concretas de aplicación inmediata y una conexión directa con los ODS 3 y ODS 4.',
+    type: 'text',
+    tags: ['Reevaluación cognitiva', 'TED Talk', 'Semana 6'],
+    skills: ['Oratoria', 'Inteligencia emocional', 'Goleman', 'Escritura académica', 'ODS 3', 'ODS 4']
   },
   {
-    id: 'PRJ-006',
-    title: 'Autenticación Sin Contraseña',
-    img: 'https://images.unsplash.com/photo-1633265486064-086b219458ec?w=900&q=85',
-    tags: ['Auth', 'FIDO2'],
-    text: 'Implementación completa del estándar WebAuthn / FIDO2 para eliminar contraseñas de aplicaciones web. Soporta llaves físicas (YubiKey), biometría de dispositivo (Touch ID, Windows Hello) y passkeys. Incluye flujo de registro, autenticación y recuperación de cuenta con validación de origin, challenge y flags de autenticador conforme al estándar W3C.',
-    tech: ['Node.js', 'SimpleWebAuthn', 'MongoDB', 'JWT', 'Redis', 'TypeScript']
+    id: 'SEM-07',
+    semana: 'SEMANA 7',
+    badge: 'Mapa Visual',
+    title: 'Mapa de autorregulación emocional en la Charla TED',
+    shortDesc: 'Mapa visual con las emociones y estrategias de control registradas antes, durante y después de la exposición.',
+    text: 'Tras la presentación de la Charla TED, el equipo elaboró un mapa visual de autorregulación emocional. Se registraron las emociones antes (nervios, ansiedad, miedo a olvidar), durante (tensión inicial que cedió progresivamente) y después de la exposición (alivio, autocrítica constructiva). El mapa documenta las estrategias utilizadas en cada momento y las reflexiones grupales sobre el proceso.',
+    type: 'image',
+    img: 'TRABAJO SEMANA 7.png',
+    tags: ['Autorregulación', 'Reflexión', 'Semana 7'],
+    skills: ['Mapa visual', 'Reflexión grupal', 'Estrategias emocionales', 'Dossier académico']
   },
   {
-    id: 'PRJ-007',
-    title: 'Análisis Forense de Red',
-    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=85',
-    tags: ['Forense', 'PCAP'],
-    text: 'Plataforma para investigaciones post-incidente que permite importar capturas PCAP, reconstruir sesiones TCP/UDP, extraer archivos transferidos y correlacionar eventos con indicadores de compromiso conocidos. Genera líneas de tiempo automáticas del ataque, identifica técnicas MITRE ATT&CK asociadas y produce reportes legales con cadena de custodia digital.',
-    tech: ['Python', 'Scapy', 'Wireshark', 'Zeek', 'MITRE ATT&CK', 'SQLite']
+    id: 'SEM-09',
+    semana: 'SEMANA 9',
+    badge: 'Ficha ODS',
+    title: 'Ficha visual ODS — Responsabilidad universitaria y bien común',
+    shortDesc: 'Análisis del ODS 3 aplicado al video "¿Se vive o se sobrevive en la universidad?"',
+    text: 'En la Semana 9, el equipo observó la Charla TED "¿Se vive o se sobrevive en la universidad?" y elaboró una ficha visual identificando el ODS 3 (Salud y Bienestar) como eje central. Se analizó la estrategia de organización y planificación presentada en el video, y cómo la gestión del estrés universitario contribuye al bien común y a una educación de calidad.',
+    type: 'image',
+    img: 'SEMANA 09 DOSSIER.png',
+    tags: ['ODS 3', 'Bien común', 'Semana 9'],
+    skills: ['Ficha visual', 'ODS 3', 'Educación de calidad', 'Análisis crítico', 'Bien común']
   },
   {
-    id: 'PRJ-008',
-    title: 'Gestor de Contraseñas Offline',
-    img: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=900&q=85',
-    tags: ['Privacidad', 'Desktop'],
-    text: 'Aplicación de escritorio multiplataforma para almacenar credenciales en un vault cifrado con AES-256. Funciona completamente offline, sin sincronización en la nube. Incluye generador de contraseñas con parámetros configurables, detección de contraseñas comprometidas vía Have I Been Pwned (consulta anónima con k-anonymity), y exportación segura cifrada.',
-    tech: ['Electron', 'React', 'SQLite', 'AES-256', 'Argon2id', 'TypeScript']
+    id: 'SEM-10',
+    semana: 'SEMANA 10',
+    badge: 'Lienzo',
+    title: 'Lienzo de Voluntariado Académico — "El Poder de tus Pensamientos"',
+    shortDesc: 'Propuesta de voluntariado vinculada al ODS 3 y ODS 4 dirigida a estudiantes de primeros ciclos.',
+    text: 'El Lienzo de la Semana 10 diseña la campaña "El Poder de tus Pensamientos: ¿Tienes realmente el control de tu mente?", vinculada al ODS 3 (Salud y Bienestar) y ODS 4 (Educación de Calidad). Incluye: videos cortos, guía visual descargable con las 3 preguntas de reevaluación cognitiva, afiches en zonas de estudio del campus y charlas de concientización en formato TED. Dirigida a estudiantes de primeros ciclos que enfrentan ansiedad académica y bloqueos emocionales.',
+    type: 'image',
+    img: 'SEAMANA 10.png',
+    tags: ['Voluntariado', 'ODS 3', 'ODS 4', 'Semana 10'],
+    skills: ['Lienzo', 'Diseño de campaña', 'ODS 3', 'ODS 4', 'Salud mental', 'Impacto social']
   },
   {
-    id: 'PRJ-009',
-    title: 'VPN Corporativa Personalizada',
-    img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=900&q=85',
-    tags: ['Redes', 'WireGuard'],
-    text: 'Solución VPN empresarial construida sobre WireGuard con un panel de administración web para gestionar usuarios, dispositivos y políticas de acceso. Implementa control de acceso basado en roles (RBAC), genera configuraciones automáticas por cliente, mantiene auditoría de conexiones y soporta split tunneling configurable por grupo. Incluye monitoreo de uso y alertas de anomalías.',
-    tech: ['WireGuard', 'Go', 'Vue.js', 'PostgreSQL', 'RBAC', 'Docker Compose']
-  },
-  {
-    id: 'PRJ-010',
-    title: 'SIEM Ligero para PyMEs',
-    img: 'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=900&q=85',
-    tags: ['SIEM', 'Elastic'],
-    text: 'Sistema de gestión de información y eventos de seguridad simplificado y económico, diseñado para PyMEs sin equipo SOC dedicado. Centraliza logs de Windows, Linux, firewalls y aplicaciones web, aplica reglas de correlación predefinidas basadas en mejores prácticas NIST y genera alertas con contexto de negocio comprensible para personal no técnico. Incluye playbooks de respuesta a incidentes.',
-    tech: ['Elasticsearch', 'Logstash', 'Kibana', 'Python', 'Wazuh', 'Ansible']
-  },
-  {
-    id: 'PRJ-011',
-    title: 'CTF Toolkit Unificado',
-    img: 'https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=900&q=85',
-    tags: ['CTF', 'Herramientas'],
-    text: 'Suite integral de herramientas para competencias de Capture The Flag. Incluye módulos de esteganografía (LSB, metadata, canales de color), criptoanálisis (sustitución, transposición, RSA de baja entropía), reversing asistido por IA, análisis binario y explotación web automatizada. Interfaz unificada con historial de sesiones y exportación de writeups.',
-    tech: ['Python', 'Bash', 'Pwntools', 'Ghidra', 'PIL/Pillow', 'Z3 Solver']
-  },
-  {
-    id: 'PRJ-012',
-    title: 'Simulador de Ataques Phishing',
-    img: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=900&q=85',
-    tags: ['Conciencia', 'Educación'],
-    text: 'Plataforma educativa para fortalecer la cultura de seguridad organizacional mediante simulaciones controladas de phishing. Permite crear campañas personalizadas con plantillas realistas, segmentar empleados por departamento y nivel de riesgo, y registrar métricas de apertura, clic y reporte. Los empleados que caen reciben capacitación inmediata contextualizada. Incluye dashboard ejecutivo con tendencias.',
-    tech: ['Django', 'Celery', 'SMTP', 'PostgreSQL', 'Chart.js', 'Docker']
+    id: 'SEM-11',
+    semana: 'SEMANA 11',
+    badge: 'Próximamente',
+    title: 'Video final de la Charla TED — Versión integrada',
+    shortDesc: 'Video final integrador de todos los aprendizajes del ciclo. Próximamente disponible.',
+    text: 'El video final de la Semana 11 integrará todos los aprendizajes del ciclo: la problemática de la ansiedad académica, la estrategia de reevaluación cognitiva, su relación con los ODS 3 y ODS 4, y la propuesta de voluntariado académico. Una Charla TED editada, de 6 a 8 minutos, con participación de todos los integrantes y un mensaje de impacto social claro.',
+    type: 'coming-soon',
+    tags: ['Video TED', 'Integrador', 'Semana 11'],
+    skills: ['Video', 'Charla TED', 'ODS 3', 'ODS 4', 'Edición', 'Impacto social']
   }
 ];
 
-/* ================================================================
-   DATOS DE INTEGRANTES
-   ================================================================ */
+/* ============================================================
+   MEMBERS DATA
+   ============================================================ */
 const members = [
   {
-    name: 'Alejandro Ríos',
-    initials: 'AR',
-    role: 'Líder técnico & Backend',
-    contributions: [
-      { label: 'Backend & APIs',    pct: 32 },
-      { label: 'Arquitectura',      pct: 28 },
-      { label: 'Seguridad',         pct: 25 },
-    ],
-    total: 30,
+    name: 'José Gabriel Chávez Bobadilla',
+    initials: 'GCB',
+    role: 'Análisis · ODS y propuesta',
+    id: '100232186',
+    total: 88,
     color: '#00e5ff'
   },
   {
-    name: 'Valentina Cruz',
-    initials: 'VC',
-    role: 'Frontend & UX',
-    contributions: [
-      { label: 'Interfaces',        pct: 38 },
-      { label: 'Diseño UX',         pct: 30 },
-      { label: 'Testing',           pct: 18 },
-    ],
-    total: 26,
+    name: 'Agustín Manuel Sierra Massari',
+    initials: 'ASM',
+    role: 'Coordinador · Inicio TED',
+    id: '100236377',
+    total: 90,
     color: '#39ff14'
   },
   {
-    name: 'Sebastián Mora',
-    initials: 'SM',
-    role: 'Seguridad & Redes',
-    contributions: [
-      { label: 'Análisis de red',   pct: 35 },
-      { label: 'Pentest',           pct: 40 },
-      { label: 'Documentación',     pct: 20 },
-    ],
-    total: 24,
+    name: 'Kate Susuky Anton Layme',
+    initials: 'KAL',
+    role: 'Desarrollo · Exposición TED',
+    id: '100233434',
+    total: 90,
     color: '#a259ff'
   },
   {
-    name: 'Daniela Vega',
-    initials: 'DV',
-    role: 'Data & ML',
-    contributions: [
-      { label: 'ML / Modelos',      pct: 42 },
-      { label: 'Data pipelines',    pct: 28 },
-      { label: 'DevOps',            pct: 22 },
-    ],
-    total: 20,
-    color: '#ffb300'
+    name: 'Iker Nihat Valenzuela Collantes',
+    initials: 'IVC',
+    role: 'Cierre TED · Dossier',
+    id: '100230271',
+    total: 80,
+    color: '#ff9100'
+  },
+  {
+    name: 'Luis Pedro Nuñez Gaston',
+    initials: 'LNG',
+    role: 'Diseño visual · Grabación',
+    id: '100224568',
+    total: 65,
+    color: '#ff4f5e'
+  },
+  {
+    name: 'Frederik Quilca Calla',
+    initials: 'FQC',
+    role: 'Edición · Control de tiempo',
+    id: '100235458',
+    total: 0,
+    color: '#4a6070'
   }
 ];
 
-/* ================================================================
-   CARRUSEL
-   ================================================================ */
-const track     = document.getElementById('carouselTrack');
-const prevBtn   = document.getElementById('prevBtn');
-const nextBtn   = document.getElementById('nextBtn');
-const dotsWrap  = document.getElementById('carouselDots');
+/* ============================================================
+   BUILD CARD MEDIA HTML
+   ============================================================ */
+function buildCardMedia(w) {
+  switch (w.type) {
+    case 'image':
+      return `
+        <img src="${enc(w.img)}" alt="${w.title}" loading="lazy">
+        <div class="card-overlay" aria-hidden="true"></div>
+        <span class="card-badge">${w.badge}</span>`;
 
-let currentPage   = 0;
-let cardsPerPage  = 3; // responsive
-let totalPages    = Math.ceil(projects.length / cardsPerPage);
+    case 'video':
+      return `
+        <div class="media-placeholder mp-video">
+          ${ICON_PLAY}
+          <span class="mp-label">Reproducir video</span>
+        </div>
+        <div class="card-overlay" aria-hidden="true"></div>
+        <span class="card-badge">${w.badge}</span>`;
 
-/* Calcula cuántas tarjetas caben según el ancho de ventana */
+    case 'multi-video':
+      return `
+        <div class="media-placeholder mp-video">
+          ${ICON_PLAY}
+          <span class="mp-label">2 videos disponibles</span>
+          <span class="mp-extra">× 2 Videos</span>
+        </div>
+        <div class="card-overlay" aria-hidden="true"></div>
+        <span class="card-badge">${w.badge}</span>`;
+
+    case 'text':
+      return `
+        <div class="media-placeholder mp-text">
+          ${ICON_MIC}
+          <span class="mp-label">Guión TED</span>
+        </div>
+        <div class="card-overlay" aria-hidden="true"></div>
+        <span class="card-badge">${w.badge}</span>`;
+
+    case 'coming-soon':
+      return `
+        <div class="media-placeholder mp-soon">
+          <div class="cs-grid" aria-hidden="true"></div>
+          ${ICON_CLOCK}
+          <span class="cs-blink-text">PRÓXIMAMENTE</span>
+        </div>
+        <span class="card-badge badge-soon">${w.badge}</span>`;
+  }
+  return '';
+}
+
+/* ============================================================
+   RENDER CARDS
+   ============================================================ */
+const track = document.getElementById('carouselTrack');
+
+weeks.forEach((w, idx) => {
+  const card = document.createElement('article');
+  card.className = 'project-card';
+  card.dataset.project = idx;
+  card.setAttribute('role', 'button');
+  card.setAttribute('tabindex', '0');
+  card.setAttribute('aria-label', `Ver actividad: ${w.semana}`);
+
+  const tag1 = w.tags[0] || '';
+  const tag2 = w.tags[1] || w.badge;
+
+  card.innerHTML = `
+    <div class="card-media">${buildCardMedia(w)}</div>
+    <div class="card-body">
+      <p class="card-num">${w.id}</p>
+      <h3 class="card-title">${w.semana}</h3>
+      <p class="card-desc">${w.shortDesc}</p>
+      <div class="card-footer">
+        <span class="card-tag">${tag1} · ${tag2}</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </div>`;
+  track.appendChild(card);
+});
+
+/* ============================================================
+   CAROUSEL LOGIC
+   ============================================================ */
+const prevBtn  = document.getElementById('prevBtn');
+const nextBtn  = document.getElementById('nextBtn');
+const dotsWrap = document.getElementById('carouselDots');
+let currentPage  = 0;
+let cardsPerPage = 3;
+let totalPages;
+
 function getCardsPerPage() {
   if (window.innerWidth <= 600) return 1;
   if (window.innerWidth <= 900) return 2;
   return 3;
 }
 
-/* Construye los puntos indicadores */
 function buildDots() {
   dotsWrap.innerHTML = '';
-  totalPages = Math.ceil(projects.length / cardsPerPage);
+  totalPages = Math.ceil(weeks.length / cardsPerPage);
   for (let i = 0; i < totalPages; i++) {
     const btn = document.createElement('button');
     btn.className = 'carousel-dot' + (i === currentPage ? ' active' : '');
@@ -1284,21 +1130,15 @@ function buildDots() {
   }
 }
 
-/* Mueve el carrusel a la página indicada */
 function goToPage(page) {
   currentPage = page;
-  const cardEl  = track.querySelector('.project-card');
+  const cardEl = track.querySelector('.project-card');
   if (!cardEl) return;
-  const cardW   = cardEl.offsetWidth;
-  const gap     = 20; // 1.25rem ≈ 20px
-  const offset  = page * cardsPerPage * (cardW + gap);
-  track.style.transform = `translateX(-${offset}px)`;
-
-  // Actualiza botones
+  const cardW  = cardEl.offsetWidth;
+  const gap    = 20;
+  track.style.transform = `translateX(-${page * cardsPerPage * (cardW + gap)}px)`;
   prevBtn.disabled = page === 0;
   nextBtn.disabled = page >= totalPages - 1;
-
-  // Actualiza dots
   document.querySelectorAll('.carousel-dot').forEach((d, i) => {
     d.classList.toggle('active', i === page);
     d.setAttribute('aria-selected', i === page ? 'true' : 'false');
@@ -1308,7 +1148,6 @@ function goToPage(page) {
 prevBtn.addEventListener('click', () => currentPage > 0 && goToPage(currentPage - 1));
 nextBtn.addEventListener('click', () => currentPage < totalPages - 1 && goToPage(currentPage + 1));
 
-/* Recalcula al redimensionar */
 window.addEventListener('resize', () => {
   const newCPP = getCardsPerPage();
   if (newCPP !== cardsPerPage) {
@@ -1316,66 +1155,181 @@ window.addEventListener('resize', () => {
     currentPage  = 0;
     buildDots();
     goToPage(0);
-    // Ajusta flex de tarjetas
     document.querySelectorAll('.project-card').forEach(c => {
       c.style.flex = `0 0 calc((100% - ${(cardsPerPage - 1)} * 1.25rem) / ${cardsPerPage})`;
     });
   }
 });
 
-/* Inicializa carrusel */
 cardsPerPage = getCardsPerPage();
 buildDots();
 goToPage(0);
 
-/* ================================================================
-   MODAL
-   ================================================================ */
-const backdrop    = document.getElementById('modalBackdrop');
-const modalEl     = document.getElementById('modal');
+/* ============================================================
+   MODAL — BUILD MEDIA HTML
+   ============================================================ */
+function buildModalMedia(w) {
+  switch (w.type) {
+
+    case 'image':
+      return `<div class="modal-img-wrap" id="imgWrap" tabindex="0" role="button" aria-label="Ampliar imagen">
+        <img id="modalImg" src="${enc(w.img)}" alt="${w.title}">
+        <span class="modal-zoom-hint">⤢ ampliar</span>
+      </div>`;
+
+    case 'video':
+      return `<div class="modal-video-wrap">
+        <video id="modalVid" controls preload="metadata">
+          <source src="${enc(w.video)}" type="video/mp4">
+          Tu navegador no soporta vídeo HTML5.
+        </video>
+      </div>`;
+
+    case 'multi-video': {
+      const tabs = w.videos
+        .map((v, i) => `<button class="vtab${i === 0 ? ' active' : ''}" data-vi="${i}">${v.name}</button>`)
+        .join('');
+      return `<div class="video-tabs" id="vtabs">${tabs}</div>
+      <div class="modal-video-wrap">
+        <video id="modalVid" controls preload="metadata">
+          <source id="vidSrc" src="${enc(w.videos[0].src)}" type="video/mp4">
+          Tu navegador no soporta vídeo HTML5.
+        </video>
+      </div>`;
+    }
+
+    case 'text':
+      return `<div class="ted-scroll">
+        <p class="ted-label">Idea principal</p>
+        <p class="ted-para">
+          La reevaluación cognitiva es una estrategia respaldada por la ciencia que puede cambiar
+          la experiencia académica. Cuando emociones intensas como la ansiedad o el miedo toman
+          el control, la capacidad de pensar con claridad disminuye, afectando directamente el
+          rendimiento.
+        </p>
+        <div class="ted-blockquote">
+          "Cualquiera puede enfadarse, eso es algo muy sencillo. Pero enfadarse con la persona
+          adecuada, en el grado exacto, en el momento oportuno, con el propósito justo y del modo
+          correcto, eso, ciertamente, no resulta tan sencillo."
+          <cite class="ted-cite">— Aristóteles, citado en Goleman (1995, p. 5)</cite>
+        </div>
+
+        <p class="ted-label">Las 3 preguntas de reevaluación cognitiva</p>
+        <p class="ted-para">
+          Cambiar la forma en que interpretamos una situación puede cambiar la manera en que la
+          vivimos. Ante la ansiedad académica, aplicamos tres preguntas concretas:
+        </p>
+        <div class="ted-pills">
+          <div class="ted-pill">¿Qué estoy pensando exactamente?</div>
+          <div class="ted-pill">¿Es cierto lo que estoy pensando?</div>
+          <div class="ted-pill">¿Cómo lo vería alguien que me estima y me conoce?</div>
+        </div>
+
+        <p class="ted-label">Respaldo científico</p>
+        <div class="ted-blockquote">
+          126 estudios con más de 36,000 personas demuestran que cuanto más propensa a
+          preocuparse es una persona, más pobre resulta su rendimiento académico.
+          <cite class="ted-cite">— Goleman, D. (1995). Inteligencia Emocional, p. 56</cite>
+        </div>
+
+        <p class="ted-label">ODS vinculados</p>
+        <p class="ted-ods">
+          La charla conecta con el <strong>ODS 3 (Salud y Bienestar)</strong> al promover la
+          salud mental estudiantil, y con el <strong>ODS 4 (Educación de Calidad)</strong> al
+          demostrar que un estudiante emocionalmente regulado aprende con mayor efectividad.
+        </p>
+      </div>`;
+
+    case 'coming-soon':
+      return `<div class="cs-modal-wrap">
+        <div class="cs-modal-grid" aria-hidden="true"></div>
+        ${ICON_CLOCK_LG}
+        <p class="cs-modal-title"><span>■</span>&nbsp;PRÓXIMAMENTE</p>
+        <p class="cs-modal-sub">El video final de la Charla TED estará disponible muy pronto. Integrará todos los aprendizajes del ciclo.</p>
+      </div>`;
+  }
+  return '';
+}
+
+/* ============================================================
+   MODAL — OPEN / CLOSE
+   ============================================================ */
+const backdrop     = document.getElementById('modalBackdrop');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
-const modalId     = document.getElementById('modalId');
-const modalTitle  = document.getElementById('modalTitle');
-const modalText   = document.getElementById('modalText');
-const modalTags   = document.getElementById('modalTags');
-const modalTech   = document.getElementById('modalTech');
-const modalImg    = document.getElementById('modalImg');
-const modalMediaWrap = document.getElementById('modalMediaWrap');
+const modalIdEl    = document.getElementById('modalId');
+const modalTitle   = document.getElementById('modalTitle');
+const modalText    = document.getElementById('modalText');
+const modalTags    = document.getElementById('modalTags');
+const modalSkills  = document.getElementById('modalSkills');
+const mediaContainer = document.getElementById('modalMediaContainer');
 
-/* Abre el modal con datos del proyecto */
+let activeVid = null; // currently playing <video> element
+
 function openModal(idx) {
-  const p = projects[idx];
-  modalId.textContent    = p.id;
-  modalTitle.textContent = p.title;
-  modalText.textContent  = p.text;
-  modalImg.src           = p.img;
-  modalImg.alt           = p.title;
+  const w = weeks[idx];
 
-  // Tags
-  modalTags.innerHTML = p.tags.map(t => `<span class="modal-tag">${t}</span>`).join('');
+  // Stop previous video
+  if (activeVid) { activeVid.pause(); activeVid = null; }
 
-  // Tech
-  modalTech.innerHTML = p.tech.map(t => `<li>${t}</li>`).join('');
+  // Populate text
+  modalIdEl.textContent    = w.id;
+  modalTitle.textContent   = w.title;
+  modalText.textContent    = w.text || '';
+  modalTags.innerHTML      = w.tags.map(t => `<span class="modal-tag">${t}</span>`).join('');
+  modalSkills.innerHTML    = w.skills.map(s => `<li>${s}</li>`).join('');
+
+  // Build and inject media
+  mediaContainer.innerHTML = buildModalMedia(w);
+
+  // Wire up type-specific interactions
+  if (w.type === 'image') {
+    const wrap = document.getElementById('imgWrap');
+    if (wrap) {
+      const handler = () => openLightbox(enc(w.img), w.title);
+      wrap.addEventListener('click', handler);
+      wrap.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); }
+      });
+    }
+  }
+
+  if (w.type === 'video') {
+    activeVid = document.getElementById('modalVid');
+  }
+
+  if (w.type === 'multi-video') {
+    activeVid = document.getElementById('modalVid');
+    document.querySelectorAll('.vtab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.vtab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const vi = parseInt(tab.dataset.vi, 10);
+        if (activeVid) {
+          activeVid.pause();
+          activeVid.src = enc(w.videos[vi].src);
+          activeVid.load();
+        }
+      });
+    });
+  }
 
   backdrop.classList.add('open');
   document.body.style.overflow = 'hidden';
-
-  // Foco al botón de cierre
   setTimeout(() => modalCloseBtn.focus(), 50);
 }
 
 function closeModal() {
+  if (activeVid) { activeVid.pause(); activeVid = null; }
   backdrop.classList.remove('open');
   document.body.style.overflow = '';
+  mediaContainer.innerHTML = ''; // free video resources
 }
 
-/* Delegar clic en tarjetas */
+// Open modal on card click / keyboard
 track.addEventListener('click', e => {
   const card = e.target.closest('.project-card');
   if (card) openModal(parseInt(card.dataset.project, 10));
 });
-
-/* Tecla Enter/Space en tarjetas (accesibilidad) */
 track.addEventListener('keydown', e => {
   if (e.key === 'Enter' || e.key === ' ') {
     const card = e.target.closest('.project-card');
@@ -1384,11 +1338,7 @@ track.addEventListener('keydown', e => {
 });
 
 modalCloseBtn.addEventListener('click', closeModal);
-
-/* Clic fuera del modal lo cierra */
 backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
-
-/* Escape cierra */
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     if (lightbox.classList.contains('open')) closeLightbox();
@@ -1396,9 +1346,9 @@ document.addEventListener('keydown', e => {
   }
 });
 
-/* ================================================================
+/* ============================================================
    LIGHTBOX
-   ================================================================ */
+   ============================================================ */
 const lightbox      = document.getElementById('lightbox');
 const lightboxImg   = document.getElementById('lightboxImg');
 const lightboxClose = document.getElementById('lightboxClose');
@@ -1408,132 +1358,86 @@ function openLightbox(src, alt) {
   lightboxImg.alt = alt;
   lightbox.classList.add('open');
 }
+function closeLightbox() { lightbox.classList.remove('open'); }
 
-function closeLightbox() {
-  lightbox.classList.remove('open');
-}
-
-modalMediaWrap.addEventListener('click', () => {
-  openLightbox(modalImg.src, modalImg.alt);
+lightbox.addEventListener('click', e => {
+  if (e.target === lightbox || e.target === lightboxImg) closeLightbox();
 });
-
-/* Accesibilidad: Enter/Space también abre el lightbox */
-modalMediaWrap.addEventListener('keydown', e => {
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault();
-    openLightbox(modalImg.src, modalImg.alt);
-  }
-});
-
-lightbox.addEventListener('click', e => { if (e.target === lightbox || e.target === lightboxImg) closeLightbox(); });
 lightboxClose.addEventListener('click', closeLightbox);
 
-/* ================================================================
-   EQUIPO — tarjetas con barras animadas
-   ================================================================ */
+/* ============================================================
+   TEAM CARDS
+   ============================================================ */
 const teamGrid = document.getElementById('teamGrid');
 
 members.forEach(m => {
   const card = document.createElement('div');
   card.className = 'member-card';
-
-  const barsHTML = m.contributions.map(c => `
-    <div class="contrib-row">
-      <div class="contrib-head">
-        <span class="contrib-lbl">${c.label}</span>
-        <span class="contrib-pct">${c.pct}%</span>
-      </div>
-      <div class="bar-bg">
-        <div class="bar-fill${m.color === '#39ff14' ? ' green' : ''}" data-width="${c.pct}" style="width:0%"></div>
-      </div>
-    </div>
-  `).join('');
-
   card.innerHTML = `
     <div class="member-top">
-      <div class="member-avatar" style="border-color:${m.color};color:${m.color}">${m.initials}</div>
+      <div class="member-avatar" style="color:${m.color};border-color:${m.color}">${m.initials}</div>
       <div>
         <p class="member-name">${m.name}</p>
         <p class="member-role">${m.role}</p>
+        <p class="member-id">ID ${m.id}</p>
       </div>
     </div>
-    ${barsHTML}
+    <div>
+      <div class="contrib-head">
+        <span class="contrib-lbl">Participación</span>
+        <span class="contrib-pct" style="color:${m.color}">${m.total}%</span>
+      </div>
+      <div class="bar-bg">
+        <div class="bar-fill" data-w="${m.total}"
+             style="background:linear-gradient(90deg,${m.color}66,${m.color})"></div>
+      </div>
+    </div>
     <div class="member-total">
       <span class="total-lbl">Aportación global</span>
       <span class="total-num" style="color:${m.color}">${m.total}%</span>
-    </div>
-  `;
+    </div>`;
   teamGrid.appendChild(card);
 });
 
-/* Anima las barras cuando entran en viewport (Intersection Observer) */
-const barObserver = new IntersectionObserver(entries => {
+/* Animate member bars on scroll */
+const barObs = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.querySelectorAll('.bar-fill').forEach(bar => {
-        bar.style.width = bar.dataset.width + '%';
-      });
-      barObserver.unobserve(entry.target);
+      entry.target.querySelectorAll('.bar-fill').forEach(b => { b.style.width = b.dataset.w + '%'; });
+      barObs.unobserve(entry.target);
     }
   });
-}, { threshold: 0.3 });
+}, { threshold: 0.25 });
+document.querySelectorAll('.member-card').forEach(c => barObs.observe(c));
 
-document.querySelectorAll('.member-card').forEach(c => barObserver.observe(c));
+/* ============================================================
+   PARTICIPATION OVERVIEW BARS
+   ============================================================ */
+const pBarsEl = document.getElementById('participationBars');
 
-/* ================================================================
-   DONUT CHART SVG
-   ================================================================ */
-const donutColors  = members.map(m => m.color);
-const donutNames   = members.map(m => m.name);
-const donutValues  = members.map(m => m.total);
-const donutSeg     = document.getElementById('donutSegments');
-const donutLeg     = document.getElementById('donutLegend');
-
-const cx = 100, cy = 100, r = 70, strokeW = 28;
-const circumference = 2 * Math.PI * r;
-
-let cumulative = 0;
-donutValues.forEach((val, i) => {
-  const dashLen  = (val / 100) * circumference;
-  const dashGap  = circumference - dashLen;
-  const rotation = (cumulative / 100) * 360 - 90; // empieza en 12 o'clock
-
-  const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-  circle.setAttribute('cx', cx);
-  circle.setAttribute('cy', cy);
-  circle.setAttribute('r', r);
-  circle.setAttribute('fill', 'none');
-  circle.setAttribute('stroke', donutColors[i]);
-  circle.setAttribute('stroke-width', strokeW);
-  circle.setAttribute('stroke-dasharray', `${dashLen} ${dashGap}`);
-  circle.setAttribute('transform', `rotate(${rotation} ${cx} ${cy})`);
-  circle.setAttribute('stroke-linecap', 'butt');
-  donutSeg.appendChild(circle);
-
-  // Separador entre segmentos
-  const sep = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-  sep.setAttribute('cx', cx);
-  sep.setAttribute('cy', cy);
-  sep.setAttribute('r', r);
-  sep.setAttribute('fill', 'none');
-  sep.setAttribute('stroke', '#080c10');
-  sep.setAttribute('stroke-width', strokeW + 1);
-  sep.setAttribute('stroke-dasharray', `1 ${circumference - 1}`);
-  sep.setAttribute('transform', `rotate(${rotation} ${cx} ${cy})`);
-  donutSeg.appendChild(sep);
-
-  cumulative += val;
-
-  // Leyenda
+members.forEach(m => {
   const row = document.createElement('div');
-  row.className = 'legend-row';
+  row.className = 'po-row';
   row.innerHTML = `
-    <span class="legend-dot" style="background:${donutColors[i]}"></span>
-    <span class="legend-name">${donutNames[i]}</span>
-    <span class="legend-val">${val}%</span>
-  `;
-  donutLeg.appendChild(row);
+    <span class="po-name" title="${m.name}">${m.name.split(' ').slice(0, 2).join(' ')}</span>
+    <div class="bar-bg" style="flex:1">
+      <div class="bar-fill" data-w="${m.total}"
+           style="background:linear-gradient(90deg,${m.color}55,${m.color})"></div>
+    </div>
+    <span class="po-pct" style="color:${m.color}">${m.total}%</span>`;
+  pBarsEl.appendChild(row);
 });
+
+/* Animate participation bars on scroll */
+const poObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.bar-fill').forEach(b => { b.style.width = b.dataset.w + '%'; });
+      poObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.participation-overview').forEach(c => poObs.observe(c));
 </script>
 
 </body>
